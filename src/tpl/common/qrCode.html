@@ -1,0 +1,19 @@
+<style>
+    .substring{overflow: hidden;  white-space: nowrap;  text-overflow: ellipsis;padding:0 10px;}
+</style>
+<md-dialog aria-label="优惠券二维码" ng-cloak layout="column" style="width: 400px;background: transparent;" >
+    <div id="qc_code_templete">
+        <div class="qr_code_back" layout="column" layout-align="center center" id="qc_code_logo" ng-style="{background: color}" style="height: 246px;border-radius: 2px 2px 0 0;">
+            <div class="qr_code_logo" style="background-image: url({{logo}})" style="margin-top: 18px;"></div>
+            <p style="font-size: 18px; letter-spacing: 0.9px; color:#fff; margin-top: 12px;" class="substring" >{{name}}</p><!--my-limit="['name', 6]"-->
+            <p style="font-size: 40px; letter-spacing: 2px; color:#fff; margin-top: 10px;"  class="substring" >{{title}}</p><!--my-limit="['title', 6]"-->
+        </div>
+        <div layout="column" id="qc_code_img" layout-align="start center" style="min-height: 300px;font-size: 18px;background: #fff;border-radius: 0 0 2px 2px;">
+            <p style="margin-top: 24px; letter-spacing: 0.9px; color:#3b3b3c;" ng-if="begin && end">有效期:{{begin}}  至  {{end}}</p>
+            <p style="margin-top: 24px; letter-spacing: 0.9px; color:#3b3b3c;" ng-if="validity">有效期 : {{validity}}</p>
+
+            <img ng-src="{{src}}" style="margin: -2px 0 60px;" width="220" height="220" />
+        </div>
+    </div>
+</md-dialog>
+

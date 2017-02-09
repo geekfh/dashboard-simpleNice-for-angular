@@ -1,0 +1,391 @@
+<style>
+    clear-input span{top: 8px !important;}
+    /*.app-content{min-height:initial;}*/
+    i{font-style: normal;}
+    *{-moz-box-sizing: initial !important;}
+    @media screen and (max-width:1085px){
+   .auto-wid1{width: 20% !important;}
+   .auto-wid2{width: 12% !important;}
+   .auto-wid3{width: 14% !important;}   
+}
+@-moz-document url-prefix() { 
+   .auto-wid1{width: 17% !important;}
+   .auto-wid2{width: 12% !important;}
+   .auto-wid3{width: 14% !important;}   
+    @media screen and (max-width:1158px){
+   .auto-wid1{width: 18% !important;}
+   .auto-wid2{width: 10% !important;}
+   .auto-wid3{width: 11% !important;}   
+}
+ }
+</style>
+<h4  class="contentTitle">自动派券</h4>
+<div class="contantDiv" my-contentdiv page-tab="vm.pageTab">
+    <h4 class="contentTitle floath4 normal" style="outline: none" contantId="new" ng-click="vm.tabChange('new')" ng-hide="vm.user.authStatus == '1'">新会员营销</h4>
+    <h4 class="contentTitle floath4 normal" style="outline: none"  contantId="lost" ng-click="vm.tabChange('lost')" >濒临流失会员营销</h4><!--ng-class="{'activeh4':vm.user.authStatus == '1'}"-->
+    <h4 class="contentTitle floath4 normal" style="outline: none"  contantId="count" ng-click="vm.tabChange('count')" >消费次数奖励营销</h4>
+</div>
+
+
+<div id="new" ng-hide="vm.user.authStatus == '1'" class="dis-none">
+    <div class=" wechat-send-tip-box marketing bg Rectangle-color" flex="100" layout="row" layout-align="start center" style="margin:30px 0;"> <!--ng-if="vm.showEditNew"-->  
+        <p class="wechat-send-tip2 color666" >提示：本营销仅支持已加入好哒圈子的商户；后续将支持已有公众号的商户。针对激活的会员，系统赠送优惠券</p>
+    </div>
+
+   <!-- <div class="" flex="100" layout="row" layout-align="start center" style="margin-top:20px;margin-bottom:10px;" >
+        <div layout="row"  flex="100">             
+                <div  layout-align="start start"  class="wechat-send-tip-box" style="margin-top:10px;width: 100%;">
+                    <p class="color666 warm-con" style="margin-top:0"><span class="radiusspan" style="position: relative;top: 3px;"></span>针对激活的会员，系统赠送优惠券</p>
+                </div>           
+      </div>      
+    </div>-->
+
+
+    <!--添加新会员营销规则-->
+    <md-content ng-if="vm.showEditNew" >
+        <div layout-align="start center">
+            <div layout="row" flex margin="[10,0,0,0]">
+                <p class="text-right width70">赠送条件</p>
+                <div flex class="detail-content" margin="[0,0,0,30]">
+                    <p>{{vm.createNewRule.giftCondition}}</p>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center" margin="[5,0,0,0]">
+                <p class="text-right width70" style="margin-top:10px;">赠送优惠券</p>
+                <div flex class="detail-content" margin="[0,0,0,30]">
+                    <md-button class="md-raised noupper"  ng-click="vm.selectCoupon(vm.createNewRule)" ng-bind="vm.createNewRule.title || '选择优惠券'"
+                               style="width:160px;margin-left:0;margin-right:30px;" ng-class="{'color-ac' : !vm.createNewRule.cardId}" >选择优惠券</md-button>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" margin="[5,0,0,0]">
+                <p class="text-right width70" >赠送数量</p>
+                <div class="detail-content" margin="[0,0,0,30]">
+                    <md-input-container style="width: 100px;margin-left:0;">
+                        <input  class="padding0"   ng-model="vm.createNewRule.giftCount" type="number" ng-disabled="true" >
+                    </md-input-container>
+                </div>
+                <p class="">张</p>
+            </div>
+            <div layout="row" layout-align="start center" hidden margin="[15,0,0,0]">
+                <p class="text-right width70">通知方式</p>
+                <div flex class="detail-content" margin="[0,0,0,30]"></div>
+            </div>
+        </div>
+        <md-divider style="margin-top:15px;"></md-divider>
+        <div layout="row" style="margin-top: 20px; padding-left: 0;">
+            <md-button layout-align="start center" class=" md-raised" ng-click="vm.cancelNew()" style="min-width: 60px;left: -10px;" ng-show="vm.newRules && vm.newRules[0].ruleId"><span>取消</span></md-button>
+            <md-button class="btn-app md-raised" ng-click="vm.saveNew()" style="min-width: 60px;left: -6px;"><span >保存</span></md-button>
+        </div>
+    </md-content>
+
+    <!--展示新会员营销规则-->
+    <md-content ng-if="vm.showNewRule">
+
+        <div  layout-align="start center" class="wechat-coupon-rule-box">
+            <div class="title new-member" layout="row" flex="100" style="margin-top:15px;">
+                <span style="width:14%">赠送条件</span>
+                <span style="width:16%">赠送优惠券</span>
+                <span style="width:14%" class="auto-wid2">赠送数量（张）</span>
+                <span style="width:24%">券有效期</span>
+                <span style="width:14%">库存</span>
+                <span style="width:18%" class="auto-wid1">操作</span>
+            </div>
+            <div ng-repeat="item in vm.newRules" >
+                <div layout="row" flex="100" class="rule new-member-detail" ng-class="{'disabled-color':vm.openNewRule == '0'}"><!--ng-init="vm.redColor = (item.quantity < 50 && item.cardStatus == 'CARD_STATUS_VERIFY_OK') ? {'color':'#f5473c!important'} : {}"-->
+                    <span ng-bind="item.giftCondition" style="width:14%;word-break: break-all;"></span>
+                    <span style="width:16%;word-break: break-all;">{{item.title + (item.cardStatus == 'CARD_STATUS_EXPIRED' ? '(已过期)' : item.cardStatus == 'CARD_STATUS_DELETE' ? '(已删除)' : '')}}</span>
+                    <span ng-bind="item.giftCount" style="width:14%;" class="auto-wid2"></span>
+                    <span ng-if="item.datetype == 'DATE_TYPE_FIX_TIME_RANGE'" style="width:24%;">{{ item.beginTimestamp }} 至 {{ item.endTimestamp }}</span>
+                    <span ng-if="item.datetype == 'DATE_TYPE_FIX_TERM'" style="width:24%;">领取后{{item.fixedBeginTerm == 0 ? '当':item.fixedBeginTerm}}天生效{{item.fixedTerm}}天有效</span>
+                    <span style="width:14%;">
+                        <span style="margin: 3px 10px 0 0;" class="edit" ng-hide="item.cardStatus == 'CARD_STATUS_EXPIRED' || item.cardStatus == 'CARD_STATUS_DELETE'" ng-click="vm.editInventory(item)"></span>
+                        <i ng-bind="item.quantity" ng-class="{'colorRed' : (item.quantity < 50 && item.cardStatus == 'CARD_STATUS_VERIFY_OK')}"></i>
+                    </span>
+                    <span  style="width:18%;" class="auto-wid1">
+                        <a class="app-color underline" ng-click="vm.showRecord('new', item.ruleId)">派发记录</a>
+                       <a class="app-color underline ml-20" ng-click="vm.setNewRule()">设置</a>
+                        <a ng-if="vm.openNewRule == '0'" class="app-color underline ml-20" style="color:#94cb3d!important;cursor:pointer;" ng-click="vm.switchIsOpening('new', item.ruleId)">启用</a>
+                        <a ng-if="vm.openNewRule == '1'" class="app-color underline ml-20" ng-click="vm.switchIsOpening('new', item.ruleId)">停用</a>
+                    </span>
+                </div>
+                <p class="app-tips-err" ng-if="item.quantity < 50 && item.quantity > 0 && item.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存不足50张，为不影响优惠券推送功能，请及时增加库存</p>
+                <p class="app-tips-err" ng-if="item.quantity == 0 && item.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存为0，当前规则已停用，请及时补充优惠券库存</p>
+                <p class="app-tips-err" ng-if="item.cardStatus == 'CARD_STATUS_EXPIRED'">当前优惠券已过期，当前规则已停用，请及时更换优惠券</p>
+                <p class="app-tips-err" ng-if="item.cardStatus == 'CARD_STATUS_DELETE'">当前优惠券已删除，当前规则已停用，请及时更换优惠券</p>
+            </div>
+        </div>
+    </md-content>
+</div>
+
+<div id="lost" class="dis-none">
+    <div class=" wechat-send-tip-box marketing bg Rectangle-color" flex="100" layout="row" layout-align="start center" style="margin:30px 0;">
+        <p class="wechat-send-tip2 color666" >提示：本营销活动对每个用户推送优惠券的频率是1张/30天。消费达到设定次数，且距上一次消费达X天的会员，系统自动在第2天赠送优惠券</p>
+    </div>
+   <!-- <div class="" flex="100" layout="row" layout-align="start center" style="margin-top:20px;" >
+        <div layout="row"  flex="100">              
+                <div  layout-align="start start"  class="wechat-send-tip-box" style="margin-top:10px;width: 100%;">
+                    <p class="color666 warm-con"><span class="radiusspan" style="position: relative;top: 3px;"></span>消费达到设定次数，且距上一次消费达X天的会员，系统自动在第2天赠送优惠券</p>
+                </div>           
+        </div>
+
+        <div flex="30" layout="row" layout-align="end center" style="margin: 0 20px 0 0;" ng-cloak ng-if="vm.showLostRule" hidden>
+            <md-button ng-click="vm.switchIsOpening('lost')" class="my-shadow btn-app" ng-if="vm.openLostRule == '0' " style="min-width: 60px;">启用</md-button>
+            <md-button ng-click="vm.switchIsOpening('lost')" class="my-shadow" ng-if="vm.openLostRule == '1'" style="background: #fff;min-width: 60px;">停用</md-button>
+        </div>
+    </div>-->
+
+
+    <!--编辑濒临流失会员规则-->
+    <md-content  ng-if="vm.showEditLost">
+
+        <form name="formLost" ng-class="{'formError': vm.formError}">
+            <div layout="row"  layout-align="start center">
+                <p class="text-right width113 margin0" style="margin-top: -28px !important;">消费次数</p>
+                <div class="detail-content" style="padding-left: 26px;">
+                    <div layout="row" layout-align="start center">
+                        <md-input-container style="" >
+                            <input class="input-wid-100 paddingL0" type="number" required name="consumeTimes" min="1" max="9"
+                                   ng-pattern="/^[0-9]*$/" ng-blur="vm.consumeTimes = true"  ng-model="vm.createLostRule.consumeTimes">
+                        </md-input-container>
+                        <span>次</span>
+                    </div>
+                    <p class="placeholder" ng-class="{'app-tips-err':(vm.formError || vm.consumeTimes) && (formLost.consumeTimes.$error.required || formLost.consumeTimes.$error.max ||formLost.consumeTimes.$error.min || formLost.count.$error.pattern)}">限制1~9次</p>
+                    <!--<p class="placeholder" ng-if="!((vm.formError || vm.consumeTimes) && (formLost.consumeTimes.$error.required || formLost.consumeTimes.$error.max ||formLost.consumeTimes.$error.min || formLost.count.$error.pattern))">限制1~9次</p>
+                    <div  ng-if="(vm.formError || vm.consumeTimes) && (formLost.consumeTimes.$error.required || formLost.consumeTimes.$error.max ||formLost.consumeTimes.$error.min || formLost.count.$error.pattern)" flex>
+                        <p class="app-tips-err">限制1~9次</p>
+                    </div>-->
+
+                </div>
+
+            </div>
+
+
+            <div layout="row"  layout-align="start center" style="margin-top: -10px;">
+                <p class="text-right width113 margin0"  style="margin-top: -28px !important;">距上一次消费天数</p>
+                <div class="detail-content " style="padding-left:30px;">
+                    <div layout="row" layout-align="start center">
+                        <md-input-container >
+                            <input type="number" class="app-input padding0 input-wid-100" name="lastConsumeDays" min="15" max="999" ng-pattern="/^[0-9]*$/"
+                                   ng-model="vm.createLostRule.lastConsumeDays" ng-blur="vm.lastConsumeDays = true" >
+                        </md-input-container>
+                        <span style="display: inline-block;" class="margin0" > 天及以上</span>
+                    </div>
+                    <p class="placeholder" ng-class="{'app-tips-err':(vm.formError || vm.lastConsumeDays) && (formLost.lastConsumeDays.$error.required || formLost.lastConsumeDays.$error.min || formLost.lastConsumeDays.$error.max ||  formLost.lastConsumeDays.$error.pattern)}">限制天数15~999天</p>
+                    <!--<p class="placeholder" ng-if="!((vm.formError || vm.lastConsumeDays) && (formLost.lastConsumeDays.$error.min || formLost.lastConsumeDays.$error.max ||  formLost.lastConsumeDays.$error.pattern))">限制天数15~999天</p>
+                    <div  ng-if="(vm.formError || vm.lastConsumeDays) && (formLost.lastConsumeDays.$error.min || formLost.lastConsumeDays.$error.max ||  formLost.lastConsumeDays.$error.pattern)" flex>
+                        <p class="app-tips-err">限制天数15~999天</p>
+                    </div>-->
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" margin="[7,0,0,0]">
+                <p class="text-right width113" style="margin-top:10px;">赠送优惠券</p>
+                <div flex class="detail-content" margin="[0,0,0,30]">
+                    <md-button class="md-raised noupper"  ng-click="vm.selectCoupon(vm.createLostRule)" ng-bind="vm.createLostRule.title || '选择优惠券'"
+                               style="width:160px;margin-left:0;margin-right:30px;" ng-class="{'color-ac' : !vm.createLostRule.cardId}" >选择优惠券</md-button>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" margin="[5,0,0,0]">
+                <p class="text-right width113" >赠送数量</p>
+                <div class="detail-content" margin="[0,0,0,30]">
+                    <md-input-container style="width: 100px;margin-left:0;">
+                        <input  class="padding0" type="number"   ng-model="vm.createLostRule.giftCount" ng-disabled="true" >
+                    </md-input-container>
+                </div>
+                <p class="">张</p>
+            </div>
+            <div layout="row" layout-align="start center" hidden margin="[15,0,0,0]">
+                <p class="text-right width130">通知方式</p>
+                <div flex class="detail-content" margin="[0,0,0,30]"></div>
+            </div>
+            <md-divider style="margin-top:15px;"></md-divider>
+            <div layout="row" style="margin-top: 20px; padding-left: 0;">
+                <md-button layout-align="start center" class=" md-raised" ng-click="vm.cancelLost()" style="min-width: 60px;left: -10px;" ng-show="vm.lostRules && vm.lostRules[0].ruleId"><span>取消</span></md-button>
+                <md-button class="btn-app md-raised" ng-click="vm.saveLost(formLost.$invalid)" style="min-width: 60px;left: -6px;"><span >保存</span></md-button>
+            </div>
+        </form>
+    </md-content>
+
+    <!--查看濒临流失会员规则-->
+    <md-content  ng-if="vm.showLostRule">
+        <div  layout-align="start center" class="wechat-coupon-rule-box" flex="100">
+            <div class="title new-member" layout="row"  style="margin-top:15px;">
+                <span style="width:8%">消费次数</span>
+                <span style="width:15%" class="auto-wid3">距上一次消费天数</span>
+                <span style="width:14%">赠送优惠券</span>
+                <span style="width:13%" class="auto-wid2">赠送数量（张）</span>
+                <span style="width:20%">券有效期</span>
+                <span style="width:12%">库存</span>
+                <span style="width:18%" class="auto-wid1">操作</span>
+            </div>
+            <div ng-repeat="item in vm.lostRules" >
+                <div layout="row" flex="100" class="rule new-member-detail" ng-class="{'disabled-color':vm.openLostRule == '0'}">
+                    <span  style="width:8%;">{{item.consumeTimes}}次</span>
+                    <span style="width:15%;" class="auto-wid3">{{item.lastConsumeDays}}天及以上</span>
+                    <span  style="width:14%; word-break: break-all;">{{item.title + (item.cardStatus == 'CARD_STATUS_EXPIRED' ? '(已过期)' : item.cardStatus == 'CARD_STATUS_DELETE' ? '(已删除)' : '')}}</span>
+                    <span ng-bind="item.quantity" style="width:13%" class="auto-wid2"></span>
+                    <span ng-if="item.datetype == 'DATE_TYPE_FIX_TIME_RANGE'" style="width:20%">{{ item.beginTimestamp }} 至 {{ item.endTimestamp }}</span>
+                    <span ng-if="item.datetype == 'DATE_TYPE_FIX_TERM'" style="width:20%">领取后{{item.fixedBeginTerm == 0 ? '当':item.fixedBeginTerm}}天生效{{item.fixedTerm}}天有效</span>
+                    <span style="width:12%;">
+                        <span style="margin: 3px 10px 0 0;" class="edit" ng-hide="item.cardStatus == 'CARD_STATUS_EXPIRED' || item.cardStatus == 'CARD_STATUS_DELETE'" ng-click="vm.editInventory(item)"></span>
+                        <i ng-bind="item.quantity" ng-class="{'colorRed' : (item.quantity < 50 && item.cardStatus == 'CARD_STATUS_VERIFY_OK')}"></i>
+                    </span>
+                    <span  style="width:18%;" class="auto-wid1">
+                        <a class="app-color underline" ng-click="vm.showRecord('lost', item.ruleId)">派发记录</a>
+                        <!--<a ng-if="vm.openLostRule == '0'" class="underline" >派发记录</a>-->
+                        <a class="app-color underline ml-20" ng-click="vm.setLostRule()">设置</a>
+                        <a ng-if="vm.openLostRule == '0'" class="app-color underline ml-20" style="color:#94cb3d!important;cursor:pointer;" ng-click="vm.switchIsOpening('lost', item.ruleId)">启用</a>
+                        <a ng-if="vm.openLostRule == '1'" class="app-color underline ml-20" ng-click="vm.switchIsOpening('lost', item.ruleId)">停用</a>
+                    </span>
+                </div>
+                <p class="app-tips-err" ng-if="item.quantity < 50 && item.quantity > 0 && item.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存不足50张，为不影响优惠券推送功能，请及时增加库存</p>
+                <p class="app-tips-err" ng-if="item.quantity == 0 && item.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存为0，当前规则已停用，请及时补充优惠券库存</p>
+                <p class="app-tips-err" ng-if="item.cardStatus == 'CARD_STATUS_EXPIRED'">当前优惠券已过期，当前规则已停用，请及时更换优惠券</p>
+                <p class="app-tips-err" ng-if="item.cardStatus == 'CARD_STATUS_DELETE'">当前优惠券已删除，当前规则已停用，请及时更换优惠券</p>
+            </div>
+        </div>
+    </md-content>
+</div>
+
+<div id="count" class="dis-none">
+    <div class=" wechat-send-tip-box marketing bg Rectangle-color" flex="100" layout="row" layout-align="start center" style="margin-top:30px;" ><!--ng-if="vm.showEditCount" -->
+        <p class="wechat-send-tip2 color666" >提示：本营销规则最多添加5条。会员消费达到设定次数后，系统在第2天自动赠送优惠券</p>
+    </div>
+    <div class="dis-block clearFloat" flex="100" layout="row" layout-align="start center" style="margin-top:20px;" >
+        <!--<div layout="row"  flex="100">              
+                <div  layout-align="start start"  class="wechat-send-tip-box" style="margin-top:10px;width: 100%;">
+                    <p class="color666 warm-con"><span class="radiusspan" style="position: relative;top: 3px;"></span>会员消费达到设定次数后，系统在第2天自动赠送优惠券</p>
+                </div>          
+        </div>-->
+        <div layout="row" layout-align="end center" ng-cloak ng-if="vm.showCountRule" style="float: left;margin-left: -10px;">
+            <md-button ng-click="vm.addCountRule()" class="my-shadow btn-app" style="min-width: 60px;">添加</md-button>
+        </div>
+        <div flex="30" layout="row" layout-align="end center" style="margin: 0 20px 0 0;" ng-cloak hidden>
+            <md-button ng-click="vm.switchIsOpening('count')" class="my-shadow btn-app" ng-if="vm.openCountRule == '0' " style="min-width: 60px;">启用</md-button>
+            <md-button ng-click="vm.switchIsOpening('count')" class="my-shadow" ng-if="vm.openCountRule == '1'" style="background: #fff; min-width: 60px;">停用</md-button>
+        </div>
+    </div>
+    <!--添加消费次数奖励营销规则-->
+    <md-content ng-if="vm.showEditCount">
+
+        <form name="formCount" ng-class="{'formError':vm.formError}">
+            <div layout-align="start center" >
+                <div layout="row"  layout-align="start center" style="margin-top:-10px;">
+                    <p class="text-right width70 margin0" style="margin-top:-35px!important;">消费次数</p>
+                    <div class="detail-content" style="padding-left: 26px;">
+                        <div layout="row" layout-align="start center">
+                            <md-input-container style="" >
+                                <input class="input-wid-100 paddingL0" type="number" required name="consumeTimesCount" min="1" max="999"
+                                       ng-pattern="/^[0-9]*$/" ng-model="vm.createCountRule.consumeTimes" ng-blur="vm.consumeTimesCount = true" >
+                            </md-input-container>
+                            <span>次</span>
+                        </div>
+                        <p class="placeholder" ng-class="{'app-tips-err':(vm.formError || vm.consumeTimesCount) && (formCount.consumeTimesCount.$error.required || formCount.consumeTimesCount.$error.min || formCount.consumeTimesCount.$error.max ||  formCount.consumeTimesCount.$error.pattern)}">限制为1～999次</p>
+                    </div>
+                </div>
+
+                <div layout="row" layout-align="start center" margin="[10,0,0,0]">
+                    <p class="text-right width70" style="margin-top:10px;">赠送优惠券</p>
+                    <div flex class="detail-content" margin="[0,0,0,30]">
+                        <md-button class="md-raised noupper"  ng-click="vm.selectCoupon(vm.createCountRule)" ng-bind="vm.createCountRule.title || '选择优惠券'"
+                                   style="width:160px;margin-left:0;margin-right:30px;" ng-class="{'color-ac' : !vm.createCountRule.cardId}" >选择优惠券</md-button>
+                    </div>
+                </div>
+                <div layout="row" layout-align="start center" margin="[5,0,0,0]">
+                    <p class="text-right width70" >赠送数量</p>
+                    <div class="detail-content" margin="[0,0,0,30]">
+                        <md-input-container style="width: 100px;margin-left:0;">
+                            <input type="number" class="padding0"   ng-model="vm.createCountRule.giftCount" ng-disabled="true" >
+                        </md-input-container>
+                    </div>
+                    <p class="">张</p>
+                </div>
+                <div layout="row" layout-align="start center" hidden margin="[15,0,0,0]">
+                    <p class="text-right width70">通知方式</p>
+                    <div flex class="detail-content" margin="[0,0,0,30]"></div>
+                </div>
+            </div>
+            <md-divider style="margin-top:15px;"></md-divider>
+            <div layout="row" style="margin-top: 20px; padding-left: 0;">
+                <md-button layout-align="start center" class=" md-raised" ng-click="vm.cancelCount()" style="min-width: 60px;left:-10px;" ng-show="vm.countRules && vm.countRules[0].ruleId"><span>取消</span></md-button>
+                <md-button class="btn-app md-raised" ng-click="vm.saveCount(formCount.$invalid)" style="min-width: 60px;left: -6px;"><span >保存</span></md-button>
+            </div>
+        </form>
+
+    </md-content>
+
+    <!--查看消费次数奖励营销规则-->
+    <md-content ng-if="vm.showCountRule">
+        <div  layout-align="start center" class="wechat-coupon-rule-box">
+            <div class="title new-member" layout="row" flex="100" style="margin-top:15px;">
+                <span style="width:14%">消费次数</span>
+                <span style="width:16%">赠送优惠券</span>
+                <span style="width:14%">赠送数量（张）</span>
+                <span style="width:24%">券有效期</span>
+                <span style="width:14%" class="auto-wid2">库存</span>
+                <span style="width:18%" class="auto-wid1">操作</span>
+            </div>
+            <div ng-repeat="item in vm.countRules" >
+                <div layout="row" flex="100" class="rule new-member-detail" ng-init="vm.openCountRule[$index] = item.status;" ng-class="{'disabled-color':vm.openCountRule[$index] == '0'}" >
+                    <span ng-bind="item.consumeTimes" style="width:14%;"></span>
+                    <span  style="width:16%;word-break: break-all;">{{item.title + (item.cardStatus == 'CARD_STATUS_EXPIRED' ? '(已过期)' : item.cardStatus == 'CARD_STATUS_DELETE' ? '(已删除)' : '')}}</span>
+                    <span ng-bind="item.giftCount" style="width:14%"></span>
+                    <span ng-if="item.datetype == 'DATE_TYPE_FIX_TIME_RANGE'" style="width:24%">{{ item.beginTimestamp }} 至 {{ item.endTimestamp }}</span>
+                    <span ng-if="item.datetype == 'DATE_TYPE_FIX_TERM'" style="width:24%">领取后{{item.fixedBeginTerm == 0 ? '当':item.fixedBeginTerm}}天生效{{item.fixedTerm}}天有效</span>
+                    <span style="width:14%;" class="auto-wid2">
+                        <span style="margin: 3px 10px 0 0;" class="edit" ng-hide="item.cardStatus == 'CARD_STATUS_EXPIRED' || item.cardStatus == 'CARD_STATUS_DELETE'" ng-click="vm.editInventory(item)"></span>
+                        <i ng-bind="item.quantity" ng-class="{'colorRed' : (item.quantity < 50 && item.cardStatus == 'CARD_STATUS_VERIFY_OK')}"></i>
+                    </span>
+                    <span  style="width:18%;" class="auto-wid1">
+                        <a  class="app-color underline" ng-click="vm.showRecord('count', item.ruleId)">派发记录</a>
+                        <a  class="app-color underline ml-20"  ng-click="vm.delCountRule(item.ruleId)">删除</a>
+                        <a ng-if="vm.openCountRule[$index] == '0'" class="app-color underline ml-20" style="color:#94cb3d!important;cursor:pointer;" ng-click="vm.switchIsOpening('count',item.ruleId, $index)">启用</a>
+                        <a ng-if="vm.openCountRule[$index] == '1'" class="app-color underline ml-20" ng-click="vm.switchIsOpening('count',item.ruleId, $index)">停用</a>
+                    </span>
+                </div>
+                <p class="app-tips-err" ng-if="item.quantity < 50 && item.quantity > 0 && item.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存不足50张，为不影响优惠券推送功能，请及时增加库存</p>
+                <p class="app-tips-err" ng-show="item.quantity == 0 && item.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存为0，当前规则已停用，请及时补充优惠券库存</p>
+                <p class="app-tips-err" ng-show="item.cardStatus == 'CARD_STATUS_EXPIRED'">当前优惠券已过期，当前规则已停用，请及时更换优惠券</p>
+                <p class="app-tips-err" ng-show="item.cardStatus == 'CARD_STATUS_DELETE'">当前优惠券已删除，当前规则已停用，请及时更换优惠券</p>
+            </div>
+        </div>
+    </md-content>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

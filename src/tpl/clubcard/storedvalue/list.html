@@ -1,0 +1,357 @@
+<style>
+    table tbody td{
+        word-wrap:break-word;
+    }
+     @media screen and (max-width:1100px) {
+     .auto-wid1{width: 1% !important;}
+     .auto-wid2{width: 8% !important;}
+     }
+</style>
+
+<h4 class="contentTitle" >储值记录</h4>
+<div class="contantDiv" contant-div>
+    <h4 class="contentTitle floath4 activeh4 normal" contantId="list" style="outline: none;">充值记录</h4>
+    <h4 class="contentTitle floath4 normal" contantId="group" ng-click="tabChange()" style="outline: none;">消费记录</h4>
+</div>
+<md-divider></md-divider>
+
+<div id="list">
+    <search-day date="date1" max-day="31"></search-day>
+    <p style="margin: -2px 0 0 70px; color: #bbbbbb;">查询日期范围不能超过31天</p>
+    <div class="table-top" layout="row" ng-if="$root.powers && $root.powers.indexOf('accounts.flow.list_store.list') > -1 ">
+        <p class="text-p">交易门店</p>
+        <div class="detail-content" style="width: 160px;" >
+            <md-select my-select placeholder="所有门店" ng-model="queryParams1.visibleRange" ng-change="changeStoreType1(queryParams1.visibleRange)" aria-label="time">
+                <md-option ng-repeat="item in storeTypeList "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == queryParams1.visibleRange}">
+                    {{item.storeType}}
+                </md-option>
+            </md-select>
+        </div>
+        <div class="detail-content" style="width: 160px;" ng-show="queryParams1.visibleRange == '3' ">
+            <md-select my-select placeholder="请选择分组" ng-model="queryParams1.groupId"  aria-label="time">
+                <md-option ng-repeat="item in groupList "  value="{{item.groupId}}" class="mdOption" ng-class="{'active' : item.groupId == queryParams1.groupId}">
+                    {{item.groupName}}
+                </md-option>
+            </md-select>
+        </div>
+        <div class="detail-content" style="width:300px;" ng-show="queryParams1.visibleRange == '2' ">
+            <!--<md-input-container class="md-block">
+                <input placeholder="请输入门店名称"/>
+            </md-input-container>-->
+            <md-autocomplete
+                    ng-disabled="false"
+                    md-no-cache="true"
+                    md-selected-item="selectedItem"
+                    md-search-text-change="mchtTextChange1(selectedStore)"
+                    md-search-text="selectedStore"
+                    md-selected-item-change="mchtItemChange1(item)"
+                    md-items="item in queryMcht1(selectedStore)"
+                    md-item-text="item.mchtName"
+                    md-min-length="0"
+                    placeholder="请输入门店名称"
+                    md-menu-class="autocomplete-custom-template" layout="row">
+                <md-item-template>
+                    <span md-highlight-text="selectedStore" md-highlight-flags="^i">{{item.mchtName}}</span>
+                </md-item-template>
+                <md-not-found>
+                    暂无门店数据
+                </md-not-found>
+            </md-autocomplete>
+        </div>
+    </div>
+    <!--会员卡号-->
+    <div class="table-top" layout="row" ng-show="showAdvancedOps">
+        <div flex="25" layout="row" layout-align="start end">
+            <div layout="row">
+                <p class="text-p" style="margin-top: 5px !important;">会员卡号</p>
+                <div class="detail-content" style="width: 164px;margin-left:-2px">
+                    <md-input-container class="md-block" md-no-float>
+                        <input type="text" class="input myBoxShadow" flex ng-model="queryParams1.membershipNo" placeholder="请输入会员卡号" maxlength="13">
+                        <clear-input value="queryParams1.membershipNo"></clear-input>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--流水号-->
+    <div class="table-top" layout="row" ng-show="showAdvancedOps">
+        <div flex="25" layout="row" layout-align="start end">
+            <div layout="row">
+                <p class="text-p" style="margin-top: 5px !important;">流水号</p>
+                <div class="detail-content" style="width: 200px;margin-left:-2px">
+                    <md-input-container class="md-block" md-no-float>
+                        <input type="text" class="input myBoxShadow" flex ng-model="queryParams1.transNo" placeholder="请输入流水号" maxlength="18">
+                        <clear-input value="queryParams1.transNo"></clear-input>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--充值方式-->
+    <div class="table-top" layout="row" ng-show="showAdvancedOps">
+        <div flex="25" layout="row" layout-align="start end" style="margin-top: -5px ">
+            <div layout="row">
+                <p class="text-p" >充值方式</p>
+                <div class="detail-content" style="width: 164px;margin-left:-2px">
+                    <md-select my-select placeholder="请选择充值方式" ng-model="queryParams1.chargeType"  aria-label="chargeType">
+                        <md-option ng-repeat="item in rechargeTypelist "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == queryParams1.chargeType}">
+                            {{item.type}}
+                        </md-option>
+                    </md-select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div layout="row" layout-align="start center" style="height: 35px;">
+        <div layout="row" flex="25">
+            <p class="text-p"></p>
+            <div flex class="detail-content">
+                <a href="javascript: ;" ng-click="showAdvancedOps = !showAdvancedOps" class="app-color underline" ng-hide="showAdvancedOps">显示高级选项</a>
+                <a href="javascript: ;" ng-click="showAdvancedOps = !showAdvancedOps" class="app-color underline" ng-show="showAdvancedOps">隐藏高级选项</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-top" layout="row" layout-align="start center">
+        <div layout="row" flex="25">
+            <p class="text-p"></p>
+            <div flex class="detail-content">
+                <md-button class="md-raised my-shadow my-button" ng-click="rechargeReload()" >重置</md-button>
+                <md-button class="btn-app md-raised my-shadow my-button" ng-click="rechargeSearch()" style="margin-left: 20px!important;">查询</md-button>
+            </div>
+        </div>
+    </div>
+    <div class="border-left" margin="[60, 0, 20, 0]" ng-show="isSearched && isFirst">
+        <span class="span-text float-left">查询结果</span>
+        <a class="float-right downloadTable-btn"  ng-click="getExcel1($event)" >下载表格</a>
+    </div>
+
+    <div class="border-left" margin="[60, 0, 20, 0]" ng-show="!isFirst">
+        <span class="span-text float-left">查询结果</span>
+        <a class="float-right downloadTable-btn"  ng-click="getExcel1($event)" >下载表格</a>
+    </div>
+
+    <md-content ng-show="isSearched">
+        <div style="height: 80px;display: flex;" layout="row" flex="100">
+            <div class="float-left Rectangle-3 text-center bg-color-01 storedvalue-auto-wid"  layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalRecharge.amount ? totalRecharge.amount : 0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">成功订单总额</p>
+            </div>
+            <div class="float-left Rectangle-3 bg-color-01 ml-20 storedvalue-auto-wid"  layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalRecharge.paid ? totalRecharge.paid : 0 | currency : '￥'}}</p><!--| currency : '￥'-->
+                <p class="Rectanglep2">成功实收总额</p>
+            </div>
+            <div class="float-left Rectangle-3 bg-color-01 ml-20 storedvalue-auto-wid"  layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalRecharge.gift ? totalRecharge.gift : 0 | currency : '￥'}}</p><!--| currency : '￥'-->
+                <p class="Rectanglep2">成功赠送总额</p>
+            </div>
+        </div>
+
+        <table ng-table="ngTable1" class="table table-full table-hover table-full-small newLine color666" style="margin-top: 15px;table-layout: fixed; width: 100%;">
+            <thead class="table-header" style="margin-bottom:15px;">
+            <tr>
+                <td width="9%">充值时间</td>
+                <td width="2%"></td>
+                <td width="9%">流水号</td>
+                <td width="2%"></td>
+                <td width="9%">订单编号</td>
+                <td width="2%"></td>
+                <td width="10%">充值门店</td>
+                <td width="2%"></td>
+                <td width="7%">交易状态</td>
+                <td width="2%"></td>
+                <td width="7%">会员卡号</td>
+                <td width="2%"></td>
+                <td width="7%">订单金额</td>
+                <td width="2%"></td>
+                <td width="7%">实收金额</td>
+                <td width="2%"></td>
+                <td width="7%">赠送金额</td>
+                <td width="2%"></td>
+                <td width="7%">充值方式</td>
+                <td width="2%" class="auto-wid1"></td>
+                <td width="7%" class="auto-wid2">操作</td>
+            </tr>
+            </thead>
+            <tbody >
+            <tr ng-repeat=" item in $data">
+                <td>{{item.rechargeTime || '--'}}</td>
+                <td></td>
+                <td>{{item.transNo || '--'}}</td>
+                <td></td>
+                <td>{{item.orderNo || '--'}}</td>
+                <td></td>
+                <td>{{item.mchtName || '--'}}</td>
+                <td></td>
+                <td>{{item.transStatus ? (item.transStatus | tradStatusCard) : '--'}}</td>
+                <td></td>
+                <td>{{item.memberCardNo || '--'}}</td>
+                <td></td>
+                <td>{{item.orderAmount ? (item.orderAmount /100) : 0 | currency : '￥'}}</td>
+                <td></td>
+                <td>{{item.paidAmount ? (item.paidAmount/100) : 0 | currency : '￥'}}</td>
+                <td></td>
+                <td>{{item.giftAmount ? (item.giftAmount/100) : 0 | currency : '￥'}}</td>
+                <td></td>
+                <td>{{item.payType ? item.payType : '--' }}</td>
+                <td></td>
+                <td class="td-btn"> <a class="app-color" ng-click="dealDetail(item, true)">查看详情</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <md-content ng-show="noData1" layout-align="center" class="no-data">
+            <p>{{noDataInfo1}}</p>
+        </md-content>
+    </md-content>
+    <div ng-show="showSearching" style="text-align:center;;padding:50px 0">正在查询.....</div>
+</div>
+<!-- 消费记录搜索 -->
+<div id="group">
+    <search-day date="date2" max-day="31"></search-day>
+    <p style="margin: -2px 0 0 70px; color: #bbbbbb;">查询日期范围不能超过31天</p>
+    <div class="table-top" layout="row" ng-if="$root.powers && $root.powers.indexOf('clubcard.storedvalue_poi.search') > -1">
+        <p class="text-p">交易门店</p>
+        <div class="detail-content" style="width: 160px;" >
+            <md-select my-select placeholder="指定门店" ng-model="queryParams2.visibleRange" ng-change="changeStoreType2(queryParams2.visibleRange)" aria-label="time">
+                <md-option ng-repeat="item in storeTypeList "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == queryParams2.visibleRange}">
+                    {{item.storeType}}
+                </md-option>
+            </md-select>
+        </div>
+        <div class="detail-content" style="width: 160px;" ng-show="queryParams2.visibleRange == '3' ">
+            <md-select my-select placeholder="请选择分组" ng-model="queryParams2.groupId"  aria-label="time">
+                <md-option ng-repeat="item in groupList "  value="{{item.groupId}}" class="mdOption" ng-class="{'active' : item.groupId == queryParams2.groupId}">
+                    {{item.groupName}}
+                </md-option>
+            </md-select>
+        </div>
+        <div class="detail-content" style="width:300px;" ng-show="queryParams2.visibleRange == '2' ">
+            <!--<md-input-container class="md-block">
+                <input placeholder="请输入门店名称"/>
+            </md-input-container>-->
+            <md-autocomplete
+                    ng-disabled="false"
+                    md-no-cache="true"
+                    md-selected-item="selectedItem"
+                    md-search-text-change="mchtTextChange2(selectedStore)"
+                    md-search-text="selectedStore"
+                    md-selected-item-change="mchtItemChange2(item)"
+                    md-items="item in queryMcht2(selectedStore)"
+                    md-item-text="item.mchtName"
+                    md-min-length="0"
+                    placeholder="请输入门店名称"
+                    md-menu-class="autocomplete-custom-template" layout="row">
+                <md-item-template>
+                    <span md-highlight-text="selectedStore" md-highlight-flags="^i">{{item.mchtName}}</span>
+                </md-item-template>
+                <md-not-found>
+                    暂无门店数据
+                </md-not-found>
+            </md-autocomplete>
+        </div>
+    </div>
+    <!--会员卡号-->
+    <div class="table-top" layout="row" >
+        <div flex="25" layout="row" layout-align="start end">
+            <div layout="row">
+                <p class="text-p" style="margin-top: 5px !important;">会员卡号</p>
+                <div class="detail-content" style="width: 164px;margin-left:-2px">
+                    <md-input-container class="md-block" md-no-float>
+                        <input type="text" class="input myBoxShadow" flex ng-model="queryParams2.membershipNo" placeholder="请输入会员卡号" maxlength="12">
+                        <clear-input value="queryParams2.membershipNo"></clear-input>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-top" layout="row" layout-align="start center">
+        <div layout="row" flex="25">
+            <p class="text-p"></p>
+            <div flex class="detail-content">
+                <md-button class="md-raised my-shadow my-button" ng-click="consumeReload()" >重置</md-button>
+                <md-button class="btn-app md-raised my-shadow my-button" ng-click="consumeSearch()" style="margin-left: 20px!important;">查询</md-button>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-left" margin="[60, 0, 20, 0]" ng-show="isSearched2 && isFirst2">
+        <span class="span-text float-left">查询结果</span>
+        <a class="float-right downloadTable-btn"  ng-click="getExcel2($event)" >下载表格</a>
+    </div>
+    <div class="border-left" margin="[60, 0, 20, 0]" ng-show="!isFirst2">
+        <span class="span-text float-left">查询结果</span>
+        <a class="float-right downloadTable-btn"  ng-click="getExcel2($event)" >下载表格</a>
+    </div>
+
+    <md-content ng-show="isSearched2">
+        <div style="height: 80px;display: flex;" >
+            <div class="float-left text-center Rectangle-3 bg-color-01 storedvalue-auto-wid" layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalConsume.consume ? totalConsume.consume : 0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">订单总额</p>
+            </div>
+
+            <div class="float-left Rectangle-3 bg-color-02 ml-20 storedvalue-auto-wid" layout="column" layout-align="center center" >
+                <p class="Rectanglep3">{{totalConsume.reduct ?  totalConsume.reduct : 0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">优惠减免</p>
+            </div>
+            <div class="float-left text-center Rectangle-3 bg-color-01 ml-20 storedvalue-auto-wid" layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalConsume.paid ?  totalConsume.paid : 0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">实付总额</p>
+            </div>
+        </div>
+
+        <table ng-table="ngTable2" class="table table-full table-hover table-full-small newLine color666" style="margin-top: 15px;table-layout: fixed; width: 100%;">
+            <thead class="table-header">
+            <tr>
+                <td width="10%">消费时间</td>
+                <td width="2%"></td>
+                <td width="10%">流水号</td>
+                <td width="1%"></td>
+                <td width="10%">消费门店</td>
+                <td width="1%"></td>
+                <td width="8%">交易状态</td>
+                <td width="1%"></td>
+                <td width="12%">会员卡号</td>
+                <td width="1%"></td>
+                <td width="10%">用户名</td>
+                <td width="2%"></td>
+                <td width="10%">订单金额</td>
+                <td width="2%"></td>
+                <td width="10%">优惠减免</td>
+                <td width="2%"></td>
+                <td width="10%">实付金额</td>
+                <td width="2%"></td>
+                <td width="8%">操作</td>
+            </tr>
+            </thead>
+            <tbody >
+            <tr ng-repeat=" item in $data">
+                <td>{{item.comsumeTime}}</td>
+                <td></td>
+                <td>{{item.transNo}}</td>
+                <td></td>
+                <td>{{item.mchtName}}</td>
+                <td></td>
+                <td>{{item.transStatus | tradStatusCard}}</td>
+                <td></td>
+                <td>{{item.memberCardNo}}</td>
+                <td></td>
+                <td>{{item.username || '--'}}</td>
+                <td></td>
+                <td>{{item.comsumeAmount ? item.comsumeAmount / 100 : 0 | currency : '￥'}}</td>
+                <td></td>
+                <td>{{item.reduceAmount ? (-item.reduceAmount / 100) : 0 | currency : '￥'}}</td>
+                <td></td>
+                <td>{{item.paidAmount ? item.paidAmount / 100 : 0 | currency : '￥'}}</td>
+                <td></td>
+                <td class="td-btn"> <a class="app-color" ng-click="dealDetail(item, false)">查看详情</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <md-content ng-show="noData2" layout-align="center" class="no-data">
+            <p>{{noDataInfo2}}</p>
+        </md-content>
+    </md-content>
+    <div ng-show="showSearching2" style="text-align:center;padding:50px 0">正在查询.....</div>
+</div>

@@ -1,0 +1,37 @@
+<section>
+	<form name="form" novalidate>
+		<div layout="column" layout-wrap class="member-detail card-create" layout-padding>
+
+			<h4>升级为集团商户</h4>
+			<md-divider></md-divider>
+
+			<div class="border-left" margin="[10, 0, 0, 0]" layout="row" layout-align="start center">
+				<span class="span-text float-left">集团商户账号设置</span>
+			</div>
+
+			<div layout="row" style="min-height: 617px;">
+				<p class="text-right" style="margin-top: 24px;">账号后缀</p>
+				<div flex="40" class="detail-content">
+					<md-input-container md-no-float class="md-block" style="margin: 8px 0;">
+						<input type="text" class="app-input padding0" name="recommend" codehan="15" ng-model="regSuffix" onKeyUp="value = value.replace(/\s/g, '')">
+					</md-input-container>
+					<div ng-show="ifRegistered">
+						<p  class="app-tips-err">{{}}</p>
+					</div>
+				</div>
+			</div>
+
+			<md-divider></md-divider>
+			<div layout="row" layout-align="start" style="padding-left: 0;">
+				<md-button class=" md-raised my-shadow my-button" ui-sref="settings.merchantInfo">
+					取消</md-button>
+				<md-button ng-click="submit()" class="btn-app md-raised my-shadow my-button" ng-if="regSuffix" style="margin-left:8px !important;">
+					确认提交</md-button>
+				<md-button class="btn-app md-raised my-shadow my-button" ng-if="!regSuffix" disabled='disabled' style="margin-left:8px !important;">
+					确认提交</md-button>
+			</div>
+
+		</div>
+
+	</form>
+</section>

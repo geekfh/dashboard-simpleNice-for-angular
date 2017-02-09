@@ -1,0 +1,41 @@
+<md-dialog aria-label="" ng-cloak id="typeDialog" layout="column" style="width:678px;">
+    <span class="absolute closepoi" ng-click="close()">+</span>
+    <div style="padding: 40px;">
+
+        <h4 class="contentTitle selectpoi">基本信息修改</h4>
+        <md-divider></md-divider>
+        <p style="color:#f5473c;margin-top: 20px">每次修改30天方可再次修改，请谨慎修改。</p>
+
+        <div layout="row" layout-align="start start" margin="[20, 0, 20, 0]" class="color666">
+            <p class="text-right width70">商户标志</p>
+            <div style="margin-left: 30px;margin-top:-5px;">
+                <img ng-src="{{pic.qiniu_file_url}}" width="300" height="300"  />
+                <div style="float:right;margin-right:50px;" >
+                    <img ng-src="{{pic.qiniu_file_url}}" width="100" height="100" >
+
+                    <p style="text-align:center;color:#666;padding:10px; ">预览效果</p>
+                </div>
+                <!--<md-button class="my-shadow my-button" style="margin-top:20px!important;">上传</md-button>-->
+                <myupload flex="20" in-dialog="true" class="p5" style="margin-top:20px!important;" size="5m" ng-model="icon_file" pic="pic" name="icon_file">上传</myupload>
+
+                <p style="color:#acacac;margin-top:20px;" >图片建议尺寸：300像素x300像素。仅支持.jpg 格式正方形照片，大小不超过5M。</p>
+            </div>
+
+        </div>
+
+        <!--<myupload flex="20" in-dialog="true" class="p5" size="5m" ng-model="icon_file" pic="pic" name="icon_file">上传照片</myupload>-->
+
+        <div layout="row" layout-align="start start" margin="[20, 0, 30, 0]" class="color666">
+            <p class="text-right width70">商户名称</p>
+            <md-input-container md-no-float class="md-block" style="margin-left: 30px;width:300px;margin-top:-9px;">
+                <input ng-model="icon_file" placeholder="深圳手足牛肉坊（信和广场店）">
+            </md-input-container>
+        </div>
+        <md-divider></md-divider>
+
+        <div layout="row" layout-align="start start" margin="[30, 0, 20, 0]" class="color666">
+            <md-button class="my-shadow my-button" style="margin-right:20px!important;" ng-click="close()">取消</md-button>
+            <md-button class="btn-app md-raised my-shadow my-button" >保存</md-button>
+        </div>
+    </div>
+</md-dialog>

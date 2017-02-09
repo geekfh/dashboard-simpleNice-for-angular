@@ -1,0 +1,55 @@
+<div class="print-wrap"  style="background: #fff; padding: 16px 16px 32px 16px; box-shadow: 0.3px 1px 3px 0 rgba(0,0,0,.2);">
+	<div class="printHeader">
+		<p class="printTitle">消费凭证</p>
+		<p class="printShopName">{{brandName}}</p>
+	</div>
+	<div class="printCon">
+		<div class="printItem clearfix">
+			<span class="fl">商户编号</span>
+			<span class="fr" style="font-size: 18px;">***************</span>
+		</div>
+		<div class="printItem clearfix">
+			<span class="fl">终端编号</span>
+			<span class="fr" style="font-size: 18px;">**********************</span>
+		</div>
+		<div class="printItem clearfix">
+			<span class="fl">流水号</span>
+			<span class="fr" style="font-size: 18px;">****************</span>
+		</div>
+		<div class="printItem clearfix">
+			<span class="fl">交易类型</span>
+			<span class="fr">消费（SALE)</span>
+		</div>
+		<div class="printItem clearfix">
+			<span class="fl">交易名称</span>
+			<span class="fr">现金支付</span>
+		</div>
+		<div class="printItem clearfix">
+			<span class="fl">交易日期/时间</span>
+			<span class="fr">2016-07-26 15:22:01</span>
+		</div>
+		<div class="printItem clearfix">
+			<span class="fl">收银员</span>
+			<span class="fr">张*萧</span>
+		</div>
+		<div class="printItem clearfix">
+			<span class="fl">备注信息</span>
+			<span class="fr">已记录</span>
+		</div>
+	</div>
+	<div class="printFoot">
+		<div class="printItem clearfix">
+			<span class="fl">交易金额</span>
+			<span class="fr printLoan" style="font-size: 22px; color: #3b3b3b;">¥90.00</span>
+		</div>
+		<div class="printImg">
+			<img ng-if="pic.qiniu_file_url" ng-src="{{pic.qiniu_file_url}}" alt="">
+			<!--<img ng-if="!pic.qiniu_file_url" alt="">-->
+			<div ng-if="!pic.qiniu_file_url && noImg" style="margin-left:auto;margin-right:auto;width: 100px;height: 100px;text-align:center; line-height: 100px;border: 1px solid #E5E5E5;color: #ACACAC;">图片预览</div>
+			<p style="margin-top: 16px;" class="new-line">{{queryParams.description ? queryParams.description : !noImg ? '' : '请使用微信扫描上面二维码，领取优惠券'}}</p>
+		</div>
+	</div>
+	<div class="waveBottom"></div>
+	<div class="receipt-receipt-text">小票预览</div>
+</div>
+

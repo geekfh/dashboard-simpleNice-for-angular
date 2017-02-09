@@ -1,0 +1,66 @@
+<h4 ng-bind="$current.title" class="contentTitle"></h4>
+            <md-divider></md-divider>
+<search-day date="date"></search-day>
+<p style="margin: 5px 0 0 70px; color: #bbbbbb;">查询日期范围不能超过31天</p>
+<div class="table-top" layout="row">
+    <div flex="45" layout="row" layout-align="start end">
+
+        <div layout="row">
+            <p class="text-p">交易门店</p>
+            <div class="detail-content" style="width: 160px;">
+                <md-select my-select placeholder="指定分组" ng-model="vm.day" ng-change="vm.searchByDay()" aria-label="time">
+                    <md-option ng-repeat="k  in vm.selectDays "  value="{{k}}">
+                        最近{{k}}天
+                    </md-option>
+                </md-select>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="table-top" layout="row" layout-align="start center">
+    <div layout="row" flex="25">
+        <p class="text-p"></p>
+        <div flex class="detail-content">
+            <md-button class="btn-app md-raised my-shadow my-button" ng-click="vm.search()" >查询</md-button>
+        </div>
+    </div>
+</div>
+
+<div class="border-left" margin="[10, 0, 20, 0]">
+    <span class="span-text float-left">查询结果</span>
+    <!-- <a class="float-right">下载表格</a> -->
+</div>
+
+<md-content>
+    <table ng-table="vm.ngTable" class="table table-full table-hover table-full-small">
+
+        <thead class="table-header"> 
+            <tr> 
+                <td width="15%">结算日期</td> 
+                <td width="15%">结算结果</td> 
+                <td width="10%">结算金额</td> 
+                <td width="8%">交易商户</td> 
+                <td width="11%">收款账户</td>
+                <td width="8%">操作</td> 
+            </tr> 
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in $data">
+            <td >{{ item.mobile }}</td>
+            <td >{{ item.membershipNumber }}</td>
+            <td>{{item.status | MstatusFilter}}</td>
+            <td >{{ item.bonus }}</td>
+            <td >{{ item.lastUseDate | date: 'yyyy-MM-dd' }}</td>
+            <td class="td-btn"> <a class="md-button md-raised" ng-click="vm.detail(item)">详情</a></td>
+        </tr>
+        </tbody>
+
+    </table>
+    <md-content ng-show="vm.noData" layout-align="center" class="no-data">
+        <p>{{vm.noData}}</p>
+    </md-content>
+
+</md-content>

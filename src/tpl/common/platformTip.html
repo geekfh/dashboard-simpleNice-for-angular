@@ -1,0 +1,44 @@
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:896px;">
+	<span class="absolute closepoi" ng-click="close()" style="right: 32px; top: 6px;">+</span>
+	<div style="padding: 40px;">
+		<md-content ng-if="data.platForm == 'wx'">
+			<h4 class="contentTitle selectpoi" style="margin-top: 0;">微信支付商户平台</h4>
+			<md-divider></md-divider>
+
+			<div>
+				<p style="margin-top: 30px;">查询结账情况</p>
+				<p style="color:#999;">选择【账户中心】→【结算管理】→【已结算查询】或【未结算查询】，查询对应时间段结算情况。</p>
+				<p style="margin-top: 40px;">下载对账单</p>
+				<p style="color:#999;">选择【账户中心】→【账单管理】→【交易账单】，下载对应时间段交易账单。</p>
+				<p style="color:#999;">您还可以查看<a href="https://huipos.kf5.com/hc/kb/article/166057/" target="_blank">《微信支付-如何对账》</a>帮助文档，获取图文操作指南。</p>
+				<p style="margin-top: 30px; margin-bottom: 27px; color:#999;">点击前往将跳转至微信商户平台。</p>
+			</div>
+			<md-divider></md-divider>
+			<div layout="row" class="field-btn" style="margin-top: 30px;">
+				<md-button ng-click="confirm()" class="btn-app md-raised my-button">
+					前往
+				</md-button>
+			</div>
+		</md-content>
+		<md-content ng-if="data.platForm == 'zfb'">
+			<h4 class="contentTitle selectpoi">支付宝商家平台</h4>
+			<md-divider></md-divider>
+
+			<div>
+				<p style="margin-top: 40px;color:#999;">登陆后，进入【对账】模块。</p>
+				<p style="color:#999;">1、财务汇总：按日、按月查看收支汇总，下载账单和回单。</p>
+				<p style="color:#999;">2、财务明细：查看指定时间段内的对账明细。</p>
+				<p style="color:#999;">3、账单下载：下载每日、每月账单，多门店商户可指定【业务明细表】中的终端号来对账。</p>
+				<p style="color:#999;">4、服务费查询：按日、按月查询服务费总。</p>
+				<p style="color:#999;">您还可以查看<a href="https://huipos.kf5.com/hc/kb/article/184238/" target="_blank">《支付宝-如何对账》</a>帮助文档，获取图文操作指南。</p>
+				<p style="margin-top: 30px; margin-bottom: 30px; color:#999;">点击前往将跳转至支付宝商家平台。</p>
+			</div>
+			<md-divider></md-divider>
+			<div layout="row" class="field-btn" style="margin-top: 30px;">
+				<md-button ng-click="confirm()" class="btn-app md-raised my-button">
+					前往
+				</md-button>
+			</div>
+		</md-content>
+	</div>
+</md-dialog>

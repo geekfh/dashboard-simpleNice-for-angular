@@ -1,0 +1,165 @@
+
+<h4 class="contentTitle">微信公众号</h4>
+<div class="contantDiv" contant-div>
+    <h4 class="contentTitle floath4 activeh4 normal" style="outline: none;" contantId="wechatGrant" ng-click="vm.tabChange('count')" >微信授权</h4>
+    <h4 class="contentTitle floath4 normal"  style="outline: none;" contantId="wechatApplication" ng-click="vm.tabChange('count')" >微应用</h4>
+</div>
+
+
+<div id="wechatGrant">
+    <div class="Rectangle-1530" flex="100" layout="row" layout-align="start center" style="margin-top:20px;" ng-show="wxchatData">
+        <div layout="column" layout-align="start start" flex="70">
+            <!-- <p style="margin: 5px 0 5px 20px; font-size: 16px; color: #303030;"
+            ng-bind="wxchatData.weixinType != '1' ? '未授权公众号' : '若需将当前公众号授权给其他商户，请先取消授权。'"> </p> -->
+            <p style="margin: 5px 0 5px 20px; font-weight:700;" ng-show="wxchatData" ng-bind="wxchatData.authStatus != '1' ? '未授权微信公众号' : ''"> </p>
+            <p style="margin: 5px 0 5px 20px;" ng-show="wxchatData" ng-bind="wxchatData.authStatus != '1' ? '未授权时创建的卡券无法同步到微信。' : '若微信公众号开通了新功能，请重新授权。'"> </p>
+            <!--<p style="margin: 5px 0 5px 20px; color:#f5473c" ng-show="wxchatData" ng-bind="wxchatData.authStatus != '1' ? '未授权时创建的卡券无法同步到微信' : ''"> </p>
+       --> </div>
+        <div flex="30" layout="row" layout-align="end center" style="margin: 0px 20px 0 0;" ng-cloak>
+            <md-button ng-click="confirm()" class="btn-app md-raised my-shadow my-button" ng-show="wxchatData && wxchatData.authStatus != '1'">授权</md-button>
+            <!-- <md-button class="md-raised my-shadow" ng-click="confirm('取消')" ng-if="wxchatData.weixinType == '1'">取消授权</md-button> -->
+            <md-button ng-click="confirm('重新')" class="md-raised my-shadow" ng-show="wxchatData && wxchatData.authStatus == '1'">重新授权</md-button>
+        </div>
+    </div>
+    <div class="border-left" margin="[50, 0, 20, 0]">
+        <span class="span-text float-left" ng-show="wxchatData" ng-bind="wxchatData.authStatus != '1' ? '功能介绍' : '基本信息'"></span>
+    </div>
+    <p ng-if="wxchatData.authStatus != '1'" ng-show="wxchatData">微信公众号授权后有利于微信营销活动的推广。</p>
+    <div ng-if="wxchatData.authStatus == '1'" ng-show="wxchatData">
+        <div layout="row" layout-align="start start" margin="[20, 0, 20, 0]">
+            <p class="text-right width70">微信头像</p>
+            <img ng-src="{{wxchatData.s300LogoUrl}}" width="100" height="100" style="margin-left: 30px;" />
+        </div>
+
+        <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]">
+            <p class="text-right width70">公众号名称</p>
+            <p style="margin-left: 30px;" ng-bind="wxchatData.nickName"></p>
+        </div>
+
+        <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]">
+            <p class="text-right width70">公众号类型</p>
+            <p style="margin-left: 30px;" ng-bind="wxchatData.serviceTypeInfo | serviceTypeInfo"></p>
+        </div>
+
+        <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]">
+            <p class="text-right width70">授权状态</p>
+            <p style="margin-left: 30px;" ng-bind="wxchatData.weixinType | weixinType"></p>
+        </div>
+
+        <!--<div layout="row" layout-align="start start" margin="[20, 0, 20, 0]" ng-if="!editCate">
+            <p class="text-right width70">类目范围</p>
+            <category-view category="category" style="margin-left: 30px;" ng-if="category.primary" ></category-view>
+             <p ng-if="!category.primary" ng-show="!editCate" style="margin-left: 30px;">无</p>
+            <a class="text-decoration" ng-click="edit()" style="margin-left: 30px;" ng-bind="category.primary ? '修改' : '选择'"></a>
+        </div>-->
+        <!-- <div layout="row" layout-align="start center" margin="[20, 0, 20, 0]" ng-if="editCate">
+            <p class="text-right width70">类目范围</p>
+            <div flex style="margin-left: 30px;">
+                <poi-category is-hide="true" categories="categories" ng-show="editCate" confirm="finish()"></poi-category>
+            </div>
+        </div> -->
+
+
+        <div layout="row" layout-align="start start" margin="[20, 0, 20, 0]" >
+            <p class="text-right width70">类目范围</p>
+            <p style="margin-left: 30px;">{{category.primary}} &nbsp; {{category.secondary}}</p>
+
+        </div>
+
+        <div layout="row" layout-align="start start" margin="[20, 0, 20, 0]" ng-show="category.primary">
+            <p class="text-right width70"></p>
+            <p style="margin-left: 30px; color: #f00;">此类目{{obj.firend ? '' : '不'}}可以创建朋友的券，{{obj.card ? '' : '不'}}可以同步微信会员卡</p>
+
+        </div>
+        <div layout="row" layout-align="start start" margin="[20, 0, 20, 0]" ng-if="!category.primary">
+            <p class="text-right width70"></p>
+            <p style="margin-left: 30px; color: #f00;">未填写类目，无法创建微信相关信息。</p>
+            <a ng-click="look()" class="text-decoration">点击查看流程</a>
+        </div>
+    </div>
+
+    <div layout="row">
+        <div class="border-left" margin="[50, 0, 20, 0]" ng-show="wxchatData" flex="30" ng-if="wxchatData.authStatus == '1'">
+            <span class="span-text float-left" >已开通的权限列表</span>
+        </div>
+        <div class="border-left" margin="[50, 0, 20, 0]" ng-show="wxchatData" flex="30">
+            <span class="span-text float-left"  ng-bind="wxchatData.authStatus != '1' ? '使用指南' : '已授权的权限列表'"> </span>
+        </div>
+        <div class="" margin="[50, 0, 20, 0]" ng-show="wxchatData" style="float:right" flex>
+            <a class="float-right" ng-if="wxchatData.authStatus == '1'" href="https://mp.weixin.qq.com/" target="_blank">权限说明</a>
+        </div>
+        </div>
+    <div layout="row">
+        <ul class="list-style" ng-if="wxchatData.authStatus != '1'" ng-show="wxchatData" flex>
+            <li>
+                <p>
+                    一个微信公众号只能授权给一个商户账号。
+                </p>
+            </li>
+            <li>
+                <p>
+                    仅支持已认证公众号授权模式。
+                </p>
+            </li>
+            <li>
+                <p>
+                    为保证正常使用，授权时请默认选择统一授权方式。
+                </p>
+            </li>
+            <li>
+                <p>
+                    授权给本平台将不影响其他功能的正常使用。
+                </p>
+            </li>
+        </ul>
+        <ul class="list-style" ng-if="wxchatData.authStatus == '1'" ng-show="wxchatData" flex="30">
+            <li ng-repeat="(key, value) in wxchatData.businessInfo" ng-if="value == 1">
+                <p>
+                    {{key | wxChatOpen}}
+                </p>
+            </li>
+        </ul>
+        <ul class="list-style" ng-if="wxchatData.authStatus == '1'" ng-show="wxchatData" flex="30">
+            <li ng-repeat="item in wxchatData.funcInfo">
+                <p>
+                    {{item.funcscope_category.id | wxChatAction}}
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div id="wechatApplication">
+    <div class="no-application"  ng-show="wxchatData.authStatus != '1'">
+        <div class=" wechat-send-tip-box marketing bg Rectangle-color" flex="100" layout="row" layout-align="start center" style="margin:20px 0;"> <!--ng-if="vm.showEditNew"-->
+            <p class="wechat-send-tip2 color666" >温馨提示：当前您未授权微信公众号，不可使用微应用。</p>
+        </div>
+        <div class="function-introduce">
+            <h5>功能介绍</h5>
+            <p>为您提供会员卡主页和我的卡券两个URL链接。<br>
+               您可在微信公众号平台自定义菜单中，配置上述链接，以便消费者自助激活会员卡，使用会员卡和优惠券。
+            </p>
+        </div>
+    </div>
+    <div class="applicated" ng-show="wxchatData.authStatus == '1'">
+        <div class=" wechat-send-tip-box marketing Rectangle-color" flex="100" layout="row" layout-align="start center" style="margin:20px 0;"> <!--ng-if="vm.showEditNew"-->
+            <p class="wechat-send-tip2 color666 marginLeft-10" flex="70" >使用方法：在微信公众平台配置菜单链接——“自定义菜单”栏目。</p>
+            <a flex="30" ng-click="applicatedMoreWays()">查看更多方法</a>
+        </div>
+        <div class="cardCoupon-URL">
+            <div class="cardURL-wrap">
+                <span class="span-tit">会员卡主页URL</span>
+                <input class="input-URL" readonly  id="cardInputURL" value="{{memberCardUrl}}">
+                <md-button class="md-raised my-shadow my-button" type="button" ng-click="copyUrLBtn(1)">复制</md-button>
+                <md-button class="md-raised my-shadow"><a ng-click="downloadErweima($event,0)" target="_blank" class="download-erweima">下载二维码</a></md-button>
+            </div>
+            <div class="couponURL-wrap">
+                <span class="span-tit">我的卡券URL</span>
+                <input class="input-URL" readonly id="couponInputURL"  value="{{myCardListUrl}}"/>
+                <md-button class="md-raised my-shadow my-button" type="button" ng-click="copyUrLBtn(0)">复制</md-button>
+                <md-button class="md-raised my-shadow"><a  ng-click="downloadErweima($event,1)" target="_blank" class="download-erweima" >下载二维码</a></md-button>
+            </div>
+        </div>
+    </div>
+</div>
+

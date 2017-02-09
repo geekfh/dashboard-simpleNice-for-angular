@@ -1,0 +1,479 @@
+<style>
+    table tbody td{
+        word-wrap:break-word;
+    }
+
+@media screen and (max-width:1160px){
+.auto-date-wrap{height: initial;}
+.auto-date-wrap,.auto-date-content{display: inline-block;}
+.auto-date-list{display: inline-block;margin: 10px 0 10px 69px !important;letter-spacing: -5px;}
+.auto-wid1{width: 1% !important;}
+.auto-wid2{width: 10% !important;}
+*, *::after, *::before, input[type="search"]{-moz-box-sizing: initial;}
+}
+
+</style>
+<!--<h4 ng-bind="$current.title" class="contentTitle"></h4>-->
+<h4  class="contentTitle">对账明细</h4>
+            <!--<md-divider></md-divider>-->
+<div class="contantDiv" contant-div>
+    <h4 class="contentTitle floath4 activeh4 normal" contantId="list" >筛选查询</h4>
+    <h4 class="contentTitle floath4 normal" contantId="group" >精准搜索</h4>
+</div>
+<!--<p class="warm-con">
+    <span class="radiusspan">i</span>
+    温馨提示：晚上23:00后的交易将计入第二个交易日。如需打包下载账单，请访问
+    <a href="#/accounts/download/list">
+        账单下载
+    </a>
+</p>-->
+<div id="list">
+   <!-- <div class="table-top" layout="row" style="margin-top:15px; margin-bottom: -15px;">
+        <div flex="100" layout="row" layout-align="start end">
+
+            <div layout="row">
+                <p class="text-p">查询时间</p>
+                <div class="detail-content" style="width: 160px;">
+                    <md-select my-select placeholder="按交易时间" ng-model="queryParams.dateQueryType"  aria-label="time">
+                        <md-option ng-repeat="item in checkTimeTypeList" value="{{item.value}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.value == checkTimeTypeList}">
+                            {{item.name}}
+                        </md-option>
+                    </md-select>
+                </div>
+            </div>
+        </div>
+
+    </div>-->
+    <search-day date="date" max-day="45" if-search-time="true" item-name="交易时间" ng-if="queryParams.dateQueryType == 1"></search-day>
+    <search-day date="date" max-day="45" item-name="结算时间" ng-if="queryParams.dateQueryType == 2"></search-day>
+    <p style="margin: -2px 0 0 70px; color: #bbbbbb;">查询日期范围不能超过45天</p>
+    <div class="table-top" layout="row" ng-if="$root.powers && $root.powers.indexOf('accounts.details.list_store.list') > -1">
+        <div flex="100" layout="row" layout-align="start end">
+            <div layout="row">
+                <p class="text-p">交易门店</p>
+                <div class="detail-content" style="width: 160px;" >
+                    <md-select my-select placeholder="指定门店" ng-model="queryParams.visibleRange" ng-change="changeStoreType(queryParams.visibleRange)" aria-label="time">
+                        <md-option ng-repeat="item  in storeTypeList "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == queryParams.visibleRange}">
+                            {{item.storeType}}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div class="detail-content" style="width: 160px;" ng-show="queryParams.visibleRange == '3' ">
+                    <md-select my-select placeholder="请选择分组" ng-model="queryParams.groupId"  aria-label="time">
+                        <md-option ng-repeat="item  in groupList "  value="{{item.groupId}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.groupId == queryParams.groupId}">
+                            {{item.groupName}}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div class="detail-content" style="width:300px" ng-show="queryParams.visibleRange == '2' ">
+                    <!--<md-input-container class="md-block">
+                        <input placeholder="请输入门店名称"/>
+                    </md-input-container>-->
+                    <md-autocomplete
+                            ng-disabled="false"
+                            md-no-cache="true"
+                            md-selected-item="selectedItem"
+                            md-search-text-change="searchTextChange(selectedStore)"
+                            md-search-text="selectedStore"
+                            md-selected-item-change="selectedItemChange(item)"
+                            md-items="item in querySearch(selectedStore)"
+                            md-item-text="item.mchtName"
+                            md-min-length="0"
+                            placeholder="请输入门店名称"
+                            md-menu-class="autocomplete-custom-template" layout="row">
+                        <md-item-template>
+                            <span md-highlight-text="selectedStore" md-highlight-flags="^i">{{item.mchtName}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            请稍等
+                        </md-not-found>
+                    </md-autocomplete>
+                </div>
+
+                <div class="detail-content" style="width: 160px; margin-left: -10px;" ng-show="queryParams.visibleRange == '2' ">
+                    <md-autocomplete
+                            ng-disabled="false"
+                            md-no-cache="true"
+                            md-selected-item="selectedUserItem"
+                            md-search-text-change="cashierTextChange(selectedUser)"
+                            md-search-text="selectedUser"
+                            md-selected-item-change="cashierItemChange(item)"
+                            md-items="item in queryCashier(selectedUser)"
+                            md-item-text="item.userName"
+                            md-min-length="0"
+                            placeholder="请输入收银员姓名"
+                            md-menu-class="autocomplete-custom-template" layout="row" maxlength="10">
+                        <md-item-template>
+                            <span md-highlight-text="selectedUser" md-highlight-flags="^i">{{item.userName}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            暂无收银员数据
+                        </md-not-found>
+                    </md-autocomplete>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--高级选项-->
+    <div ng-show="showAdvancedOps">
+        <div class="table-top" layout="row" >
+            <div flex="25" layout="row" layout-align="start end" >
+                <div layout="row">
+                    <p class="text-p" style="margin-top: 5px !important;">SN号</p>
+                    <div class="detail-content" style="width: 290px;margin-left:-2px">
+                        <md-input-container class="md-block" md-no-float>
+                            <input type="text" class="input myBoxShadow" flex ng-model="queryParams.snNo" placeholder="请输入SN号" maxlength="20">
+                            <clear-input value="queryParams.snNo"></clear-input>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="table-top" layout="row" style="margin-top:-10px;">
+            <div flex="100" layout="row" layout-align="start end">
+
+                <div layout="row">
+                    <p class="text-p">收款方式</p>
+                    <div class="detail-content" style="width: 160px;">
+                        <md-select my-select placeholder="所有方式" ng-model="queryParams.paymentMethod"  aria-label="time">
+                            <md-option ng-repeat="item in paymentMethodList" value="{{item.value}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.value == queryParams.paymentMethod}">
+                                {{item.name}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--<div class="table-top" layout="row" style="margin-top:-5px;">
+            <div flex="100" layout="row" layout-align="start end">
+
+                <div layout="row">
+                    <p class="text-p">结算状态</p>
+                    <div class="detail-content" style="width: 160px;">
+                        <md-select my-select placeholder="所有结算状态" ng-model="queryParams.settleStatus"  aria-label="time">
+                            <md-option ng-repeat="item in settleStatusList "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == queryParams.settleStatus}">
+                                {{item.name}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="table-top" layout="row" style="margin-top:-5px;">
+            <div flex="100" layout="row" layout-align="start end">
+
+                <div layout="row">
+                    <p class="text-p">结算周期</p>
+                    <div class="detail-content" style="width: 160px;">
+                        <md-select my-select placeholder="所有结算周期" ng-model="queryParams.settleCycle"  aria-label="time">
+                            <md-option ng-repeat="item in settleCycleList "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == queryParams.settleCycle}">
+                                {{item.name}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+            </div>
+
+        </div>-->
+        <div class="table-top" layout="row" style="margin-top:-5px;" ng-show="$root.powers && $root.powers.indexOf('accounts.details.account_store.list') > -1">
+            <div flex="100" layout="row" layout-align="start end">
+
+                <div layout="row">
+                    <p class="text-p">结算账户</p>
+                    <div class="detail-content" style="width: 160px;">
+                        <md-select my-select placeholder="所有结算账户" ng-model="queryParams.settleCardNo"  aria-label="time">
+                            <md-option ng-repeat="item in settleCardNoList "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == queryParams.settleCardNo}">
+                                {{item.name}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div layout="row" layout-align="start center" style="height: 35px;">
+        <div layout="row" flex="25">
+            <p class="text-p"></p>
+            <div flex class="detail-content">
+                <a href="javascript: ;" ng-click="showAdvancedOps = !showAdvancedOps" class="app-color underline" ng-hide="showAdvancedOps">显示高级选项</a>
+                <a href="javascript: ;" ng-click="showAdvancedOps = !showAdvancedOps" class="app-color underline" ng-show="showAdvancedOps">隐藏高级选项</a>
+            </div>
+        </div>
+    </div>
+    <div class="table-top" layout="row" layout-align="start center">
+        <div layout="row" flex="25">
+            <p class="text-p"></p>
+            <div flex class="detail-content">
+                <md-button class="md-raised my-shadow my-button" ng-click="reload()" >重置</md-button>
+                <md-button class="btn-app md-raised my-shadow my-button" ng-click="search()" style="margin-left:10px!important;">查询</md-button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="border-left" margin="[60, 0, 20, 0]" ng-show="isSearched">
+        <span class="span-text float-left">查询结果</span>
+        <a class="float-right app-color downloadTable-btn" ng-click="getExcel1()" ng-class="{'disabled' : downloading1}">{{downloadTip1}}</a>
+    </div>
+        <!--<p class="warm-con">
+            <span class="radiusspan">i</span>
+            该门店的微信支付、京东钱包款项由官方直接清算，如需查看完整账单，请访问
+            <a href="#/accounts/download/list">账单下载</a>
+        </p>-->
+    <md-content ng-show="isSearched">
+        <div class="clearfix" style="height: 80px;display: flex;width: 100%;">
+            <div class="float-left Rectangle-4 bg-color-03 account-list-wid" layout="column" layout-align="center center">
+                <p class="Rectanglep4">{{totalCounts}}</p>
+                <p class="Rectanglep2">交易笔数</p>
+            </div>
+            <div class="float-left Rectangle-4 bg-color-01 ml-21 account-list-wid" layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalAmt ? totalAmt:0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">实收金额</p>
+            </div>
+            <div class="float-left Rectangle-4 bg-color-02 ml-21 account-list-wid" layout="column" layout-align="center center">
+                <p class="Rectanglep3">{{totalFeeAmt ? -totalFeeAmt:0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">手续费</p>
+            </div>
+            <!--<div class="float-left Rectangle-4 bg-color-01 ml-21" layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalFreeFeeAmt ? totalFreeFeeAmt:0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">手续费减免</p>
+            </div>-->
+            <div class="float-left Rectangle-4 bg-color-01 ml-21 account-list-wid" layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalSettleAmt ? totalSettleAmt:0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">结算金额</p>
+            </div>
+        </div>
+        <table ng-table="ngTable" class="table table-full table-hover table-full-small newLine color666" style="margin-top: 15px;table-layout: fixed; width: 100%;">
+
+            <thead class="table-header" style="margin-bottom:15px;">
+                <tr>
+                    <td width="10%">交易时间</td>
+                    <td width="2%"></td>
+                    <!--<td width="10%">结算日期</td>
+                    <td width="2%"></td>-->
+                    <td width="7%">流水号</td>
+                    <td width="2%"></td>
+                    <td width="8%">收款方式</td>
+                    <td width="2%"></td>
+                    <!--<td width="8%">结算状态</td>
+                    <td width="2%"></td>-->
+                    <td width="9%">门店名称</td>
+                    <td width="2%"></td>
+                    <td width="7%">收银员</td>
+                    <td width="2%"></td>
+                    <td width="8%">SN号</td>
+                    <td width="2%"></td>
+                    <td width="11%">实收金额</td>
+                    <td width="2%"></td>
+                    <td width="8%">手续费</td>
+                    <td width="2%" class="auto-wid1"></td>
+                    <!--<td width="10%">结算周期</td>
+                    <td width="12%">交易本金</td>-->
+                    <!--<td width="11%">手续费减免</td>-->
+                    <td width="12%">结算金额</td>
+                    <td width="2%" class="auto-wid1"></td>
+                    <td width="8%" class="auto-wid2">操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in $data">
+                    <td >{{item.txTime}}</td>
+                    <td></td>
+                    <!--<td >{{item.settleDate}}</td>
+                    <td></td>-->
+                    <td >{{item.transNo}}</td>
+                    <td></td>
+                    <td>{{item.paymentMethod}}<br />{{item.cardTypeName}}</td>
+                    <td></td>
+                   <!--<td>{{item.settleStatus}}</td>
+                    <td></td>-->
+                    <td >{{item.mchtName}}</td>
+                    <td></td>
+                    <td >{{item.userName}}</td>
+                    <td></td>
+                    <td >{{item.snNo}}</td>
+                    <td></td>
+                    <td >{{item.txAmt ? item.txAmt:0 | currency : '￥'}}</td>
+                    <td></td>
+                    <td>{{item.feeAmt ? -item.feeAmt:0 | currency : '￥'}}</td>
+                    <td></td>
+                    <!--<td >{{item.cycleName || '&#45;&#45;'}}</td>
+                    <td >{{item.txAmt | currency : '￥'}}</td>-->
+                    <!--<td >{{item.freeFeeAmt | currency : '￥'}}</td>-->
+                    <td >{{item.settleAmt | currency : '￥'}}</td>
+                    <td></td>
+                    <td class="td-btn"> <a class="app-color" ng-click="dealDetail(item)">交易详情</a></td>
+
+                </tr>
+            </tbody>
+        </table>
+        <md-content ng-show="noData1" layout-align="center" class="no-data">
+            <p>{{noDataInfo}}</p>
+        </md-content>
+    </md-content>
+
+    <div  style="text-align:center;padding:50px 0" ng-show="showSearching">正在查询.....</div>
+</div>
+<!-- 精准搜索 -->
+<div id="group">
+    <div class="table-top margintop15" layout="row">
+        <div flex="25" layout="row" layout-align="start end">
+            <div layout="row">
+                <p class="text-p" style="margin-top: 5px !important;text-align:right;">流水号</p>
+                <div class="detail-content" style="width: 160px;">
+                    <md-input-container class="md-block" md-no-float>
+                        <input type="text" class="input myBoxShadow" flex ng-model="queryParams2.transNo" maxlength="20" onKeyUp="value = value.replace(/\D/g, '')">
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-top" layout="row" layout-align="start center">
+        <div layout="row" flex="25">
+            <p class="text-p"></p>
+            <div flex class="detail-content">
+                <md-button class="md-raised my-shadow my-button" ng-click="reload2()" >重置</md-button>
+                <md-button class="btn-app  md-raised my-shadow my-button" ng-click="searchAct()" style="margin-left:10px!important;" >搜索</md-button>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-left" margin="[60, 0, 20, 0]" ng-show="isSearchedAct">
+        <span class="span-text float-left">查询结果</span>
+        <a class="float-right app-color downloadTable-btn"  ng-click="getExcel2()" ng-class="{'disabled':downloading2}">{{downloadTip2}}</a>
+    </div>
+    <md-content ng-show="isSearchedAct">
+        <div class="clearfix" style="height: 80px;display: flex;width: 100%;">
+            <div class="float-left Rectangle-4 bg-color-03 account-list-wid" layout="column" layout-align="center center" flex="24">
+                <p class="Rectanglep4">{{totalCounts_02}}</p>
+                <p class="Rectanglep2">交易笔数</p>
+            </div>
+            <div class="float-left Rectangle-4 bg-color-01 ml-21 account-list-wid" layout="column" layout-align="center center" flex="24">
+                <p class="Rectanglep1">{{totalAmt ? totalAmt:0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">实收金额</p>
+            </div>
+            <div class="float-left Rectangle-4 bg-color-02 ml-21 account-list-wid" layout="column" layout-align="center center" flex="24">
+                <p class="Rectanglep3">{{totalFeeAmt ? -totalFeeAmt:0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">手续费</p>
+            </div>
+            <!--<div class="float-left Rectangle-4 bg-color-01 ml-21" layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{totalFreeFeeAmt ? totalFreeFeeAmt:0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">手续费减免</p>
+            </div>-->
+            <div class="float-left Rectangle-4 bg-color-01 ml-21 account-list-wid" layout="column" layout-align="center center" flex="24">
+                <p class="Rectanglep1">{{totalSettleAmt ? totalSettleAmt:0 | currency : '￥'}}</p>
+                <p class="Rectanglep2">结算金额</p>
+            </div>
+        </div>
+        <table ng-table="ngTable2" class="table table-full table-hover table-full-small newLine color666" style="margin-top: 15px;table-layout: fixed; width: 100%;">
+
+            <thead class="table-header" style="margin-bottom:15px;">
+                <tr>
+                    <td width="10%">交易时间</td>
+                    <td width="2%"></td>
+                    <!--<td width="10%">结算日期</td>
+                    <td width="2%"></td>-->
+                    <td width="7%">流水号</td>
+                    <td width="2%"></td>
+                    <td width="8%">收款方式</td>
+                    <td width="2%"></td>
+                    <!--<td width="8%">结算状态</td>
+                    <td width="2%"></td>-->
+                    <td width="9%">门店名称</td>
+                    <td width="2%"></td>
+                    <td width="7%">收银员</td>
+                    <td width="2%"></td>
+                    <td width="8%">SN号</td>
+                    <td width="2%"></td>
+                    <td width="11%">实收金额</td>
+                    <td width="2%"></td>
+                    <td width="8%">手续费</td>
+                    <td width="2%"></td>
+                    <!--<td width="10%">结算周期</td>
+                    <td width="12%">交易本金</td>-->
+                    <!--<td width="11%">手续费减免</td>-->
+                    <td width="12%">结算金额</td>
+                    <td width="2%"></td>
+                    <td width="8%">操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in $data">
+                    <td >{{item.txTime}}</td>
+                    <td></td>
+                    <!--<td >{{item.settleDate}}</td>
+                    <td></td>-->
+                    <td >{{item.transNo}}</td>
+                    <td></td>
+                    <td>{{item.paymentMethod}}<br />{{item.cardTypeName}}</td>
+                    <td></td>
+                    <!--<td>{{item.settleStatus}}</td>
+                    <td></td>-->
+                    <td >{{item.mchtName}}</td>
+                    <td></td>
+                    <td >{{item.userName}}</td>
+                    <td></td>
+                    <td >{{item.snNo}}</td>
+                    <td></td>
+                    <td >{{item.txAmt}}</td>
+                    <td></td>
+                    <td>{{item.feeAmt ? -item.feeAmt:0 | currency : '￥'}}</td>
+                    <td></td>
+                    <!--<td >{{item.cycleName || '&#45;&#45;'}}</td>
+                    <td >{{item.txAmt | currency : '￥'}}</td>-->
+                    <!--<td >{{item.freeFeeAmt | currency : '￥'}}</td>-->
+                    <td >{{item.settleAmt | currency : '￥'}}</td>
+                    <td></td>
+                    <td class="td-btn"> <a class="app-color" ng-click="dealDetail(item)">交易详情</a></td>
+
+                </tr>
+            </tbody>
+        </table>
+        <md-content ng-show="noData2" layout-align="center" class="no-data">
+            <p>{{noDataInfo}}</p>
+        </md-content>
+    </md-content>
+
+    <div  ng-show="showSearchingAct" style="text-align:center;padding:50px 0" ng-show="showSearching">正在查询.....</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

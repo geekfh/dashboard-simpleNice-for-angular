@@ -1,0 +1,166 @@
+<style>
+	 @media screen and (max-width:1043px){
+.auto-wid1{width: 23% !important;}
+.auto-wid2{width: 12% !important;}
+}
+</style>
+<h4 class="contentTitle" >门店管理</h4>
+
+<div class="contantDiv">
+    <h4 class="contentTitle floath4 normal" ng-class="{'activeh4': tabIndex == 'list'}" ng-click="tabChange('list')" style="outline:none;">门店列表</h4>
+    <h4 class="contentTitle floath4 normal" ng-class="{'activeh4': tabIndex == 'group'}" ng-click="tabChange('group')" style="outline:none;">门店分组</h4>
+</div>
+
+<div>                  
+    <div class="table-top margintop15" layout="row" layout-align="start center">
+        <div layout="row" flex="25">
+            <p class="text-p">筛选分组</p>
+            <div flex class="detail-content">
+                <md-select my-select placeholder="指定分组" ng-model="selected">
+                    <md-option ng-repeat="k  in groupOrNames "  value="{{k.id}}"  class="mdOption " ng-class="{'active' :selected == k.id} ">
+                        {{k.text}}
+                    </md-option>
+                </md-select>
+
+            </div>
+        </div>
+
+        <div>
+            <md-autocomplete
+                ng-show="selected == 1"
+                md-no-cache="noCache"
+                md-selected-item="selectedItem"
+                md-search-text-change="searchTextChange(selectedMchtName)"
+                md-search-text="selectedMchtName"
+                md-selected-item-change="selectedItemChange(item)"
+                md-items="item in querySearch(selectedMchtName)"
+                md-item-text="item.mchtName"
+                md-min-length="0"
+                placeholder="请输入门店名称" style="width: 300px;">
+
+                <md-item-template>
+                    <span md-highlight-text="queryParams.mchtName"
+                        md-highlight-flags="^i">{{item.mchtName}}
+                    </span>
+                </md-item-template>
+
+                <md-not-found>
+                    暂时没有门店数据
+                </md-not-found>
+            </md-autocomplete>
+
+            <md-select my-select placeholder="所有分组" ng-model="queryParams.groupId" ng-show="selected == 2" style="width: 170px;">
+                <md-option ng-repeat="k  in groups"  value="{{k.groupId}}" class="mdOption " ng-class="{'active' :k.groupId == queryParams.groupId} ">
+                    {{k.groupName}}
+                </md-option>
+            </md-select>
+        </div>
+
+    </div>
+
+    <div class="table-top" layout="row" layout-align="start center">
+        <div layout="row" flex="75">
+            <p class="text-p"></p>
+            <div flex class="detail-content">
+                <md-button class="md-raised my-shadow my-button"  ng-click="reload()">重置</md-button>
+                <md-button class="btn-app md-raised my-shadow my-button" ng-disabled="status == 2" ng-click="search()" style="margin-left:10px!important;">查询</md-button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="border-left" margin="[60, 0, 20, 0]">
+        <span class="span-text float-left">查询结果</span>
+        <a class="float-right downloadTable-btn" target="_blank" ng-show="tabIndex == 'list'" ng-click="getExcel($event)">下载表格</a>
+    </div>
+
+    <div ng-show="tabIndex == 'list'">
+        <md-content>
+            <table ng-table="ngTable" class="table table-full table-hover table-full-small color666">
+                <thead class="table-header">
+                <tr>
+                    <td width="25%" class="auto-wid1">状态</td>
+                    <td width="40%">门店名称</td>
+                    <td width="25%">门店分组</td>
+                    <!-- <td width="20%">业务状态</td> -->
+                    <td width="10%" class="auto-wid2">操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in $data">
+                    <td>{{ item.mchtStatus | mchtStatus }}</td>
+                    <td >{{ item.mchtName }}</td>
+                    <td my-limit="['item.groupName', 8]"></td>
+                    <!-- <td >
+                        <div layout="row">
+                            <a class="md-button md-raised my-style my-button smallblock active" style="padding: 0 !important; margin: 10px 10px 10px 0 !important;">券</a>
+                            <a class="md-button md-raised my-style my-button smallblock" style="padding: 0 !important; margin: 10px 10px 10px 0 !important;">卡</a>
+                        </div>
+                    </td> -->
+                    <td class="td-btn">
+                        <div layout="row">
+                            <a ng-if="item.wxSyncStatus == '0'" ng-click="create(item.mchtNo)">绑定微信门店</a>
+                            <a ng-if="item.wxSyncStatus == '1'" ng-click="detail(item.mchtNo)">查看微信门店</a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+            <md-content ng-show="noData" layout-align="center" class="no-data">
+                <p>{{noData}}</p>
+            </md-content>
+
+        </md-content>
+    </div>
+
+    <div ng-show="tabIndex == 'group'">    
+        <md-button class="btn-app md-raised my-shadow" margin="[10, 5, 20, 0]" ng-show="status == 1 && ngTable2.data.length" ng-click="status = 2;">开始分组</md-button>
+
+        <md-button class="btn-app md-raised my-shadow" margin="[10, 5, 20, 0]" ng-show="status == 1" ng-click="addGroup()">新增分组</md-button>
+
+        <md-button class="btn-app md-raised my-shadow" margin="[10, 5, 20, 0]" ng-show="status == 2" call-back="getGroup" ng-disabled="!selectState" drop-menu="groupMenu" is-order="isOrder">分组到...</md-button>
+
+        <md-button class="btn-app md-raised my-shadow" margin="[10, 5, 20, 0]" ng-show="status == 2" ng-disabled="!selectState" ng-click="removeGroup()">移出该组</md-button>
+        <md-button class="btn-app md-raised my-shadow" margin="[10, 5, 20, 0]" ng-show="status == 2" ng-click="clearSelectList(true)">分组完成</md-button>
+
+        <ul class="maskOption" id="groupMenu">
+            <li finish-render ng-repeat="k in groups | orderBy:'k.$index':isOrder"  ng-click="moveToGroup(k)" ng-show="k.groupId != ''">
+                <p ng-bind="k.groupName"></p>
+            </li>
+            <li ng-if="!groups.length">
+                <p>暂无分组信息</p>
+            </li>
+        </ul>
+        <md-content>
+            <table ng-table="ngTable2" class="table table-full table-hover table-full-small color666">
+                <thead class="table-header">
+                <tr>
+                    <td width="20%" ng-show="status == 1">序号</td>
+                    <td width="20%" ng-show="status == 2">
+                        <md-checkbox  ng-model="$root.checkAll" ng-click="changeCheckAll($root.checkAll, $data)" ng-show="ngTable2.data.length" style="margin-bottom:0;"> </md-checkbox>
+                        
+                    </td>
+                    <td width="30%">门店名称</td>
+                    <td width="30%">分组名称</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in $data">
+                    <td ng-show="status == 1">{{ $index + 1 + (queryParams.page - 1) * queryParams.rows}}</td>
+                    <td ng-show="status == 2">
+                        <md-checkbox  ng-model="item.ischeck" ng-click="changeCheck(item)" ng-true-value="true" ng-false-value="false" style="margin-bottom:0;"> </md-checkbox>
+                    </td>
+                    <td >{{ item.mchtName }}</td>
+                    <td my-limit="['item.groupName', 12]"></td>
+                </tr>
+                </tbody>
+
+            </table>
+            <md-content ng-show="noData2" layout-align="center" class="no-data">
+                <p>{{noData2}}</p>
+            </md-content>
+
+        </md-content>
+    </div>    
+</div>

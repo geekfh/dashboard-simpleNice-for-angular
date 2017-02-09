@@ -1,0 +1,284 @@
+<style>
+    .app-content{width:69.5%;margin-left:380px;}
+    div[layout="row"] {color:#666666;}
+    .detail-content{padding-left: 30px;}
+    .text-right{width: 70px;text-align: right;}
+ @media screen and (max-width:1023px) {
+.suspension-wrap{left: 80px;}
+.app-content{width:676px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.suspension-wrap{left: 80px;}
+.app-content{width:71%; margin-left: 255px;}
+
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.suspension-wrap{left: 85px;}
+.app-content{width:74%; margin-left: 255px;}
+
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (width:1366px){
+.app-content{width:63.5%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70.5%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+</style>
+<!--悬浮框-->
+<!--<div class="suspension-wrap" ng-style="{background: vm.preview.baseInfo.color}" >
+    <div class="suspension-header"></div>
+    <div class="suspension-inner">
+        <div class="logo"><img ng-src="{{vm.preview.merchant.s300LogoUrl}}" alt=""></div>
+        <div class="top">
+            &lt;!&ndash;商户名称&ndash;&gt;
+            <p class="mth-name">{{vm.preview.merchant.brandName}}</p>
+            &lt;!&ndash;券名&ndash;&gt;
+            <p class="card-name">{{vm.preview.baseInfo.title}}</p>
+            <p class="useBtn" ng-style="{background: vm.preview.baseInfo.color}" >立即使用</p>
+
+            <div class="item" ng-if="vm.preview.baseInfo.beginTimestamp || vm.preview.baseInfo.endTimestamp" style="border-bottom:1px dashed #e7e7e7">
+                <div class="title" style="padding-left:10px;">可用时间：</div><div class="content">{{vm.preview.baseInfo.beginTimestamp}}至{{vm.preview.baseInfo.endTimestamp}}</div>
+            </div>
+        </div>
+        <div class="middle" >
+            <div class="item" style="border-bottom:1px solid #e7e7e7;">
+                <div class="title" >可用门店</div><div class="more"> > </div>
+            </div>
+            <div class="item" >
+                <div class="title" >公众号</div><div class="more"> > </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="suspension-bottom clearfix">
+        <div class="middle">自定义入口（选填）</div><div class="more"> > </div>
+    </div>
+</div>-->
+<section class="suspension-outer" ng-include=" 'tpl/coupons/mobile_view.html' " onload="vm.initPos()"></section>
+<section>
+    <div layout="column" class="card-create" layout-padding style="padding-left: 0;">
+        <p class="app-tips-err tips=bg" ng-if="vm.preview.baseInfo.status == 'CARD_STATUS_VERIFY_FAIL'">您提交的资料已被微信驳回，请联系客服。</p>
+        <!-- <h4>优惠券详情</h4> -->
+        <div class="border-left ng-scope" style="margin: 10px 0 15px; padding-left: 0; border-left: none;" ng-cloak>
+            <span class="span-text float-left" style="margin-top: -7px; margin-left: 0; font-weight: 500; font-size: 16px;">优惠券详情</span>
+            <a class="float-right" style="margin-top: -7px;margin-right:-7px;" ng-click="vm.edit(vm.detailItem)" ng-show="$root.powers && $root.powers.indexOf('coupons.detail_modify') >= 0 && vm.preview && vm.preview.baseInfo.status != 'CARD_STATUS_EXPIRED'">修改</a>
+        </div>
+        <md-divider></md-divider>
+        <!--<div class="Rectangle-1530" flex="100" layout="column" layout-align="start start" style="margin-top:10px; height: 120px;">
+            <div layout="row" layout-align="start start" flex="70">
+                <p style="margin: 5px 0 5px 20px; color: #303030;" class="text-right">卡券状态</p>
+                <p style="margin: 5px 0 5px 20px;">{{vm.preview.baseInfo.status | cardStatus}}</p>
+            </div>
+            <div layout="row" layout-align="start start" flex="70" style="margin-top:25px;">
+                <p style="margin: 5px 0 5px 20px; color: #303030;" class="text-right">卡券ID</p>
+                <p style="margin: 5px 0 5px 20px;" ng-bind="vm.preview.baseInfo.cardId"></p>
+            </div>
+            <div layout="row" layout-align="start start" flex="70" style="margin-top:25px;">
+                <p style="margin: 5px 0 5px 20px; color: #303030;" class="text-right">卡券来源</p>
+                <p style="margin: 5px 0 5px 20px;" ng-bind="vm.preview.baseInfo.brandName"></p>
+            </div>
+        </div>-->
+        <div layout="row" style="padding: 11px 8px 11px 0;background: #f9f9f9;">
+            <div class="text-right">卡券状态</div>
+            <div flex class="detail-content">
+                {{vm.preview.baseInfo.status | cardStatus}}
+            </div>
+        </div>
+
+        <div layout="row" style="padding: 11px 8px 11px 0;background: #f9f9f9;">
+            <div class="text-right">卡券ID</div>
+            <div flex class="detail-content" ng-bind="vm.preview.baseInfo.cardId"></div>
+        </div>
+
+        <div layout="row" style="padding: 11px 8px 11px 0;background: #f9f9f9;">
+            <div class="text-right">卡券来源</div>
+            <div flex class="detail-content" ng-bind="vm.preview.baseInfo.brandName"></div>
+        </div>
+
+
+        <div class="border-left" style="margin: 40px 0px 15px;">
+            <span class="span-text float-left" style="margin-top: -7px;">基本信息</span>
+        </div>
+             
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;">
+                <div class="text-right">{{vm.preview.cardType | cardType}}券标题</div>
+                <div flex class="detail-content">
+                    {{vm.preview.baseInfo.title}}
+                </div>
+            </div>
+
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" ng-if="vm.preview.cardType == 'DISCOUNT'">
+                <div class="text-right">折扣额度</div>
+                <div flex class="detail-content">{{vm.preview.discount}}折</div>
+            </div>
+
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" ng-if="vm.preview.cardType == 'CASH' && vm.preview.baseInfo.type == '1'">
+                <div class="text-right">抵扣条件</div>
+                <div flex class="detail-content">满{{vm.preview.leastCost / 100 || 0}}元，减{{vm.preview.reduceCost / 100 || 0}}元</div>
+            </div>
+
+
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" ng-if="vm.preview.baseInfo.subTitle">
+                <div class="text-right">副标题</div>
+                <div flex class="detail-content">{{vm.preview.baseInfo.subTitle}}</div>
+            </div>
+
+            <div layout="row" style="margin: 5px 0;padding: 8px 8px 8px 0;">
+                <div class="text-right">卡券颜色</div>
+                <div flex class="detail-content"><span class="detail-color" ng-style="{background: vm.preview.baseInfo.color}"></span></div>
+            </div>
+
+            <div layout="row" style="margin: 5px 0;padding: 8px 8px 8px 0;">
+                <div class="text-right">有效期</div>
+                <div flex class="detail-content" ng-if="vm.preview.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'"> {{vm.preview.baseInfo.beginTimestamp }}至{{vm.preview.baseInfo.endTimestamp}}</div>
+                <div flex class="detail-content" ng-if="vm.preview.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM'">领取后{{vm.preview.baseInfo.fixedBeginTerm == 0 ? '当':vm.preview.baseInfo.fixedBeginTerm}}天生效{{vm.preview.baseInfo.fixedTerm}}天有效</div>
+            </div>
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" ng-if="vm.preview.advancedInfo.timeLimitTmp.length">
+                <div class="text-right">可用时间段</div>
+                <div flex class="detail-content">
+                    <span ng-repeat="it in vm.preview.advancedInfo.timeLimitTmp">周{{it.type | timesLimit}}&nbsp;</span>
+                    <span ng-if="vm.preview.advancedInfo.timeLimitTmp[0].begin_hour">{{(vm.preview.advancedInfo.timeLimitTmp[0].begin_hour | formatHm )+ ':' +(vm.preview.advancedInfo.timeLimitTmp[0].begin_minute | formatHm) + ' 至 ' + (vm.preview.advancedInfo.timeLimitTmp[0].end_hour | formatHm) + ':' + (vm.preview.advancedInfo.timeLimitTmp[0].end_minute | formatHm)}}</span>
+                </div>
+            </div>
+
+            <div class="border-left ng-scope" style="margin: 40px 0px 15px;">
+                <span class="span-text float-left" style="margin-top: -7px;">优惠券情况</span>
+            </div>
+
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" class="pt-15" ng-if="vm.preview.default_detail">
+                <div class="text-right">优惠说明</div>
+                <div flex class="detail-content"> {{vm.preview.default_detail}}</div>
+            </div>
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" class="pt-15" ng-if="vm.preview.gift_name">
+                <div class="text-right">兑换说明</div>
+                <div flex class="detail-content"> {{vm.preview.gift_name}}{{vm.preview.gift_num}}{{vm.preview.gift_unit}}</div>
+            </div>
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" class="pt-15" ng-if="vm.preview.deal_detail">
+                <div class="text-right">团购说明</div>
+                <div flex class="detail-content"> {{vm.preview.deal_detail}}</div>
+            </div>
+
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" ng-if="vm.preview.baseInfo.description">
+                <div class="text-right">使用须知</div>
+                <div flex class="detail-content" ng-bind-html="vm.preview.baseInfo.description" style="line-height: 24px;"></div>
+            </div>
+
+            <section ng-if="vm.preview.baseInfo.type == 2">
+                <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;">
+                    <p class="text-right">优惠详情</p>
+                    <div flex class="detail-content">
+                        <p ng-if="vm.preview.advancedInfo.useConditionTmp.least_cost">最低消费满{{vm.preview.advancedInfo.useConditionTmp.least_cost/100}}元可用</p>
+                        <p ng-if="!vm.preview.advancedInfo.useConditionTmp.least_cost">无最低消费要求：任意消费金额均可使用代金券或兑换券</p>
+
+                        <p ng-if="vm.preview.advancedInfo.useConditionTmp.object_use_for">购买{{vm.preview.advancedInfo.useConditionTmp.object_use_for}}可用</p>
+
+                        <p ng-if="vm.preview.advancedInfo.useConditionTmp.accept_category">适用于{{vm.preview.advancedInfo.useConditionTmp.accept_category}}</p>
+                        <p ng-if="vm.preview.advancedInfo.useConditionTmp.reject_category">不适用于{{vm.preview.advancedInfo.useConditionTmp.reject_category}}</p>
+                        <p ng-if="!vm.preview.advancedInfo.useConditionTmp.reject_category && !vm.preview.advancedInfo.useConditionTmp.accept_category && !vm.preview.advancedInfo.useConditionTmp.object_use_for">全场通用：可用于场内全部品类，品牌，类型的商品/服务</p>
+
+                        <p ng-if="vm.preview.advancedInfo.useConditionTmp.can_use_with_other_discount">可与其他优惠券共享</p>
+                        <p ng-if="!vm.preview.advancedInfo.useConditionTmp.can_use_with_other_discount">不可与其他优惠券共享</p>
+                    </div>
+                </div>
+                <div layout="row" style="margin: 20px 0 0 0;">
+                    <div class="text-right">封面图片</div>
+                    <div flex class="detail-content"><img flex="50" ng-src="{{vm.preview.advancedInfo.abstractJsonTmp.icon_url_list[0].qiniu_file_url}}" alt=""> </div>
+                </div>
+
+                <div layout="row" style="margin: 20px 0 0 0;">
+                    <p class="text-right">封面简介</p>
+                    <p flex class="detail-content">{{vm.preview.advancedInfo.abstractJsonTmp.abstract}}</p>
+                </div>
+
+                <div layout="row" style="margin: 20px 0 0 0;">
+                    <p class="text-right">图文介绍</p>
+                    <div flex class="detail-content">
+                        <div ng-repeat="textImg in vm.preview.advancedInfo.textImageListTmp">
+                            <p><img flex="50" ng-src="{{textImg.qiniu_file_url}}" alt=""></p>
+                            <p>{{textImg.text}}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <div class="border-left ng-scope" style="margin: 50px 0px 15px;">
+                <span class="span-text float-left" style="margin-top: -7px;">使用设置</span>
+            </div>
+
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;">
+                <div class="text-right">库存</div>
+                <div flex class="detail-content">
+                    {{vm.preview.baseInfo.quantity || 0}}份
+                </div>
+
+            </div>
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;">
+                <div  class="text-right">领券限制</div>
+                <div flex class="detail-content">
+                    <span ng-if="vm.preview.baseInfo.getLimit">每个用户限领{{vm.preview.baseInfo.getLimit}}张</span>
+                    <span ng-if="!vm.preview.baseInfo.getLimit">无限制</span>
+                </div>
+            </div>
+            <!--授权微信公众号并且是普通券才可以显示分享，转赠这两个字段-->
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" ng-if="vm.preview.baseInfo.type == '1' && vm.preview.baseInfo.onWeixin == '1'">
+                <div  class="text-right">分享设置</div>
+                <div flex class="detail-content">
+                    <span>用户{{vm.preview.baseInfo.canShare == '1' ? '' : '不'}}可以分享领券链接</span>
+                </div>
+            </div>
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" ng-if="vm.preview.baseInfo.type == '1'  && vm.preview.baseInfo.onWeixin == '1'">
+                <div  class="text-right">转赠设置</div>
+                <div flex class="detail-content">
+                    <span>用户领券后{{vm.preview.baseInfo.canGiveFriend == '1' ? '' : '不'}}可转赠其他好友</span>
+                </div>
+            </div>
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;">
+                <div class="text-right">操作提示</div>
+                <div flex class="detail-content">
+                    {{vm.preview.baseInfo.notice}}
+                </div>
+            </div>
+            <div layout="row" style="margin: 3px 0;padding: 8px 8px 8px 0;" ng-if="vm.preview.advancedInfo.consumeShareSelfNum || (vm.preview.advancedInfo.consumeShareCardListTmp.length && vm.preview.advancedInfo.consumeShareCardListTmp[0].card_id)">
+                <div class="text-right">核销后返券</div>
+                <div flex class="detail-content">
+                    <span ng-show="vm.preview.advancedInfo.consumeShareSelfNum ">赠送相同的优惠券</span>
+                    <span ng-show="vm.preview.advancedInfo.consumeShareCardListTmp.length && vm.preview.advancedInfo.consumeShareCardListTmp[0].card_id">赠送 “ {{vm.preview.shareBaseInfo.title}} “共享券</span>
+                </div>
+            </div>
+
+            <div class="border-left ng-scope" style="margin: 50px 0px 15px;" >
+                <span class="span-text float-left" style="margin-top: -7px;">适用门店</span>
+            </div>
+            <div layout="row" style="margin: 5px 0;" ng-if="vm.preview.poi.length && vm.preview.baseInfo.locationIdList != 'allPoi'" ng-repeat="item in vm.preview.poi">
+                <p class="text-right" ng-if="$index == 0">适用门店</p>
+                <div flex class="detail-content" ng-style="$index != 0 ? {'padding-left':'99px'} : {}">
+                    {{item.storeName}}
+                </div>
+            </div>
+            <div layout="row" style="margin: 5px 0;" ng-if="vm.preview.baseInfo.locationIdList == 'allPoi'">
+                <p class="text-right">适用门店</p>
+                <div flex class="detail-content">所有门店通用</div>
+            </div>
+        </div>
+
+</section>

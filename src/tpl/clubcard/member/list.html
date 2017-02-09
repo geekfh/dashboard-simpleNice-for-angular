@@ -1,0 +1,114 @@
+<h4 ng-bind="$current.title" class="contentTitle"></h4>
+            <md-divider></md-divider>  
+<!--<div ng-show="vm.count && vm.start" ng-cloak>-->
+<div ng-show="vm.start" ng-cloak>
+    <div style="margin-left: -15px;">
+        <div class="table-top margintop15" layout="row">
+            <div layout="row" layout-align="start center">
+                <p style="margin: 0 10px 0 0;" class="text-right width100 color6">上次使用日期</p>
+                <md-datepicker class="marginleft0" ng-model="vm.querylastUseDate" md-max-date="vm.today" md-min-date="vm.minDate"></md-datepicker>
+            </div>
+
+            <div layout="row" layout-align="start center" style="margin-left: 35px;">
+                <p style="margin: 0 10px 0 0;" class="color6">会员卡号</p>
+                <md-input-container class="md-block" md-no-float style="width: 153px;">
+                    <input type="text" my-price class="input myBoxShadow" onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="13" ng-model="vm.queryParams.cardCode" placeholder="请输入会员卡号">
+                    <clear-input value="vm.queryParams.cardCode"></clear-input>
+                </md-input-container>
+            </div>
+        </div>
+
+        <div class="table-top margintop15" layout="row" style="margin-top: 0;">
+            <div layout="row" layout-align="start center">
+                <p style="margin: 0 10px 0 0;" class="text-right width100 color6">手机号</p>
+                <md-input-container class="md-block" md-no-float style="width: 153px;">
+                    <input type="text" class="input myBoxShadow" ng-model="vm.queryParams.mobile" placeholder="请输入手机号" maxlength="11">
+                    <clear-input value="vm.queryParams.mobile"></clear-input>
+                </md-input-container>
+            </div>
+
+            <div layout="row" layout-align="start center" style="margin-left: 35px;">
+                <p style="margin: 0 10px 0 0;" class="color6">当前状态</p>
+                <md-select my-select ng-model="vm.queryParams.status" placeholder="所有状态"  aria-label="状态" style="width: 153px;">
+                    <md-option ng-repeat="(k, v) in vm.status" value="{{k}}" ng-selected="k == ''"
+                               class="mdOption" ng-class="{'active':k == vm.queryParams.status}">
+                        {{v}}
+                    </md-option>
+                </md-select>
+            </div>
+
+        </div>
+
+        <div class="table-top margintop15" layout="row" style="margin-top: 0;">
+            <div flex="30" layout="row" layout-align="start center">
+                <p style="margin: 0 10px 0 0;" class="text-right width100"></p>
+                <md-button ng-click="vm.reload()" class="md-raised my-style my-button">重置</md-button>
+                <md-button layout="column" class="btn-app md-raised my-shadow my-button" ng-click="vm.search()" style="margin-left: 20px !important;">查询</md-button>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="border-left" layout="row" layout-align="start center" margin="[60, 0, 30, 0]">
+        <span class="span-text float-left">查询结果</span>       
+        <div flex layout="row" layout-align="end center">
+        	<span class="color66" ng-if="vm.uploadRegOut">{{vm.regOutTxt}}</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+        	<span class="color66" ng-if="vm.uploadMemOut">{{vm.memOutTxt}}</span>
+            <a class="float-right downloadTable-btn" ng-class="vm.uploadRegOut ? 'disabled-btn' : ''" ng-click="vm.import('recharge')" ng-if="$root.powers && $root.powers.indexOf('clubcard.member.list_import.member.balance.charge') > -1 && vm.count && vm.memberCard.supply_balance == '1'">批量充值</a>
+            <a class="float-right downloadTable-btn" ng-class="vm.uploadMemOut ? 'disabled-btn' : ''" ng-click="vm.import('member')" ng-if="$root.powers && $root.powers.indexOf('clubcard.member.list_import.member') > -1 ">导入会员</a><!--ng-if="$root.powers && $root.powers.indexOf('clubcard.member.list_import.member') > -1 && vm.count"-->
+            <a class="float-right downloadTable-btn" target="_blank" ng-click="vm.getExcel($event)">导出会员</a>
+        </div>
+    </div>    
+    <md-content>
+        <div style="height: 80px;" >
+            <div class="float-left Rectangle-33 text-center bg-color-03" layout="column" layout-align="center center">
+                <p class="Rectanglep4">{{vm.totalBonous ? vm.totalBonous : 0}}</p>
+                <p class="Rectanglep2">总积分</p>
+            </div>
+            <div class="float-right Rectangle-33" layout="column" layout-align="center center">
+                <p class="Rectanglep1">{{vm.totalBalance ? vm.totalBalance/100 : 0 | currency : '￥'}}</p><!--| currency : '￥'-->
+                <p class="Rectanglep2">总余额</p>
+            </div>
+        </div>
+        <table ng-table="vm.ngTable" class="table table-full table-hover table-full-small color666" style="margin-top:15px;">
+            <thead class="table-header"> 
+                <tr> 
+                    <td width="12%">会员卡号</td>
+                    <td width="11%">等级</td>
+                    <td width="10%">姓名</td>
+                    <td width="12%">手机号</td>
+                    <td width="10%">当前状态</td>
+                    <td width="10%">积分</td>
+                    <td width="12%">余额</td>
+                    <td width="15%">上次使用日期</td>
+                    <td width="8%">操作</td> 
+                </tr> 
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="item in $data">
+                    <td >{{ (item.membershipNumber | splitting: 4: '-') || '---'}}</td>
+                    <td my-limit="['item.memberLevel', 6]"></td>
+                    <td my-limit="['item.name', 8]"></td>
+                    <td >{{ item.mobile || '---'}}</td>
+                    <td>{{item.status | MstatusFilter}}</td>
+                    <td >{{ item.bonus }}</td>
+                    <td >{{ item.balance ? item.balance/100 : 0 | currency : '￥' }}</td>
+                    <td >{{ item.lastUseDate ? (item.lastUseDate | date: 'yyyy-MM-dd') : '--' }}</td>
+                    <td class="td-btn"> <a ng-click="vm.detail(item)">查看详情</a></td>
+                </tr>
+            </tbody>
+
+        </table>
+        <md-content ng-show="vm.noData" layout-align="center" class="no-data">
+            <p>{{vm.noData}}</p>
+        </md-content>
+    </md-content>
+</div>
+<!--<div ng-cloak ng-show="!vm.count && vm.start">
+    <section style="min-height: 500px;" layout-align="center center" layout="column" ng-hide="vm.count" ng-cloak>
+        <p ng-if="$root.powers && $root.powers.indexOf('clubcard.card.preview_add.href') > -1">暂无会员卡，<a ng-click="vm.createCard()">点击创建</a></p>
+        <p ng-if="!($root.powers && $root.powers.indexOf('clubcard.card.preview_add.href') > -1)">暂无会员卡</p>
+    </section>
+</div>-->

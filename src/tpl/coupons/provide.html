@@ -1,0 +1,124 @@
+<h4 ng-bind="$current.title" class="contentTitle"></h4>
+            <md-divider></md-divider>  
+<div  ng-cloak><!--ng-show="vm.user.authStatus && vm.user.authStatus !== '0'"-->
+    <!-- <div ng-show="vm.count"> -->
+        <search-day date="date" max-day="61"></search-day>
+        <p style="margin: -2px 0 0 70px; color: #bbbbbb;">查询日期范围不能超过61天</p>
+        <div class="table-top" layout="row" style="margin-top:2px;">
+            <div flex="40">
+                <div layout="row" layout-align="start center">  
+                    <p class="text-p">卡券名称</p>
+                    <md-input-container class="md-block" md-no-float style="margin: 0 10px 0 0; width: 300px;">
+                        <input type="text" class="input myBoxShadow" flex ng-model="vm.queryParams.title" placeholder="请输入卡券名称" maxlength="25">
+                        <clear-input value="vm.queryParams.title"></clear-input>
+                    </md-input-container>
+                </div>
+            </div>
+            
+
+            
+
+        </div>
+
+        <div class="table-top" layout="row" style="margin-top:-7px;">
+            <div flex="40" layout="row" layout-align="start end" ng-show="$root.powers && $root.powers.indexOf('coupons.provide_store.list') >= 0">
+
+                <div layout="row">
+                    <p class="text-p" style="margin-top: 2px !important;">筛选门店</p>
+                    <div class="detail-content" style="width: 160px;">
+                        <md-select my-select placeholder="所有门店" ng-model="vm.queryParams.storeMerchantNo" style=" width: 300px;">
+                            <md-option ng-repeat="k  in vm.pois "  value="{{k.merchantNo}}" my-limit="['k.storeName', 8]"
+                                       class="mdOption" ng-class="{'active':vm.queryParams.storeMerchantNo == k.merchantNo}">
+                                
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+            </div>
+
+            <div flex="40" ng-show="vm.queryParams.storeName">
+
+                <div layout="row" layout-align="start center">
+                    <p class="text-p">派发员</p>
+                    <div class="detail-content" style="width: 160px;">
+                        <md-select my-select placeholder="所有派发员" ng-model="vm.queryParams.salesmanId" aria-label="time">
+                            <md-option ng-repeat="k  in vm.salesmanNames "  value="{{k.account}}"
+                                       class="mdOption" ng-class="{'active':vm.queryParams.salesmanId == k.user_name}">
+                                {{k.user_name}}
+                            </md-option>
+                        </md-select>
+
+                    </div>
+
+                    
+                </div>
+            </div>
+
+        </div>
+
+        <div class="table-top" layout="row" layout-align="start center">
+            <div layout="row" flex="25">
+                <p class="text-p"></p>
+                <div flex class="detail-content">
+                    <md-button ng-click="vm.reload()" class="md-raised my-style my-button" >重置</md-button>
+                    <md-button class="btn-app md-raised my-shadow my-button" ng-click="vm.search()" style="margin-left:10px!important;">查询</md-button>
+
+                </div>
+            </div>
+        </div>
+
+
+<div class="border-left" margin="[60, 0, 20, 0]">
+    <span class="span-text float-left">查询结果</span>
+    <a class="float-right" target="_blank" ng-click="vm.getExcel($event)">下载表格</a>
+</div>
+
+
+        <md-content>
+            <table ng-table="vm.ngTable" class="table table-full table-hover table-full-small color666 newLine">
+
+                <thead class="table-header"> 
+                    <tr> 
+                        <td width="15%">发放时间</td>
+                        <td width="13%">门店名称</td>
+                        <td width="2%"></td>
+                        <td width="13%">卡券名称</td>
+                        <td width="2%"></td>
+                        <td width="15%">卡券号</td> 
+                        <td width="10%">卡券类型</td> 
+                        <td width="8%">派发员</td> 
+                        <td width="11%">发放渠道</td> 
+                        <td width="8%">领取人昵称</td> 
+                    </tr> 
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in $data">
+                    <td >{{ item.createTime }}</td>
+                    <td my-limit="['item.storeName', 10]"></td>
+                    <td></td>
+                    <td >{{ item.title }}</td>
+                    <td></td>
+                    <td >{{ item.cardCode }}</td>
+                    <td>{{item.cardType}}</td>
+                    <td my-limit="['item.salesmanName', 6]"></td>
+                    <td >{{ item.provideChannel}}</td>
+                    <td>{{ item.receiveName }}</td>
+                </tr>
+                </tbody>
+
+            </table>
+            <md-content ng-show="vm.noData" layout-align="center" class="no-data">
+                <p>{{vm.noData}}</p>
+            </md-content>
+
+        </md-content>
+    </div>
+    <!-- <md-content ng-show="!vm.count" layout-align="center" class="no-data" style="margin: 0; border-top: none;">
+        <p>您还未创建任何卡券，请<a href="#/coupons/list">新增卡券</a></p>
+    </md-content> -->
+<!--<div ng-cloak ng-show="vm.user && vm.user.authStatus != '1' && vm.user.authStatus != '2'" ng-if="vm.users.role == 'BrandAdmin'" layout-align="center" class="no-data" style="border-top: none; margin: 0;">
+    <p>暂未授权，点击<a href="#/settings/wxchat">进行授权</a></p>
+</div>
+<div ng-cloak ng-show="vm.user && vm.user.authStatus != '1' && vm.user.authStatus != '2'" ng-if="vm.users.role != 'BrandAdmin'" layout-align="center" class="no-data" style="border-top: none; margin: 0;">
+    <p>暂无优惠券数据</p>
+</div>-->

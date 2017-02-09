@@ -1,0 +1,18 @@
+<style>.member-detail .text-right{width: 86px}</style>
+<section class="member-detail">
+    <h4 style="font-weight: 400;color:##2b2b2b;">流水记录</h4>
+    <md-divider></md-divider>
+    <div layout="row" style="margin-top:30px;"> <p class="text-right">状态</p> <p flex class="detail-content">{{ vm.coinDetail.status | coinStatus}}</p></div>
+    <div layout="row" style="margin-top:20px;"> <p class="text-right">订单编号</p> <p flex class="detail-content">{{ vm.coinDetail.order_id }}</p></div>
+    <div layout="row" style="margin-top:20px;"> <p class="text-right">时间</p> <p flex class="detail-content">{{ vm.coinDetail.create_time * 1000 | date: 'yyyy-MM-dd HH:mm:ss' }}</p></div>
+    <div layout="row" style="margin-top:20px;"> <p class="text-right">订单类型</p> <p flex class="detail-content">{{vm.coinDetail.order_type | orderType}}</p></div>
+    <section ng-if="vm.coinDetail.card_title">
+        <div layout="row" style="margin-top:20px;"> <p class="text-right">卡券名称</p> <p flex class="detail-content">{{vm.coinDetail.card_title}}</p></div>
+        <div layout="row" style="margin-top:20px;"> <p class="text-right">卡券ID</p> <p flex class="detail-content">{{vm.coinDetail.card_id}}</p></div>
+        <div layout="row" style="margin-top:20px;" ng-show="vm.coinDetail.quantity"> <p class="text-right">库存添加数量</p> <p flex class="detail-content">{{vm.coinDetail.quantity}}</p></div>
+        <div layout="row" style="margin-top:20px;" ng-show="vm.coinDetail.price"> <p class="text-right">库存单价</p> <p flex class="detail-content">{{vm.coinDetail.price}}</p></div>
+    </section>
+    <div layout="row" style="margin-top:20px;" ng-if="vm.coinDetail.refund_free_coin_count != 0 || vm.coinDetail.refund_pay_coin_count != 0"> <p class="text-right">库存回退券点</p><p flex class="detail-content">免费券点{{vm.coinDetail.refund_free_coin_count}}，付费券点{{vm.coinDetail.refund_pay_coin_count}}</p></div>
+    <div layout="row" style="margin-top:20px;"> <p class="text-right">券点种类</p><p flex class="detail-content">免费券点{{vm.coinDetail.free_coin_count}}，付费券点{{vm.coinDetail.pay_coin_count}} </p></div>
+    <div layout="row" style="margin-top:20px;"> <p class="text-right">备注</p> <p flex class="detail-content">{{vm.coinDetail.desc || vm.coinDetail.memo}} </p></div>
+</section>

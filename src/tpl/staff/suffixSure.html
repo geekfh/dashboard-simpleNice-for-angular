@@ -1,0 +1,20 @@
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:500px;">
+	<span class="absolute closepoi" ng-click="close()">+</span>
+	<div style="padding: 30px 40px 40px;">
+
+		<h4 class="contentTitle selectpoi">提醒</h4>
+		<md-divider></md-divider>
+		<form name="form">
+		</form>
+		<md-divider></md-divider>
+		<p style="margin-bottom: 0;margin-top: 20px;">登录账号修改为【{{loginAccount}}】</p>
+		<p style="margin-bottom: 20px;">是否确认修改？</p>
+		<md-divider></md-divider>
+		<div layout="row" class="field-btn" style="margin-top: 30px;">
+			<md-button ng-click="close()" class="md-raised md-button my-button" style="margin-right: 20px !important;">否</md-button>
+			<md-button ng-click="confirm()" class="btn-app md-raised my-button">
+				是
+			</md-button>
+		</div>
+	</div>
+</md-dialog>

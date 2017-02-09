@@ -1,0 +1,251 @@
+<style type="text/css">
+    div[layout="row"]{margin: 12px 0;}
+ .member-detail .span-text{margin-left: 2px;}
+</style>
+<section ng-cloak>
+    <form name="form"> 
+    <div layout="column" layout-wrap class="member-detail" layout-padding style="padding-top: 10px;" ng-class="{'formError' : vm.formError}">
+        <!-- 失败信息 -->
+        <div class="tips-bg" style="height: 70px;position: relative;">
+            <div style="position: relative; top: 50%; transform: translateY(-50%);-webkit-transform: translateY(-50%);">
+                <p style="font-size:16px; margin-left: 15px;">{{vm.poi.available_state | poiFilter}}</p>
+                <p style="font-size:14px; margin-left: 15px;" ng-if="vm.poi.available_state == '4'">原因:{{vm.poi.check_msg}}</p>
+            </div>
+
+            <div layout-align="end center" flex="30" ng-if="vm.poi.available_state == '1' || vm.poi.available_state == '4'" ng-show="!vm.modify" style="position: absolute; right: 10px;top: 17px;">
+                <md-button  class="btn-app md-raised fr my-shadow my-button" ng-click="vm.reSubmit('all')" >修改</md-button>
+            </div>
+          
+        </div>
+
+        <!-- 基础信息 -->
+        <div class="border-left" margin="[30, 0, 6, 0]" layout="row" layout-align="start center">
+            <span class="span-text float-left">基础信息</span>
+        </div>
+        <!-- 未编辑 -->
+        <section ng-if="!vm.canEdit">
+            <div layout="row"> <p class="text-right">地址</p> <p flex class="detail-content">{{vm.poi.province}}{{vm.poi.city}}{{vm.poi.district}}{{vm.poi.address}}</p> </div>
+            <div layout="row"> 
+                <p class="text-right">标注</p> 
+                <div flex class="detail-content" style="height: 240px"> <img style="width:520px" ng-src="https://apis.map.qq.com/ws/staticmap/v2/?center={{ vm.poi.latitude}},{{vm.poi.longitude}}&zoom=16&size=520*238&maptype=roadmap&markers=size:large|{{ vm.poi.latitude}},{{vm.poi.longitude}}&key=FXIBZ-WF7AQ-MEA5M-GIB46-6IOQQ-H5FT7" alt="标注">
+                </div> 
+            </div>
+            <div layout="row" > <p class="text-right">门店名</p> <p flex class="detail-content">{{ vm.poi.business_name }}</p> </div>
+            <div layout="row" ng-if="vm.poi.branch_name"> <p class="text-right">分店名</p> <p flex class="detail-content">{{vm.poi.branch_name}}</p> </div>
+            <div layout="row" > <p class="text-right">类目</p> <p flex class="detail-content">{{vm.poi.categories}}</p> </div>
+        </section>
+
+        <!-- 编辑 -->
+        <section ng-if="vm.canEdit">
+            <div layout="row" layout-align="end center">
+                <p class="text-right" style="margin-top: 14px;">地址</p>
+                <div flex class="detail-content" ng-class="{'formError' : vm.addressTip}">
+                    <div layout="column">
+                        <div layout="row" layout-align="start center">
+                            <city flex="45" on-selected="" selected="vm.selected" class="city-select-input"></city>
+                            <md-input-container flex="45" md-no-float class="md-block">
+                                <input type="text" class="app-input my-shadow" placeholder="请输入详细地址，请勿重复填写省市区信息" name="address" ng-model="vm.poi.address" required ng-blur="vm.addressTip = true;vm.search()">
+                            </md-input-container>
+                            <div flex="10" layout-align="end center" layout="row">
+                                <md-button class="btn-app md-raised my-shadow my-button" ng-click="vm.search()">搜索</md-button>
+                            </div>
+                            
+                        </div>
+                        <div>
+                            <div ng-messages="form.address.$error">
+                                <p class="app-tips-err" ng-message="required">请输入详细地址</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row">
+                <p class="text-right" style="margin-top: -5px;">定位</p>
+                <div flex class="detail-content">
+                    <map selected="vm.selected"></map>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center">
+                <div class="text-right margin0">门店名</div>
+                <div flex class="detail-content" ng-class="{'formError' : vm.business_name}">
+                    <md-input-container md-no-float class="md-block input-wid-280">
+                        <input type="text" my-reg="intCaseChinese" ng-pattern="" ng-blur="vm.business_name = true" class="app-input padding0" name="business_name" ng-model="vm.poi.business_name" han="30" required>                       
+                    </md-input-container>
+                    <span class="placeholder" ng-hide="(vm.formError || vm.business_name) && (form.business_name.$error.required || form.business_name.$error.han || form.business_name.$error.pattern)">门店名不得含有区域地址信息(如，北京市XXX公司)</span>
+                    <div ng-messages="form.business_name.$error">
+                        <p class="app-tips-err" ng-message="required">门店名不能为空，15个汉字或30个英文字符内，不能含有括号和特殊字符</p>
+                        <p class="app-tips-err" ng-message="han">门店名不能为空，15个汉字或30个英文字符内，不能含有括号和特殊字符</p>
+                        <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                    </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center">
+                <p class="text-right margin0" style="margin-top: 29px;">分店名 <br><span>(选填)</span></p>
+                <div flex class="detail-content"  ng-class="{'formError' : vm.branch_name}">
+                    <md-input-container md-no-float class="md-block input-wid-280">
+                        <input type="text" my-reg="intCaseChinese" ng-pattern="" class="app-input padding0" name="branch_name" ng-model="vm.poi.branch_name" han="20" ng-blur="vm.branch_name=true">                        
+                    </md-input-container>
+                    <span class="placeholder" ng-hide="(vm.formError || vm.branch_name) && (form.branch_name.$error.han ||form.branch_name.$error.pattern)">分店名不得含有区域地址信息(如，“北京国贸店”中的“北京”)</span>
+                    <div ng-messages="form.branch_name.$error">
+                        <p class="app-tips-err" ng-message="han">分店名不能超过10个汉字或20个字母</p>
+                        <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                    </div>
+                </div>
+            </div>
+            <div layout="row">
+                <p class="text-right" style="margin-top:19px;">类目</p>
+                <div flex class="detail-content">
+                    <poi-category categories="vm.categories"></poi-category>
+                    <input type="hidden" name="primary" ng-model="vm.categories[0]" required>
+                    <input type="hidden" name="sub" ng-model="vm.categories[0]" required>
+                    <div ng-messages="form.primary.$error" class="inline-block">
+                        <p class="app-tips-err" ng-message="required">请选择经营类目</p>
+                    </div>
+                    <div ng-messages="form.sub.$error" class="inline-block" style="margin-left: 70px">
+                        <p class="app-tips-err" ng-message="required">请选择经营子类目</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 服务信息 -->
+        <div class="border-left" margin="[28, 0, 6, 0]" layout="row" layout-align="start center">
+            <span class="span-text float-left">服务信息</span>
+            <span class="float-left app-tips" style="margin-left:15px;" ng-if="vm.poi.available_state == '3' && vm.poi.update_status == 0" >该部分为公共编辑信息，每个添加了该门店的商户均可提交修改意见，并在审核后选择性采纳</span>
+            <span class="float-left app-tips" style="margin-left:15px;" ng-if="!(vm.poi.available_state == '3' && vm.poi.update_status == 0)" >服务信息审核中，完成前不可再次修改</span>
+            <div layout="row" flex layout-align="end center">
+                <md-button class="btn-app md-raised fr my-shadow my-button" ng-if="vm.poi.available_state == '3' && vm.poi.update_status == 0" ng-click="vm.reSubmit('some')" ng-show="!vm.modify">修改</md-button>
+            </div>
+            
+        </div>
+
+        <section ng-if="!vm.modify">
+            <div layout="row" ng-if="vm.poi.photoUrlList.length">
+                <p class="text-right" >门店图片</p>
+                <div flex class="detail-content" layout="row" layout-wrap>
+                    <div flex="20" class="p5 poi-img" ng-repeat="img in vm.poi.photoUrlList">
+                        <img flex ng-src="{{img.qiniu_file_url}}" alt="">
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" ng-if="vm.poi.telephone"> <p class="text-right">电话</p> <p flex class="detail-content">{{vm.poi.telephone}}</p> </div>
+            <div layout="row" ng-if="vm.poi.avg_price"> <p class="text-right">人均价格</p> <p flex class="detail-content">{{vm.poi.avg_price}}</p> </div>
+            <div layout="row" ng-if="vm.poi.open_time"> <p  class="text-right">营业时间 </p> <p flex class="detail-content">{{vm.poi.open_time}}</p> </div>
+            <div layout="row" ng-if="vm.poi.recommend"> <p class="text-right">推荐 </p> <p flex class="detail-content">{{vm.poi.recommend}}</p> </div>
+            <div layout="row" ng-if="vm.poi.special"><p class="text-right">特色服务 </p><p flex class="detail-content">{{vm.poi.special}}</p></div>
+            <div layout="row" ng-if="vm.poi.introduction"> <p class="text-right">简介</p> <p flex class="detail-content">{{vm.poi.introduction}}</p></div>
+
+        </section>
+
+        <section ng-if="vm.modify">
+            <div layout="row" >
+                <p class="text-right" style="margin-top:8px;">门店图片 <span class="app-tips">(选填)</span></p>
+                <div flex class="detail-content">
+                    <div layout="row" layout-wrap>
+                        <div flex="20" class="p5 poi-img-box" ng-repeat="item in vm.poi.photoUrlList">
+                            <img ng-src="{{item.qiniu_file_url}}" alt="">
+                            <p class="delImg" ng-click="vm.cancel($index)"></p>
+                        </div>
+                        <upload flex="20" class="p5" ng-model="item.file" img-show="show" on-cancel="vm.delImg($index)" size="1m" ng-repeat="item in vm.photos">上传照片</upload>
+                    </div>
+                    <div class="add-photo-btn" ng-click="vm.addPhotos()" ng-hide="vm.maxImg"></div>
+                    <p class="app-tips">像素要求必须为640*320像素，支持 .jpg, .jpeg 格式，单张大小不超过 1M, 上限10张</p>
+                    <div ng-messages="form.defaultDetail.$error">
+                        <p class="app-tips-err" ng-message="required">图片格式错误</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center">
+                <p class="text-right margin0">电话</p>
+                <div flex="60" class="detail-content"  ng-class="{'formError' : vm.mobile}">
+                    <md-input-container md-no-float class="md-block">
+                        <input type="text" class="app-input padding0 input-wid-280" name="telephone" maxlength="15" ng-blur="vm.mobile = true" ng-pattern="" my-reg="mobile" ng-model="vm.poi.telephone" required>
+                        <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="(vm.formError || vm.mobile) && (form.telephone.$error.required || form.telephone.$error.pattern)">{{$root.placeholder.mobile}}</span>
+                    </md-input-container>
+                    <div ng-messages="form.telephone.$error">
+                        <p class="app-tips-err" ng-message="required">电话{{$root.err.empty}}</p>
+                        <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.mobile"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center">
+                <p class="text-right margin0">人均价格 <span class="app-tips">(选填)</span></p>
+                <div flex="60" class="detail-content" ng-class="{'formError' : vm.avg_price}">
+                    <md-input-container md-no-float class="md-block">
+                        <input type="text" class="app-input padding0 input-wid-280" name="avg_price" ng-pattern="" my-reg="money" ng-model="vm.poi.avg_price" ng-blur="vm.avg_price = true">
+                        <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="(vm.formError || vm.avg_price) && (form.avg_price.$error.pattern )">{{$root.placeholder.money}}</span>
+                    </md-input-container>
+                    <div ng-messages="form.avg_price.$error">
+                        <p  class="app-tips-err"  ng-message="pattern" ng-bind="$root.err.money"></p>
+                    </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center">
+                <p  class="text-right margin0">营业时间 <span>(选填)</span></p>
+
+                <div flex="60" class="detail-content" ng-class="{'formError' : vm.opentime}">
+                    <md-input-container md-no-float class="md-block">
+                        <input type="text" class="app-input padding0 input-wid-280" name="opentime" ng-pattern="" my-reg="business" ng-model="vm.poi.open_time" maxlength="11" ng-blur="vm.opentime = true">
+                        <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="(vm.formError || vm.opentime) && (form.opentime.$error.pattern )">{{$root.placeholder.business}}</span>
+                    </md-input-container>
+                    <div ng-messages="form.opentime.$error">
+                        <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.business"></p>
+                    </div>
+                </div>
+            </div>
+            <div layout="row">
+                <p class="text-right" style="margin-top:6px;">推荐 <br><span class="app-tips">(选填)</span></p>
+                <div  class="detail-content textarea-wid-548">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-heig-180 textarea-wid-548">
+                        <textarea class="app-textarea  textarea-heig-180 textarea-wid-548" name="recommend" han="400" ng-model="vm.poi.recommend"></textarea>                        
+                    </div>
+                    <span class="placeholder" style="margin-top: 10px;">如，推荐菜，推荐景点，推荐房间</span>
+                    <div ng-messages="form.notice.$error">
+                        <p class="app-tips-err" ng-message="han">推荐信息长度不能超过16个汉字</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div layout="row">
+                <p class="text-right" style="margin-top:6px;">特色服务 <span class="app-tips">(选填)</span></p>
+                <div  class="detail-content textarea-wid-548">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-heig-180 textarea-wid-548">
+                        <textarea class="app-textarea textarea-heig-180 textarea-wid-548" name="special" han="400" ng-model="vm.poi.special"></textarea>                        
+                    </div>
+                    <span class="placeholder" style="margin-top: 10px;">如，免费停车，WIFI</span>
+                    <div ng-messages="form.notice.$error">
+                        <p  class="app-tips-err"  ng-message="han">特殊服务不能为空且长度不超过200个汉字或400个字符</p>
+                    </div>
+                </div>
+            </div>
+            <div layout="row">
+                <p class="text-right" style="margin-top:6px;">简介 <br> <span class="app-tips">(选填)</span></p>
+                <div  class="detail-content textarea-wid-548">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-heig-180 textarea-wid-548">
+                        <textarea class="app-textarea textarea-heig-180 textarea-wid-548" name="introduction" han="600" ng-model="vm.poi.introduction"></textarea>                        
+                    </div>
+                    <span class="placeholder" style="margin-top: 10px;">对门店或品牌的简要介绍，不允许包含QQ号、微信号、电话、网址等公司信息</span>
+                    <div ng-messages="form.notice.$error">
+                        <p  class="app-tips-err"  ng-message="han">简介信息长度不能超过300个汉字或600个字符</p>
+                    </div>
+                </div>
+            </div>
+
+            <md-divider style="margin: 25px 0 30px;"></md-divider>
+            <div layout="row" layout-align="start" style="padding-left: 0;" ng-show="vm.modify">
+            	<md-button class="md-raised my-shadow my-button" style="margin-right: 10px !important;" ng-click="vm.stateGoBack()">取消</md-button>
+                <md-button class="btn-app md-raised my-shadow my-button" ng-click="vm.addPoi(form.$invalid)" ng-hide="vm.submiting">
+                    提交</md-button>
+                <md-button class="md-raised my-shadow my-button" disabled ng-show="vm.submiting">提交资料中...</md-button>
+            </div>
+        </section>
+
+    </div>
+    </form> 
+</section>

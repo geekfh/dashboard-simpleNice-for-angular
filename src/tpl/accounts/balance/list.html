@@ -1,0 +1,140 @@
+<!--<h4 ng-bind="$current.title" class="contentTitle"></h4>-->
+<h4 class="contentTitle">结算记录</h4>
+            <md-divider></md-divider>
+<p class="warm-con mt-30" layout="row" layout-align="start center">
+    <span class="radiusspan"></span>
+        温馨提示：微信特约商户和支付宝当面付的款项由官方直接结算。查看完整结算信息，请访问
+    <a ng-click="platformTip({platForm:'wx', href:'https://pay.weixin.qq.com/index.php/core/home/login?return_url=%2F'})" style="text-decoration:underline;">
+        微信商户平台
+    </a>
+    和
+    <a ng-click="platformTip({platForm:'zfb', href:'https://enterpriseportal.alipay.com/login.htm?enctraceid=FILPEYtYKTOFpcUMTVNn95td_s99FXN9FEDnpR0igcQ,'})" style="text-decoration:underline;">
+        支付宝商户平台
+    </a>
+    。
+</p>
+<search-day date="date" max-day="31"></search-day>
+<p style="margin: -2px 0 0 70px; color: #bbbbbb;">查询日期范围不能超过31天</p>
+<div class="table-top" layout="row" ng-if="$root.powers && $root.powers.indexOf('accounts.balance.list_store.list') >= 0">
+    <div flex="100" layout="row" layout-align="start end">
+
+        <div layout="row">
+            <p class="text-p">交易门店</p>
+            <div class="detail-content" style="width: 160px;">
+                <md-select my-select placeholder="所有门店" ng-model="queryParams.visibleRange" ng-change="changeStoreType(queryParams.visibleRange)" aria-label="time">
+                    <md-option ng-repeat="item  in storeTypeList "  value="{{item.value}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.value == queryParams.visibleRange}">
+                        {{item.storeType}}
+                    </md-option>
+                </md-select>
+            </div>
+            <div class="detail-content" style="width: 160px;" ng-if="queryParams.visibleRange == 4">
+                <md-select my-select placeholder="请选择门店分组" ng-model="selectedGroup" ng-change="changeStoreGroup(selectedGroup)" aria-label="time">
+                    <md-option ng-repeat="item  in storeGroupList "  value="{{item.groupId}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.groupId == queryParams.visibleRange}">
+                        {{item.groupName}}
+                    </md-option>
+                </md-select>
+            </div>
+            <div class="detail-content" style="width:300px" ng-if="queryParams.visibleRange == 5">
+                <!--<md-input-container class="md-block">
+                    <input placeholder="请输入门店名称"/>
+                </md-input-container>-->
+                <md-autocomplete
+                        ng-disabled="false"
+                        md-no-cache="true"
+                        md-selected-item="selectedItem"
+                        md-search-text-change="searchTextChange(searchText)"
+                        md-search-text="searchText"
+                        md-selected-item-change="selectedItemChange(item)"
+                        md-items="item in querySearch(searchText)"
+                        md-item-text="item.mchtName"
+                        md-min-length="0"
+                        placeholder="请输入门店名称"
+                        md-menu-class="autocomplete-custom-template" layout="row">
+                    <md-item-template>
+                        <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.mchtName}}</span>
+                    </md-item-template>
+                    <!--<md-not-found>
+                        No states matching "{{ctrl.searchText}}" were found.
+                        <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
+                    </md-not-found>-->
+                </md-autocomplete>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="table-top" layout="row">
+    <div flex="100" layout="row" layout-align="start end">
+        <div layout="row">
+            <p class="text-p">结算类型</p>
+            <div class="detail-content" style="width: 160px;">
+                <md-select my-select ng-model="queryParams.chaCode" aria-label="time">
+                    <md-option ng-repeat="item in balanceTypeList "  value="{{item.value}}"  class="mdOption md-ink-ripple" ng-class="{'active' : item.value == queryParams.chaCode}">
+                        {{item.balanceType}}
+                    </md-option>
+                </md-select>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="table-top" layout="row" layout-align="start center">
+    <div layout="row" flex="25">
+        <p class="text-p"></p>
+        <div flex class="detail-content">
+            <md-button class="md-raised my-shadow my-button" ng-click="reload()" >重置</md-button>
+            <md-button class="btn-app md-raised my-shadow my-button" ng-click="search()" style="margin-left:10px!important;">查询</md-button>
+        </div>
+    </div>
+</div>
+
+<div class="border-left" margin="[60, 0, 20, 0]" ng-show="ifSearched">
+    <span class="span-text float-left">查询结果</span>
+    <a class="float-right downloadTable-btn" ng-click="getExcel()" ng-class="{'disabled':downloading}">{{downloadTip}}</a>
+</div>
+
+<md-content ng-show="ifSearched">
+    <div style="height: 80px;">
+        <div class="float-left Rectangle-33 text-center" layout="column" layout-align="center center">
+            <p class="Rectanglep1">{{waitingSettleAmt?waitingSettleAmt:'0' | currency:'¥'}}</p>
+            <p class="Rectanglep2">待结算</p>
+        </div>
+        <div class="float-right Rectangle-33" layout="column" layout-align="center center">
+            <p class="Rectanglep1">{{settleAmt?settleAmt:'0' | currency:'¥'}}</p>
+            <p class="Rectanglep2">已结金额</p>
+        </div>
+    </div>
+
+    <table ng-table="ngTable" class="table table-full table-hover table-full-small color666" style="margin-top: 15px;">
+        <thead class="table-header">
+            <tr>
+                <td width="12%">结算日期</td>
+                <td width="12%">结算类型</td>
+                <td width="12%">结算状态</td>
+                <td width="12%">结算金额</td>
+                <td width="22%">交易门店</td>
+                <td width="20%">收款账户</td>
+                <td width="10%">操作</td>
+            </tr>
+        </thead>
+        <tbody>
+         <tr ng-repeat="item in $data">
+            <td >{{ item.settleDate }}</td>
+            <!--<td >{{ item.settleState | tradStatus}}</td>-->
+            <td >{{ item.chaCodeName }}</td>
+            <td ng-class="{'colorRed': item.ifFailed}">{{ item.settleState}}</td>
+            <td >{{ item.settleAmt }}</td>
+            <td >{{item.mchtName}}</td>
+            <td >{{ item.acNo }}</td>
+            <!--<td >{{ item.mchtNo }}</td>-->
+            <td class="td-btn"> <a ui-sref="accounts.balance.detail({settleDate: item.settleDate, mchtNo: item.mchtNo, mchtName: item.mchtName, ifFailed: item.ifFailed, chaCode: item.chaCode, settleMcht: item.settleMcht, mchtTraceNo: item.mchtTraceNo})">查看详情</a></td>
+        </tr>
+        </tbody>
+
+    </table>
+    <md-content ng-show="noData" layout-align="center" class="no-data">
+        <p>{{noData}}</p>
+    </md-content>
+
+</md-content>

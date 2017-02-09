@@ -1,0 +1,274 @@
+	<style>
+		app-card{background: transparent !important;box-shadow:none !important;}
+		.coupon-data .rank-wrap .table td{border-collapse: separate;border-color: none !important;}
+		.right-search-item md-select{height: 30px !important;margin: 0;width: 146px;}
+		.all-store-wrap md-select{height: 30px !important;margin: 0;width: 106px;margin-right: 10px;}
+		.right-search-item md-autocomplete{margin: 0;}
+		.right-search-item md-autocomplete-wrap{height: 30px !important;}
+		.right-search-item md-autocomplete input:not(.md-input){height: 30px !important;}
+		.right-search-item md-select-value{height: 26px !important;margin: 0;}
+		.store-name,.store-name md-autocomplete-wrap,.store-name md-autocomplete{width: 128px;}
+		.store-name{margin-right: 10px;}
+		.cashier-name,.cashier-name md-autocomplete-wrap,.cashier-name md-autocomplete{width: 128px;min-width: 128px;}
+		/*.cashier-name{margin-right: 10px;}*/
+		.SN-num,.SN-num md-autocomplete-wrap,.SN-num md-autocomplete{width: 128px;}
+		.SN-num{margin: 0 10px;}
+		.SN-name-search{
+			margin: 0 10px 0 0;
+			position: relative;
+			width: 128px;
+			height: 30px;border-radius: 2px;border-bottom-color: rgba(0,0,0,0.12);
+		box-shadow: 1px 1px 3px 0 rgba(0,0,0,.2) !important;align-items: center;padding: 2px 2px 1px;
+		border-bottom-width: 1px;    border-bottom-style: solid;    background-color: transparent;
+		border-color: transparent;outline: none;color: #666;
+		}	
+		.SN-name-search input{width: 108px;height: 30px;/*border-radius: 2px;border-bottom-color: rgba(0,0,0,0.12);
+		box-shadow: 1px 1px 3px 0 rgba(0,0,0,.2) !important;align-items: center;padding: 2px 2px 1px;
+		border-bottom-width: 1px;    border-bottom-style: solid; */   background-color: transparent;
+		border-color: transparent;outline: none;color: #666;padding-left: 5px !important;
+		}
+		.SN-name-search i{
+			background: url(http://7xogpz.com2.z0.glb.qiniucdn.com/friendCard__1480057938207.png) no-repeat;
+			width: 20px;
+			height: 20px;
+			display: inline-block;
+			content: '';	
+			cursor: pointer;
+			position: absolute;
+			right: 5px;
+			top: 5px;
+			outline: none;
+		}
+		
+@media screen and (max-width:1175px) {
+.coupon-data .rank-wrap ul li .percent-axis{width: 185px;}
+}
+
+@media screen and (max-width:1180px) {
+.analysis-wrap .btn-list .right-btn-list{margin-top: 10px;width: 100%;}
+.store-name, .store-name md-autocomplete-wrap, .store-name md-autocomplete{width: 180px;}
+.cashier-name, .cashier-name md-autocomplete-wrap, .cashier-name md-autocomplete{width: 160px;min-width: 160px;}
+.SN-name-search{width: 160px;}
+}
+
+	</style>
+<div class="analysis-wrap">
+	<div class="realtime-data">
+		<div class="data-common-tit border-left"><span class="span-text float-left">实时数据</span></div>
+		<div class="realtimeData-list">
+			<ul>
+				<li>
+					<p class="above-tit">交易总额</p>
+					<p class="middle-deal-data">{{todayTotalAmt | currency:'¥'}}</p>
+					<p class="below-yesterday">昨日：{{yesTotalAmt | currency:'¥'}}</p>
+				</li>
+				<li>
+					<p class="above-tit">交易笔数</p>
+					<p class="middle-deal-data">{{todayTotalCount}}</p>
+					<p class="below-yesterday">昨日：{{yesTotalCount}}</p>
+				</li>
+				<li>
+					<p class="above-tit">新增会员</p>
+					<p class="middle-member-data">{{RTData[0].newMemberCount}}</p>
+					<p class="below-yesterday">昨日：{{RTData[1].newMemberCount}}</p>
+				</li>
+				<li>
+					<p class="above-tit">会员使用次数</p>
+					<p class="middle-member-data">{{RTData[0].memberUsedCount}}</p>
+					<p class="below-yesterday">昨日：{{RTData[1].memberUsedCount}}</p>
+				</li>
+				<li>
+					<p class="above-tit">优惠券领取量</p>
+					<p class="middle-coupon-data">{{RTData[0].cardReceiveCount}}</p>
+					<p class="below-yesterday">昨日：{{RTData[1].cardReceiveCount}}</p>
+				</li>
+				<li>
+					<p class="above-tit">优惠券核销量</p>
+					<p class="middle-coupon-data">{{RTData[0].cardConsumeCount}}</p>
+					<p class="below-yesterday">昨日：{{RTData[1].cardConsumeCount}}</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="deal-data">
+		<div class="data-common-tit border-left"><span class="span-text float-left">交易数据</span></div>
+		<div class="btn-list">
+			<div class="left-btn-left">
+				<div class="date-btn">
+					<a class="seven-day" ng-class="{'btn-current': tradeDateType=='0'}" ng-click="changeDate('0', 'trade')">近7日</a>
+					<a class="thirty-day" ng-class="{'btn-current': tradeDateType=='1'}" ng-click="changeDate('1', 'trade')">近30日</a>
+				</div>
+				<div class="detail-infor-btn">
+					<a class="left-num" ng-class="{'btn-current': tradeType=='0'}" ng-click="changeType('0', 'trade')">交易总额</a>
+					<a class="right-times" ng-class="{'btn-current': tradeType=='1'}" ng-click="changeType('1', 'trade')">交易笔数</a>
+				</div>
+			</div>
+			<div class="right-btn-list right-search-item">
+				<div layout="row">
+					<div class="detail-content all-store-wrap" ng-if="$root.powers.indexOf('analysis.his_trade.list_store') >= 0">
+						<md-select my-select placeholder="所有门店" ng-model="queryParams.visibleRange" ng-change="changeStoreType(queryParams.visibleRange)" aria-label="time">
+							<md-option ng-repeat="item  in storeTypeList "  value="{{item.value}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.value == queryParams.visibleRange}">
+								{{item.storeType}}
+							</md-option>
+						</md-select>
+					</div>
+					<div class="detail-content" style="margin-right: 10px;" ng-show="queryParams.visibleRange == '3'">
+						<md-select my-select placeholder="门店分组" ng-model="queryParams.groupId" ng-change="getTradeData()" aria-label="time">
+							<md-option ng-repeat="item  in groupList "  value="{{item.groupId}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.groupId == queryParams.visibleRange}">
+								{{item.groupName}}
+							</md-option>
+						</md-select>
+					</div>
+					<div class="detail-content store-name"  ng-if="queryParams.visibleRange == 2">
+						<md-autocomplete
+								ng-disabled="false"
+								md-no-cache="true"
+								md-selected-item="selectedItem"
+								md-search-text-change="searchTextChange(searchText)"
+								md-search-text="searchText"
+								md-selected-item-change="selectedItemChange(item)"
+								md-items="item in querySearch(searchText)"
+								md-item-text="item.mchtName"
+								md-min-length="0"
+								placeholder="请输入门店名称"
+								md-menu-class="autocomplete-custom-template" layout="row">
+							<md-item-template>
+								<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.mchtName}}</span>
+							</md-item-template>
+							<md-not-found>
+								暂无门店数据
+							</md-not-found>
+						</md-autocomplete>
+					</div>
+					<div class="detail-content cashier-name" style="margin-right: 10px;" ng-if="(queryParams.visibleRange == 2 && queryParams.mchtNo) || !($root.powers.indexOf('analysis.his_trade.list_store') >= 0)">
+						<md-autocomplete
+								ng-disabled="false"
+								md-no-cache="true"
+								md-selected-item="selectedUserItem"
+								md-search-text-change="cashierTextChange(selectedUser)"
+								md-search-text="selectedUser"
+								md-selected-item-change="cashierItemChange(item)"
+								md-items="item in queryCashier(selectedUser)"
+								md-item-text="item.userName"
+								md-min-length="0"
+								placeholder="请输入收银员姓名"
+								md-menu-class="autocomplete-custom-template" layout="row" maxlength="10">
+							<md-item-template>
+								<span md-highlight-text="selectedUser" md-highlight-flags="^i">{{item.userName}}</span>
+							</md-item-template>
+							<md-not-found>
+								暂无收银员数据
+							</md-not-found>
+						</md-autocomplete>
+					</div>
+					<!--<div class="detail-content SN-num" ng-if="queryParams.visibleRange == 2">
+						<md-autocomplete
+								ng-disabled="false"
+								md-no-cache="true"
+								md-selected-item="selectedUserItem"
+								md-search-text-change="snTextChange(selectedUser)"
+								md-search-text="selectedUser"
+								md-selected-item-change="snItemChange(item)"
+								md-items="item in querySn(selectedUser)"
+								md-item-text="item"
+								md-min-length="0"
+								placeholder="请输入SN号"
+								md-menu-class="autocomplete-custom-template" layout="row" maxlength="10">
+							<md-item-template>
+								<span md-highlight-text="selectedUser" md-highlight-flags="^i">{{item}}</span>
+							</md-item-template>
+							<md-not-found>
+								暂无SN号数据
+							</md-not-found>
+						</md-autocomplete>
+					</div>-->
+					<div class="SN-name-search" ng-if="(queryParams.visibleRange == 2 && queryParams.mchtNo) || !($root.powers.indexOf('analysis.his_trade.list_store') >= 0)">
+						<input ng-model="queryParams.snNo" type="text" placeholder="请输入SN号"/>
+						<i  ng-click="getTradeData()"></i>
+					</div>
+					<div class="detail-content">
+						<md-select my-select placeholder="所有收款方式" ng-model="queryParams.paymentMethod" ng-change="getTradeData()" aria-label="time">
+							<md-option ng-repeat="item  in payTypeList "  value="{{item.value}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.value == queryParams.paymentMethod}">
+								{{item.payType}}
+							</md-option>
+						</md-select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="chart-wrap">
+			<line id="main" params="trade.params" areacolor="#f0f5e8" itemcolor="#8bc13c" ng-if="trade.params"></line>
+		</div>
+	</div>
+	<div class="member-data">
+		<div class="data-common-tit border-left"><span class="span-text float-left">会员数据</span></div>
+		<div class="btn-list">
+			<div class="left-btn-left">
+				<div class="date-btn">
+					<a class="seven-day" ng-class="{'btn-current': memberDateType=='0'}" ng-click="changeDate('0', 'member')">近7日</a>
+					<a class="thirty-day" ng-class="{'btn-current': memberDateType=='1'}" ng-click="changeDate('1', 'member')">近30日</a>
+				</div>
+				<div class="detail-infor-btn">
+					<a class="left-num" ng-class="{'btn-current': memberType=='0'}" ng-click="changeType('0', 'member')">新增会员</a>
+					<a class="right-times" ng-class="{'btn-current': memberType=='1'}" ng-click="changeType('1', 'member')" style="width: 100px;">会员使用次数</a>
+				</div>
+			</div>
+			<div class="right-btn-list"></div>
+		</div>
+		<div class="chart-wrap">
+			<line id="getmemberdata" params="member.params" areacolor="#eaf2fb" itemcolor="#50a1ff" ng-if="member.params"></line>
+		</div>
+	</div>
+	<div class="coupon-data">
+		<div class="data-common-tit border-left"><span class="span-text float-left">优惠券数据</span></div>
+		<div class="btn-list">
+			<div class="left-btn-left">
+				<div class="date-btn">
+					<a class="seven-day" ng-class="{'btn-current': couponDateType=='0'}" ng-click="changeDate('0', 'coupon')">近7日</a>
+					<a class="thirty-day" ng-class="{'btn-current': couponDateType=='1'}" ng-click="changeDate('1', 'coupon')">近30日</a>
+				</div>
+				<div class="detail-infor-btn">
+					<a class="left-num" ng-class="{'btn-current': couponType=='0'}" ng-click="changeType('0', 'coupon')">领取量</a>
+					<a class="right-times" ng-class="{'btn-current': couponType=='1'}" ng-click="changeType('1', 'coupon')">核销量</a>
+				</div>
+			</div>
+			<div class="right-btn-list"></div>
+		</div>
+		<div class="chart-wrap" style="margin-bottom: 30px;">
+			<line id="getcoupondata" params="coupon.params" areacolor="#fff9eb" itemcolor="#ffc63f" ng-if="coupon.params"></line>
+		</div>
+		<div class="rank-wrap">
+			<div class="verification-rate">
+				<div class="data-common-tit border-left"><span class="span-text float-left">优惠券核销率排行</span></div>
+				<div class="rank-infor">
+					<ul>
+						<li ng-repeat="couVer in couponVerification">
+							<div class="rank-num" ng-class="{'rank-bg':couVer.sn=='1'}">{{couVer.sn}}</div>
+							<div class="percent-axis">
+							<span ng-style="{'width':couVer.rate}"></span>
+							</div>
+							<div class="percent-num">{{couVer.rate}}</div>
+							<div class="coupon-name">{{couVer.cardName}}</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="channel-rate">
+				<div class="data-common-tit border-left"><span class="span-text float-left">派发渠道核销率排行</span></div>
+				<div class="rank-infor">
+					<ul>
+						<li ng-repeat="channelList in channelRate">
+							<div class="rank-num" ng-class="{'rank-bg':channelList.sn=='1'}">{{channelList.sn}}</div>
+							<div class="percent-axis">
+							<span ng-style="{'width':channelList.rate}"></span>
+							</div>
+							<div class="percent-num">{{channelList.rate}}</div>
+							<div class="coupon-name">{{channelList.channelName}}</div>
+						</li>
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>

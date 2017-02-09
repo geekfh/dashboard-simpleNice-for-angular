@@ -1,0 +1,461 @@
+<style type="text/css">
+   .input-icon{background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAa5JREFUOBGdk71OAlEQhbkL2mlnR7A0ilrbQtSGV7AwgcKojZQkEBISSiyRAB2FD2D8QUNPaYIvgCEWNtpuAvgd2F0vZGPhJrMz98ycM/fXRJa+crm8O5lMcsBHWGLKZ4x5x7rRaLRVKpXebIrxBxBXqb3GzjDHx22PyIRx3XGcPPWucrNCken6iJ3PG5omuQM6rskUQ24qh12Mx+MHcSQQ0w9QnVOEHxBOSPaEW1+fuA9+C7lDnKZZDX9pALXmV6lDPrTJxWJxKpFKpWIvNY3ICzOaxmKxfQdyDrID0LLJIoZ9qlGtOAjltAfabS2jHUYIw/xa/LEEEipi+gvHYxMbjcaKPbZqE6HHZRcrHo1GA84/s4xrrFMYYjusJ4nXbgcfnTLgNaa6BXiHyBN34BRs0ysaagbPGrAxWQ8MHBt2H4/H98jlAb8xCX35tfjun8cYKBFUq9UN13XVeZ0Z/B4jXQYo3ZAwJDqM0zbRjwuFwqdH1kXSvajrXcxuIgJX2DZrTUmdhM657e82WJJ8Fp/zyD29B+KZknyEzv96TMEVnanMhRaes4cPmUHoc/4Bas35y03LlFsAAAAASUVORK5CYII=); width: 16px; height: 16px; display: inline-block; position: absolute; left: 10px; top: 9.5px;}
+   .add-photo-btn {display: inline-block; width: 330px; height: 80px; position: relative; border: 1px dashed #ddd; cursor: pointer; outline: none; } 
+    .images-wrapper {width: 350px; outline: 1px solid #ddd; padding: 10px; } 
+    .upload-directive, .upload-directive-wrapper{width: 100%;display: block;}
+    .text-image-item{ margin-bottom: 30px; outline: 1px dashed #ddd; padding-bottom: 34px;position: relative;}
+    .text-image-item textarea{height: 100px; resize: none;}
+    .text-image-item .del{display: block;bottom: 0;background: rgba(216, 210, 220, 0.8)}
+    md-input-container .app-tips-err{display: none}
+    md-input-container.md-input-invalid .app-tips-err{display: block}
+    .app-content{width: 69.5%; margin-left: 380px;padding: 4px 20px 20px 20px;}
+   .member-detail{padding:0}
+    textarea + .md-char-counter{margin-right: 0px !important;margin-top: 2px;}
+   .md-datepicker-input-container{width:130px;}
+   .md-datepicker-triangle-button{right:10px;}
+   
+@media screen and (max-width:1023px) {
+.app-content{width:685px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.app-content{width:72%; margin-left: 250px;}
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.app-content{width:74.5%; margin-left: 250px;}
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+}
+@media screen and (width:1366px){
+.app-content{width:63.5%;margin-left: 370px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+</style>
+<!-- 手机端 -->
+<section class="small-view" ng-include="'tpl/clubcard/card/mobile_view.html'" onload="loaded()">
+</section>
+<!-- end 手机端 -->
+<form name="form" novalidate  layout-padding ng-cloak style="padding: 0;">
+    <div class="member-detail" style="padding: 0;">
+        <h4 style="margin: 15px 0 8px;">开通会员卡</h4>
+        <md-divider style="margin-bottom:30px;"></md-divider>
+        <div layout="column" class="card-create" layout-padding  ng-class="{'formError': vm.formError}" style="padding: 0;">
+
+            <div class="border-left" layout="row" layout-align="start center" margin="[10, 0, 20, 0]">
+                <span class="span-text float-left">基本信息</span>
+            </div>
+            <p style="padding-left:0;">如商户信息有变更，请在<a class="text-decoration" href="#/settings/merchantInfo">商户信息</a>查看</p>
+
+            <div layout="row" layout-align="start start">
+                <p class="text-right width70" style="margin-top: 15px;">商户</p>
+                <div  class="detail-content" layout="column">
+                    <div layout="row">
+                        <img width="100" height="100" ng-src="{{vm.user.s300LogoUrl}}" ng-if="vm.user.s300LogoUrl" />
+                        <myupload style="width: 110px;" ng-model="aa" pic="vm.create.pic" name="logo" ng-if="!vm.user.s300LogoUrl" ng-show="!vm.user.s300LogoUrl">上传Logo</myupload>
+                    </div>
+                    <div layout="row" style="margin-top: 3px;">
+                        <p ng-if="vm.user.brandName">{{vm.user.brandName}}</p>
+                        <p style="color: #ccc;" ng-if="!vm.user.brandName">图片建议尺寸为：300像素*300像素。仅支持.jpg、.png格式照片，大小不超过1MB。</p>
+                    </div>
+                    <div ng-messages="form.logo.$error">
+                        <p class="app-tips-err" ng-message="required">请上传图片</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center" ng-if="!vm.user.brandName">
+                <p class="text-right width70">商户名称</p>
+                <div flex class="detail-content " ng-class="{'formError': vm.brandName}">
+                    <md-input-container md-no-float class="md-block input-left-280">
+                        <input type="text" my-reg="intCaseChinese" ng-blur="vm.brandName = true" ng-pattern="" class="app-input padding0  input-wid-280" name="brand_name" han="24" ng-model="vm.create.brandName" required>
+                    </md-input-container>
+                    <div ng-messages="form.brand_name.$error">
+                        <p class="app-tips-err" ng-message="required">商户名称不能为空且长度不超过12个汉字或24个英文字母</p>
+                        <p class="app-tips-err" ng-message="han">商户名称不能为空且长度不超过12个汉字或24个英文字母</p>
+                        <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start start">
+                <p class="text-right width70" style="margin-top: 22px;">会员卡标题</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.title}">
+                    <md-input-container md-no-float class="md-block upper input-left-280-1">
+                        <input type="text" my-reg="intCaseChinese"  ng-blur="vm.title = true" ng-pattern="" class="app-input padding0 input-wid-280" name="card_title" han="18" ng-model="vm.create.title" required ng-disabled="vm.create.sync_weixin == '1' && $root.isEdit">
+                        <span class="placeholder" style="margin-top: 10px;width: 100%;"  ng-hide="(vm.formError == true ||vm.title == true) && (form.card_title.$error.required || form.card_title.$error.han || form.card_title.$error.pattern)">建议填写商家名、会员卡服务内容</span>
+                    </md-input-container>
+                    <div ng-messages="form.card_title.$error">
+                        <p class="app-tips-err" ng-message="required">会员卡名称不能为空且长度不超过9个汉字或18个英文字母</p>
+                        <p class="app-tips-err" ng-message="han">会员卡名称不能为空且长度不超过9个汉字或18个英文字母</p>
+                        <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center" style="display: inline-block;">
+                <p class="text-right width70 margin0" style="display: inline-block;position: relative;top: -8px;">会员卡颜色</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.color}" style="margin: 0; display: inline-block;">
+                      <input type="hidden" name="color" ng-blur="vm.color = true"  required ng-model="vm.create.color.cname">
+                      <my-color ng-model="vm.create.color.cname" color="vm.create.color" name="color">
+                      </my-color>                      
+                </div>
+                <div ng-messages="form.color.$error" style="margin: 0; display: block;margin-left: 103px;margin-top: 15px;">
+                          <p class="app-tips-err" ng-message="required">请选择会员卡颜色</p>
+                </div>
+            </div>
+
+            <div layout="row" style="margin-top: 20px;" layout-align="start center" ng-hide="$root.isEdit">
+                <p class="text-right width70 margin0" style="margin-top: -16px !important;">有效期</p>
+
+                <div flex class="detail-content" layout="column">
+                    <search-day ng-if="vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'" flex date="vm.create.date" first-style="{'margin-right': '10px'}" max-day="3650" second-style="{'margin-left': '10px'}" status="normal"></search-day>
+
+                   <!-- <md-radio-group ng-model="vm.create.dateType">
+                        <md-radio-button ng-hide="true" ng-disabled="vm.dateDisabled" value="DATE_TYPE_FIX_TIME_RANGE" ng-click="vm.create.date = vm.create.date || {}">固定日期</md-radio-button>
+                        <search-day ng-if="vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'" flex date="vm.create.date" first-style="{'margin-right': '10px'}" max-day="3650" second-style="{'margin-left': '10px'}" status="normal"></search-day>
+                        <md-radio-button ng-show="vm.forever" ng-disabled="vm.dateDisabled" value="DATE_TYPE_PERMANENT">永久有效</md-radio-button>
+                    </md-radio-group>-->
+                    <!--<div ng-messages="form.begin.$error" ng-if="vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'">
+                        <p class="app-tips-err" ng-message="valid">请选择会员卡有效期开始时间</p>
+                        <p class="app-tips-err" ng-message="required">会员卡有效期开始时间不能为空</p>
+                    </div>
+
+                    <div ng-messages="form.end.$error" ng-if="vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'">
+                        <p class="app-tips-err" ng-message="valid">请选择会员卡有效期结束时间</p>
+                        <p class="app-tips-err" ng-message="required">会员卡有效期结束时间不能为空</p>
+                        <p class="app-tips-err" ng-message="mindate">有效期结束时间不能小于当前日期</p>
+                        <p class="app-tips-err" ng-message="maxdate">有效期结束时间不能超过10年</p>
+                    </div>-->
+                    <div layout="row" ng-if="vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'" style="margin-top:8px;">
+                        <div  ng-if="(!vm.create.date.begin || ! vm.create.date.end) && vm.create.show_date_tip" style="margin-left:-16px;">
+                            <p class="app-tips-err" >请选择会员卡有效期时间</p>
+                        </div>
+                        <div ng-if="vm.create.show_date_tip_period">
+                            <p class="app-tips-err" >会员卡有效期不可以超过十年</p>
+                        </div>
+                        <div ng-if="vm.create.status != 'CARD_STATUS_EXPIRED' && ((vm.create.date.begin && form.begin.$invalid) || (vm.create.date.end && form.end.$invalid))" >
+                            <p class="app-tips-err">请输入正确的时间格式</p>
+                        </div>
+                        <div ng-if="vm.create.status == 'CARD_STATUS_EXPIRED' && ((vm.create.date.begin && form.begin.$invalid) || (vm.create.date.end && form.end.$invalid))" >
+                            <p class="app-tips-err">会员卡已过期，请更改有效期</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div layout="row" style="margin-top: 10px;" layout-align="start center" ng-if="$root.isEdit">
+                <p class="text-right" style="margin: 0;margin-top:-69px;">有效期</p>
+                <div flex class="detail-content comn-font" layout="column" style="margin-left:16px;">
+                    <md-radio-group ng-model="vm.create.dateType" name="time_limit" style="margin-left: -16px">
+                        <div layout="row">
+                            <md-radio-button value="DATE_TYPE_FIX_TIME_RANGE" ng-disabled="$root.isEdit && vm.create.dateType == 'DATE_TYPE_FIX_TERM'" style="margin-bottom:10px;" flex="5" ></md-radio-button><!---->
+                            <!-- <div style="margin-left: 2px;" flex="95">-->
+                            <span style="margin-top:1px;" >固定日期</span>
+                            <search-day ng-disabled="vm.create.dateType == 'DATE_TYPE_FIX_TERM'" is-card="true" style="margin-left:6px;margin-top:-10px;"  flex date="vm.create.date" first-style="{'margin-right': '10px','width':'150px'}" max-day="3650" second-style="{'margin-left': '10px','width':'150px'}" status="normal"></search-day>
+                        </div>
+                        <div layout="row">
+                            <md-radio-button value="DATE_TYPE_FIX_TERM" ng-disabled="$root.isEdit && vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'" style="margin-top:20px;" flex="5" ></md-radio-button><!---->
+                            <!--<div flex="95">-->
+                            <span style="margin-top:21px;margin-right:6px;" >领取后，</span>
+                            <md-select my-select placeholder="" ng-model="vm.create.date_info.fixed_begin_term" ng-disabled="$root.isEdit || vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'" aria-label="time"  class="inline">
+                                <md-option  value="0" class="mdOption inline" ng-class="{'active' : 0 == vm.create.date_info.fixed_begin_term}" >
+                                    当天
+                                </md-option>
+                                <md-option ng-repeat="day in vm.dayArray "  value="{{day}}" class="mdOption" ng-class="{'active' : day == vm.create.date_info.fixed_begin_term}">
+                                    {{day}}天
+                                </md-option>
+                            </md-select>
+                            <span style="margin-top:21px;margin-right:10px;">生效，有效天数</span>
+                            <div  class="detail-content inline padding0" ng-class="{'formError': vm.fixedTerm}">
+                                <md-input-container md-no-float class="md-block card-marR-wrap" style="margin:6px 0;">
+                                    <input  ng-blur="vm.fixedTerm = true" min="1" max="1095" ng-pattern="/^[1-9]\d{0,3}$/" class="app-input padding0" type="number"
+                                           name="fixed_term"  ng-model="vm.create.date_info.fixed_term" required style="width:150px;" ng-disabled="$root.isEdit || vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'">
+                                </md-input-container>
+
+                            </div>
+                            <span style="margin-top:21px;">天</span>
+                            <!--<md-select my-select placeholder="" ng-model="vm.create.date_info.fixed_term" ng-disabled="$root.isEdit || vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'" aria-label="time"  class="inline">
+                                <md-option ng-repeat="day  in vm.dayArray "  value="{{day}}" class="mdOption inline" ng-class="{'active' : day == vm.create.date_info.fixed_term}">
+                                    {{day}}天
+                                </md-option>
+                            </md-select>-->
+                            <!--</div>-->
+                        </div>
+                    </md-radio-group>
+                    <span class="placeholder" style="margin-left:-17px"
+                          ng-hide="((!vm.create.date.begin || ! vm.create.date.end) && vm.create.show_date_tip && vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE') ||
+                          (m.create.show_date_tip_period) ||
+                          (vm.create.status != 'CARD_STATUS_EXPIRED' && ((vm.create.date.begin && form.begin.$invalid) || (vm.create.date.end && form.end.$invalid))) ||
+                          (vm.create.status == 'CARD_STATUS_EXPIRED' && ((vm.create.date.begin && form.begin.$invalid) || (vm.create.date.end && form.end.$invalid))) ||
+                          ((vm.fixedTerm || vm.formError) && (form.fixed_term.$error.required || form.fixed_term.$error.max || form.fixed_term.$error.min || form.fixed_term.$error.pattern))">
+                        上面两种有效期形式一旦选定不可切换，请慎重选择
+                    </span>
+                    <div layout="row" ng-if="vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE'">
+                        <div  ng-if="(!vm.create.date.begin || ! vm.create.date.end) && vm.create.show_date_tip" style="margin-left:-16px;">
+                            <p class="app-tips-err" >请选择会员卡有效期时间</p>
+                        </div>
+                        <div ng-if="vm.create.show_date_tip_period">
+                            <p class="app-tips-err" >会员卡有效期不可以超过十年</p>
+                        </div>
+                        <div ng-if="vm.create.status != 'CARD_STATUS_EXPIRED' && ((vm.create.date.begin && form.begin.$invalid) || (vm.create.date.end && form.end.$invalid))" >
+                            <p class="app-tips-err">请输入正确的时间格式</p>
+                        </div>
+                        <div ng-if="vm.create.status == 'CARD_STATUS_EXPIRED' && ((vm.create.date.begin && form.begin.$invalid) || (vm.create.date.end && form.end.$invalid))" >
+                            <p class="app-tips-err">会员卡已过期，请更改有效期</p>
+                        </div>
+                    </div>
+                    <div layout="row" ng-if="vm.create.dateType == 'DATE_TYPE_FIX_TERM'">
+                        <div ng-if="(vm.fixedTerm || vm.formError) &&
+                            (form.fixed_term.$error.required || form.fixed_term.$error.max || form.fixed_term.$error.min || form.fixed_term.$error.pattern)">
+                            <p class="app-tips-err">有效天数请填写1-1095内的数字</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- <div layout="row">
+                <p class="text-right width70">可用时段</p>
+                <div flex class="detail-content marginleft30" layout="column">
+                    <md-radio-group ng-model="vm.create.time">
+                        <md-radio-button value="all">全部时段 </md-radio-button>
+                        <md-radio-button value="some">部分时段 </md-radio-button>
+                        <div ng-show="vm.create.time == 'some'" style="margin-left: 33px"> <md-checkbox ng-repeat="day in vm.time_limit" ng-model="day.check">周{{day.n}}</md-checkbox> </div>
+
+                        <div layout="column" ng-repeat="k in vm.timeLimits" style="margin-bottom: 10px;" ng-show="vm.create.time == 'some'">
+                            <div layout="row" layout-align="start center">
+                                <span style="margin-right: 10px;">时间</span>
+                                <md-input-container class="md-block" md-no-float style="margin: 0 10px 0 0; width: 150px;">
+                                    <input type="text" class="input myBoxShadow" flex name="begin{{$index}}" required my-reg="businessTime" ng-pattern="" ng-model="k.begin" style="padding-left: 30px !important;">
+                                    <span class="input-icon"></span>
+                                    <p class="app-tips-err" ng-show="form.begin{{$index}}.$error.required && vm.formError">必须填入时间格式</p>
+                                    <p class="app-tips-err" ng-show="form.begin{{$index}}.$error.pattern && vm.formError">时间输入格式错误</p>
+                                </md-input-container>
+
+                                <span style="margin-right: 10px;">至</span>
+
+                                <md-input-container class="md-block" md-no-float style="margin: 0 10px 0 0; width: 150px;">
+                                    <input type="text" class="input myBoxShadow" flex name="end{{$index}}" required my-reg="businessTime" ng-pattern="" ng-model="k.end" 
+                                    style="padding-left: 30px !important;">
+                                    <span class="input-icon"></span>
+                                    <p class="app-tips-err" ng-show="form.begin{{$index}}.$error.required && vm.formError">必须填入时间格式</p>
+                                    <p class="app-tips-err" ng-show="form.begin{{$index}}.$error.pattern && vm.formError">时间输入格式错误</p>
+                                </md-input-container>
+                                <a style="margin-left: 33px" ng-click="vm.delTimeLimit($index)">删除时间段</a>
+                            </div>
+                            <p style="margin-top:10px; color: #ccc;" ng-show="$last">请使用24小时制输入时间，格式如11:00至14:30</p>
+                        </div>
+
+                        <a style="margin-left: 33px" ng-click="vm.addTimeLimit()" ng-show="vm.timeLimits.length < 3 && vm.create.time == 'some'">添加时间段</a>
+                    </md-radio-group>
+                </div>
+            </div> -->
+
+
+            <div class="border-left" layout="row" layout-align="start center" margin="[30, 0, 20, 0]">
+                <span class="span-text float-left">商户介绍(选填)</span>
+            </div>
+
+            <div layout="row">
+                <p class="text-right width70" style="margin-top: 23px;">客服电话</p>
+                <div style="width: 300px;"  class="detail-content " ng-class="{'formError': vm.service_phone}">
+                    <md-input-container md-no-float class="md-block">
+                        <input type="tel" ng-model="vm.create.service_phone" ng-blur="vm.service_phone = true" class="app-input padding0 input-wid-280" name="service_phone" md-maxlength="15" md-minlength="7" ng-pattern=""
+                        my-reg="mobile">
+                        <span class="placeholder" style="margin-top: 10px;" ng-hide="(vm.formError == true ||vm.service_phone == true) && (form.service_phone.$error.md-minlength || form.service_phone.$error.md-maxlength || form.service_phone.$error.pattern )">手机或固话</span>
+                    </md-input-container>
+                    <div ng-messages="form.service_phone.$error" style="width: 300px;">
+                        <p class="app-tips-err" ng-message-exp="['md-minlength', 'md-maxlength', 'pattern']">电话号码格式不符合要求，请仔细检查后填写</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div layout="row" layout-align="start center">
+                <p class="text-right width70">商户服务</p>
+                <div flex="90"  class="detail-content marginleft30" layout="row" layout-align="start center">
+                    <div flex="15">
+                        <md-checkbox style="margin-bottom: 10px;"></md-checkbox>免费WIFI
+                    </div>
+                    <div flex="15">
+                        <md-checkbox style="margin-bottom: 10px;"></md-checkbox>可带宠物
+                    </div>
+                    <div flex="15">
+                        <md-checkbox style="margin-bottom: 10px;"></md-checkbox>免费停车
+                    </div>
+                    <div flex="15">
+                        <md-checkbox style="margin-bottom: 10px;"></md-checkbox>可外卖
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="border-left" layout="row" layout-align="start center" margin="[10, 0, 20, 0]">
+                <span class="span-text float-left">会员卡详情</span>
+            </div>
+
+            <div layout="row" layout-align="start center">
+                <p class="text-right width70" style="margin-top:-176px;">特权说明</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.prerogative}">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-heig-180 textarea-wid-548">
+                        <textarea  style="overflow-y: auto;" class="app-textarea textarea-heig-180 textarea-wid-548" name="prerogative" ng-blur="vm.prerogative = true" required han="600" ng-model="vm.create.prerogative"></textarea>
+                        <!--<input type="text" class="app-input padding0" name="prerogative" ng-model="vm.create.prerogative" required han="600">-->
+                        
+                    </div>
+                    <div class="placeholder float-left" ng-hide="(vm.formError == true || vm.prerogative == true) && (form.prerogative.$error.required || form.prerogative.$error.han)">&nbsp;</div>
+                    <div ng-messages="form.prerogative.$error">
+                        <p class="app-tips-err mar0-pad0" ng-message="required">特权说明不能为空且长度不超过300个汉字</p>
+                        <p class="app-tips-err mar0-pad0" ng-message="han">特权说明不能为空且长度不超过300个汉字</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center">
+                <p class="text-right width70" style="margin-top:-176px;">使用须知</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.description}">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-heig-180 textarea-wid-548">
+                        <textarea  class="app-textarea  textarea-heig-180 textarea-wid-548" name="description" ng-blur="vm.description = true" required han="600" ng-model="vm.create.description"></textarea>
+                        <!--<input type="text" class="app-input padding0" ng-model="vm.create.description" name="description" han="600" required>-->                        
+                    </div>
+                    <div class="placeholder float-left" ng-hide="(vm.formError == true || vm.description == true) && (form.description.$error.required || form.description.$error.han)">&nbsp;</div>
+                    <div ng-messages="form.description.$error">
+                        <p class="app-tips-err mar0-pad0" ng-message="required">使用须知长度不超过300个汉字</p>
+                        <p class="app-tips-err mar0-pad0" ng-message="han">使用须知长度不超过300个汉字</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div layout="row">
+                <p class="text-right width70">图文介绍(选填)</p>
+                <div class="detail-content marginleft30" style="width: 600px;">
+                    <p>图片建议尺寸: 900像素*500像素，大小不超过2M。至少上传1组图文，最多输入5000字符。</p>
+                    <div class="images-wrapper">
+
+                        <div class="text-image-item" ng-repeat="item in vm.photos">
+                            <myupload class="p5" ng-model="item.file" name="item{{$index}}" pic="item.pic" size="2m">上传照片</myupload>
+                            
+                            
+                                <p class="app-tips-err" ng-show="form.item{{$index}}.$error.required && vm.formError">请上传图片</p>
+                            <md-input-container md-no-float class="md-block">
+                                <textarea class="app-input" placeholder="请输入图片的描述" name="{{item.index}}" ng-model="item.text" han="5000"></textarea >
+
+                                <p class="app-tips-err">图文描述不能为空且不超过5000个字符</p>
+                            </md-input-container>
+                            <p class="app-tips-err cancel-btn del" ng-click="vm.delImgText(item)" role="button" >删除</p>
+                        </div>
+
+                        <div class="add-photo-btn" ng-click="vm.addPhotos()" ng-hide="vm.maxImg"></div>
+                    </div>
+                    <p class="app-tips-err" ng-show="vm.create.text_image_isnone">请上传至少上传1组图文描述</p>
+                </div>
+                <div flex class="detail-content marginleft30" layout="column">
+                    <p>示例</p>
+                    <p style="color:#ccc;">图文内容建议上传商品、服务、环境等优质图片，并辅之以简单描述。</p>
+                    <img src="http://7xogq3.com2.z0.glb.qiniucdn.com\pic.png">
+                </div>
+            </div> -->
+
+            <section>
+                <div class="border-left" layout="row" layout-align="start center" margin="[10, 0, 20, -8]">
+                    <span class="span-text float-left" style="margin-left: 17px;">自定义入口</span>
+                </div>
+                <!-- <h4>自定义入口</h4>
+                <md-divider ></md-divider> -->
+
+                <div >
+                    <div class="custom-enter" style="margin-top: 30px;">
+                        <div layout="column" ng-repeat="custom in vm.create.custom" style="margin-left: 12px;">
+                            <p class="textarea-wid-548">入口{{$index | custom_zh_index}} <a class="fr app-color" href="javascript:;" ng-click="vm.delCuston($index)">删除</a></p>
+                            <md-divider style="border-color: rgba(0, 0, 0, .12) !important;" class="textarea-wid-548"></md-divider>
+                            <div layout="row" layout-align="start center" style="margin-top: 15px;">
+                                <p class="margin0">入口名称</p>
+                                <div flex class="detial-content input-left-140" style="margin-left: 30px;">
+                                    <md-input-container  md-no-float class="md-block" style="margin-right: 0;">
+                                        <input type="text" my-reg="intCaseChinese" ng-pattern="" ng-blur="vm.showTip($index)" han="10" class="padding0 text-indent0 input-wid-140" name="custom_enter_name_{{$index}}" required ng-model="custom.name" aria-label="title">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div layout="row" layout-align="start center">
+                                <p class="margin0 ">&nbsp;&nbsp;&nbsp;&nbsp;引导语 </p>
+                                <div flex class="detial-content input-left-140" style="margin-left: 30px;">
+                                    <md-input-container  md-no-float class="md-block" style="margin-right: 0;">
+                                        <input type="text" my-reg="intCaseChinese" ng-pattern="" han="12" class="padding0 text-indent0 input-wid-140" name="custom_enter_sub_title_{{$index}}" ng-model="custom.sub_title" aria-label="sub_title">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div layout="row" layout-align="start center">
+                                <p class="margin0">网页链接</p>
+                                <div flex class="detial-content" style="margin-left: 30px;">
+                                    <md-input-container  md-no-float class="md-block" style="margin-right: 0;">
+                                        <input type="text" class="padding0 text-indent0" name="custom_enter_url_{{$index}}" maxlength="128" required ng-model="custom.url" aria-label="url">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="custom_errors" style="margin-left: 12px;">
+                        <div ng-messages=form.custom_enter_name_0.$error >
+                            <p class="app-tips-err" ng-message="required">自定义入口名称不能为空且最多只能输入5个中文</p>
+                            <p class="app-tips-err" ng-message="han">自定义入口名称不能为空且最多只能输入5个中文</p>
+                            <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                        </div>
+                        <div ng-messages=form.custom_enter_name_1.$error >
+                            <p class="app-tips-err" ng-message="required">自定义入口名称不能为空且最多只能输入5个中文</p>
+                            <p class="app-tips-err" ng-message="han">自定义入口名称不能为空且最多只能输入5个中文</p>
+                            <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                        </div>
+                        <div ng-messages=form.custom_enter_name_2.$error >
+                            <p class="app-tips-err" ng-message="required">自定义入口名称不能为空且最多只能输入5个中文</p>
+                            <p class="app-tips-err" ng-message="han">自定义入口名称不能为空且最多只能输入5个中文</p>
+                            <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                        </div>
+
+
+                        <div ng-messages="form.custom_enter_sub_title_0.$error" >
+                            <p class="app-tips-err" ng-message="han">自定义入口引导语最多只能输入6个中文</p>
+                            <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                        </div>
+                        <div ng-messages="form.custom_enter_sub_title_1.$error" >
+                            <p class="app-tips-err" ng-message="han">自定义入口引导语最多只能输入6个中文</p>
+                            <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                        </div>
+                        <div ng-messages="form.custom_enter_sub_title_2.$error" >
+                            <p class="app-tips-err" ng-message="han">自定义入口引导语最多只能输入6个中文</p>
+                            <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                        </div>
+
+
+                        <div ng-messages="form.custom_enter_url_0.$error" ><p class="app-tips-err" ng-message-exp="['required']">请填写自定义入口 url</p></div>
+                        <div ng-messages="form.custom_enter_url_1.$error" ><p class="app-tips-err" ng-message-exp="['required']">请填写自定义入口 url</p></div>
+                        <div ng-messages="form.custom_enter_url_2.$error" ><p class="app-tips-err" ng-message-exp="['required']">请填写自定义入口 url</p></div>
+                    </div>
+
+                    <div ng-hide="vm.create.custom.length == 2" style="margin-left: 12px;">
+                        <md-button class="md-raised" ng-click="vm.addCustom()" style="margin-left: 0; padding: 0 14px;">添加自定义入口</md-button>
+                        <p style="color: #acacac;">可配置网页链接，用户可查看详情或领取更多卡券。</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <md-divider  style="margin-top: 25px"></md-divider>
+            <div layout="row" style="padding: 8px 8px 8px 0;">
+                <md-button class="md-raised my-shadow my-button" ng-click="vm.step2(form.$invalid)" >下一步</md-button>
+            </div>
+        </div>
+    </div>
+
+</form>

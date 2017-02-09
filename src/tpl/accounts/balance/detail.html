@@ -1,0 +1,139 @@
+<!--<h4 ng-bind="$current.title" class="contentTitle"></h4>-->
+<h4 class="contentTitle">结算详情</h4>
+            <md-divider></md-divider>
+
+<div class="faildetail small300" layout="row" layout-align="start center" ng-show="ifFailed" style="margin-top:20px;">
+    <!--<div class="failicon relative">
+        <span class="failiconspan">+</span>
+    </div>-->
+    <div class="" style="margin-left:10px;"><img src="http://7xogq3.com2.z0.glb.qiniucdn.com\ic2_error.png" alt=""></div>
+    <div style="margin-left: 10px;">结算失败原因：账户信息有误。我们将于问题解决后重新结算。</div>
+</div>
+<div class="border-left" margin="[20, 0, 10, 0]">
+    <span class="span-text float-left">{{queryParams.settleDate}} {{mchtName}}</span>
+</div>
+<p style="margin-left: 12px;margin-bottom: 20px;">门店编号：{{queryParams.mchtNo}}</p>
+
+<ul class="detail-ui" style="border-top: 1px solid #e5e5e5;">
+    <!--<li>
+        <p class="float-left">结算类型</p>
+        <p class="float-right small300">{{chaCodeName}}</p>
+    </li>-->
+    <li>
+        <p class="float-left">交易本金</p>
+        <p class="float-right small300">{{txAmt | currency:'¥'}}</p>
+    </li>
+    <li style="height: 100px;">
+        <div class="clearfix detailLiItem">
+            <p class="float-left">手续费</p>
+            <p class="float-right small300">{{feeAmt ? -feeAmt:0 | currency:'¥'}}</p>
+        </div>
+        <div class="clearfix detailLiItem" style="margin-left: 28px;">
+            <p class="float-left">原手续费</p>
+            <p class="float-right small300">{{origFeeAmt ? -origFeeAmt:0 | currency:'¥'}}</p>
+        </div>
+        <div class="clearfix detailLiItem" style="margin-left: 28px;">
+            <p class="float-left">手续费减免</p>
+            <p class="float-right small300">{{freeAmt | currency:'¥'}}</p>
+        </div>
+    </li>
+    <li>
+        <p class="float-left">异常交易</p>
+        <p class="float-right small300">{{errAmt | currency:'¥'}}</p>
+    </li>
+    <li>
+        <p class="float-left">异常交易确认无误</p>
+        <p class="float-right small300">{{errOkAmt | currency:'¥'}}</p>
+    </li>
+    <li>
+        <p class="float-left">资金截留</p>
+        <p class="float-right small300">{{repairAmt | currency:'¥'}}</p>
+    </li>
+    <li>
+        <p class="float-left">截留资金解冻</p>
+        <p class="float-right small300">{{unrepairAmt | currency:'¥'}}</p>
+    </li>
+    <li>
+        <p class="float-left">上周期结算失败</p>
+        <p class="float-right small300">{{uperrAmt | currency:'¥'}}</p>
+    </li>
+    <li>
+        <p class="float-left"><b>结算金额</b></p>
+        <p class="float-right small300" style="color: #2cb36f; font-size: 16px;"><b>{{settleAmt | currency:'¥'}}</b></p>
+    </li>
+</ul>
+
+<div class="border-left" margin="[40, 0, 20, 0]" ng-show="ifErrList">
+    <span class="span-text float-left">异常交易</span>
+    
+</div>
+
+<md-content ng-show="ifErrList">
+    <table ng-table="ngTable" class="table table-full table-hover table-full-small tableWidthStatue" style="table-layout: fixed; width: 100%;">
+        <thead class="table-header">
+            <tr>
+                <td width="12%">交易时间</td>
+                <td width="10%">交易类型</td>
+                <td width="10%">结算周期</td>
+                <td width="20%">流水号</td>
+                <td width="10%">异常原因</td>
+                <td width="15%">交易卡号</td>
+                <td width="13%">处理结果</td>
+                <td width="10%">交易金额</td>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+         <tr ng-repeat="item in $data">
+            <td><p style="width: 90px;">{{item.txTime}}</p></td>
+            <td><p style="width: 70px;">{{item.txType | txTypeMap}}</p></td>
+            <td><p style="width: 70px;">{{item.cycle | settlementCycle}}</p></td>
+            <!--<td><p style="width: 70px;">{{item.cycleName}}</p></td>-->
+            <td><p style="width: 170px;">{{item.vocheNo}}</p></td>
+            <td><p style="width: 70px;">{{item.errReason | errReson}}</p></td>
+            <td><p style="width: 120px;">{{item.acNo}}</p></td>
+            <td><p style="width: 100px;">{{item.nextDo | treatResult}}</p></td>
+            <td><p style="width: 70px;">{{item.txAmt | currency:'¥'}}</p></td>
+        </tr>
+        </tbody>
+
+    </table>
+    <md-content ng-show="noData" layout-align="center" class="no-data">
+        <p>{{noData}}</p>
+    </md-content>
+
+</md-content>
+
+<div class="border-left" margin="[40, 0, 20, 0]" ng-show="ifRepairInfo">
+    <span class="span-text float-left">资金截留</span>
+    
+</div>
+
+<md-content ng-show="ifRepairInfo">
+    <table ng-table="ngTable_02" class="table table-full table-hover table-full-small">
+        <thead class="table-header"> 
+            <tr> 
+                <td width="16.66%">截留总金额</td>
+                <td width="16.66%">待截留总金额</td>
+                <td width="16.66%">本次截留金额</td>
+                <td width="16.66%">已截留总金额</td>
+                <td width="16.66%">本次解冻金额</td>
+                <td width="16.66%">已解冻金额</td>
+            </tr> 
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in $data">
+            <td >{{ item.repairAmt | currency:'¥'}}</td>
+            <td >{{ item.repairdeAmt | currency:'¥'}}</td>
+            <td>{{item.repairingAmt | currency:'¥'}}</td>
+            <td >{{ item.unFreezeSum | currency:'¥'}}</td>
+            <td >{{ item.unFreezeingAmt | currency:'¥'}}</td>
+            <td >{{ item.unRepairAmt | currency:'¥'}}</td>
+        </tr>
+        </tbody>
+
+    </table>
+    <md-content ng-show="noData" layout-align="center" class="no-data">
+        <p>{{vm.noData}}</p>
+    </md-content>
+
+</md-content>

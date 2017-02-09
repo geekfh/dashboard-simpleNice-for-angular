@@ -1,0 +1,356 @@
+<style type="text/css">
+    div[layout="row"]{margin: 15px 0;}
+    md-switch.md-checked .md-thumb{background: #ff591c;}
+    md-switch.md-checked .md-bar{background: #ffac8e;}
+    .app-content{padding: 16px 20px 20px 20px;width:69.5%; margin-left: 380px;}
+@media screen and (max-width:1023px) {
+.suspension-wrap{left: 80px;}
+.app-content{width:676px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.suspension-wrap{left: 80px;}
+.app-content{width:71%; margin-left: 255px;}
+
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.suspension-wrap{left: 80px;}
+.app-content{width:74%; margin-left: 255px;}
+
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (width:1366px){
+.app-content{width:63.5%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70.5%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+</style>
+<section class="small-view" ng-if="vm.start && vm.count" ng-include="'tpl/clubcard/card/mobile_view.html'" onload="loaded()">
+</section>
+<div layout="row" layout-align="start center" ng-cloak style="margin: 5px 0 0;display: inline-block;width: 100%;">
+    <!--<h4 class="contentTitle">{{vm.count ? '审核结果' : '会员卡管理'}}</h4>-->
+    <h4 class="contentTitle float-left">{{vm.count ? '会员卡详情' : '会员卡管理'}}</h4>
+    <div class="float-right">
+	    <div class="dis-inlineBlock"  layout-align="end center" layout="row"  ng-if="vm.prevCard.status == 'CARD_STATUS_VERIFY_OK'"> <!--ng-style="vm.prevCard.status == 'CARD_STATUS_VERIFY_OK' ? {'max-width':'80%'} : {}"-->
+	        <a class="text-decoration" ng-click="vm.getQrcode(vm.prevCard.card_id)" ng-show="vm.prevCard">二维码</a>
+	    </div>
+	
+	    <div class="dis-inlineBlock" style="margin-left: 30px;" layout="row" layout-align="end center" ng-if="$root.powers && $root.powers.indexOf('clubcard.card.preview_modify') > -1 "><!--ng-style="vm.prevCard.status != 'CARD_STATUS_VERIFY_OK' ? {'margin-left':'510px'} : {}"-->
+	        <a  class="text-decoration" ng-click="vm.edit(vm.prevCard.card_id)" ng-show="vm.prevCard">修改</a>
+	    </div>
+    </div>
+</div>
+<md-divider></md-divider>  
+<section class="member-detail p10" ng-cloak style="margin-top: 3px; padding-left:0; padding-right: 0;" ng-if="vm.count" ng-show="vm.start">
+    <div style="background: #f9f9f9; padding: 10px 0 10px 20px; margin-top: 20px;" ng-show="vm.obj && vm.obj.card && vm.User.authStatus == '1'">
+        <div ng-if="$root.powers && $root.powers.indexOf('clubcard.card.preview_head') > -1">
+            <div layout="row" layout-align="start start" ng-show="vm.User" ng-if="vm.obj && vm.obj.card && vm.User.authStatus == '1'" style="margin-top: 25px;">
+                <p style="margin: 0; line-height: 30px;">同步微信会员卡</p>
+                <!--<md-switch style="margin: 0 0 0 10px;" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="vm.syncIng || vm.prevCard.sync_weixin == '1'" ng-model="vm.prevCard.sync_weixin" ng-change="vm.changeSync(vm.prevCard.sync_weixin)" aria-label="Switch 1"></md-switch>-->
+                <md-switch style="margin: 0 0 0 10px;" ng-true-value="'1'" ng-false-value="'0'" ng-model="vm.prevCard.sync_weixin" ng-change="vm.changeSync(vm.prevCard.sync_weixin)" aria-label="Switch 1"></md-switch>
+            </div>
+            <div layout="column" ng-show="vm.obj && vm.obj.card" ng-if="vm.obj.card && vm.User.authStatus == '1'">
+                <p style="color: grey;">开启“同步微信会员卡”后，会员卡模板信息将提交微信审核。</p>
+                <p style="color: grey;">审核结果不影响本地会员卡使用。</p>
+            </div>
+            <div class="border-left" margin="[20, 0, 20, 0]" ng-show="vm.obj && vm.obj.card && vm.User.authStatus == '1' && vm.prevCard.sync_weixin == '1'">
+                <span class="span-text float-left" style="margin-left: 10px;">微信审核结果</span>
+            </div>
+        </div>
+
+        <div class="faildetail small300" layout="row" layout-align="start center" style="margin-bottom:30px;" ng-if="vm.prevCard.status == 'CARD_STATUS_VERIFY_FAIL'">
+            <div class="failicon relative">
+                <span class="failiconspan">+</span>
+            </div>
+            <div style="margin-left: 10px; color: #f5473c;">结算失败原因：账户信息有误。我们将于问题解决后重新结算。</div>
+        </div>
+
+        <div ng-show="vm.obj && vm.obj.card && vm.User.authStatus == '1' && vm.prevCard.sync_weixin == '1'">
+            <div flex layout="row">
+                <div flex="70" layout="column">
+                    <div layout="row">
+                        <p class="text-right">会员卡状态</p>
+                        <p flex class="detail-content"> {{ vm.prevCard.wechat_status | cardStatus }}</p>
+                    </div>
+                    <div layout="row" style="margin:5px 0;">
+                        <p class="text-right">会员卡ID</p>
+                        <p flex class="detail-content">{{vm.prevCard.wechat_card_id}}</p>
+                    </div>
+                </div>
+
+                <!-- <div layout="row" ng-cloak layout-align="end start" flex="30">
+                    <a class="text-decoration" ng-click="vm.edit(vm.prevCard.card_id)">修改</a>
+                    <a class="md-raised md-button my-style" ng-hide="vm.isPushed || User.weixinType!=1" ng-if="vm.prevCard.status =='CARD_STATUS_VERIFY_OK'" ng-href="memberCards/qrCode/{{vm.prevCard.cardId}}?merchantAppid={{User.authorizerAppid}}"
+                       target="_blank">查看二维码</a>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="border-left" margin="[30, 0, 30, 0]">
+        <span class="span-text float-left" style="margin-left: 10px;">基本信息</span>
+    </div>
+
+    <div layout="row">
+        <p class="text-right">会员卡标题</p>
+        <p flex class="detail-content">{{vm.prevCard.title}}</p>
+    </div>
+
+    <div layout="row" layout-align="start center">
+        <p class="text-right">会员卡颜色</p>
+        <p flex class="detail-content">
+            <pre-color color-name="vm.prevCard.color" ng-if="vm.prevCard.color">
+            </pre-color>
+        </p>
+    </div>
+    <div layout="row">
+        <p class="text-right">有效期</p>
+        <p flex class="detail-content"
+           ng-if="vm.prevCard.date_info.type=='DATE_TYPE_FIX_TERM'">
+            领取后{{vm.prevCard.date_info.fixed_begin_term == 0 ? '当' : vm.prevCard.date_info.fixed_begin_term}}天生效，{{vm.prevCard.date_info.fixed_term}}天有效</p>
+        <p flex class="detail-content"
+           ng-if="vm.prevCard.date_info.type=='DATE_TYPE_FIX_TIME_RANGE'">
+            {{vm.prevCard.date_info.begin_timestamp | date : 'yyyy-MM-dd'}}
+            至
+            {{vm.prevCard.date_info.end_timestamp | date : 'yyyy-MM-dd'}}
+        </p>
+    </div>
+
+
+    <div ng-if="vm.prevCard.supply_bonus == '1'">
+        <div layout="row">
+            <p class="text-right">消费送积分</p>
+            <p flex class="detail-content">
+                每消费{{vm.prevCard.bonus_rule.cost_money_unit/100 || 0}}元，
+                赠送{{vm.prevCard.bonus_rule.increase_bonus || 0}}积分
+            </p>
+        </div>
+        <div layout="row">
+            <p class="text-right">积分抵扣</p>
+            <p flex class="detail-content">
+                每使用{{vm.prevCard.bonus_deduction_rule.cost_bonus_unit || 0}}积分，
+                抵扣{{vm.prevCard.bonus_deduction_rule.reduce_money/100 || 0}}元
+            </p>
+        </div>
+        <div layout="row">
+            <p class="text-right">抵扣条件</p>
+            <p flex class="detail-content">
+                订单满{{vm.prevCard.bonus_deduction_rule.least_money_to_use_bonus/100 || 0}}元可用，
+                单笔上限{{vm.prevCard.bonus_deduction_rule.max_reduce_bonus ? vm.prevCard.bonus_deduction_rule.max_reduce_bonus : (vm.prevCard.bonus_deduction_rule.max_reduce_bonus == '0' ? '0' : '不限')}}积分
+            </p>
+        </div>
+
+        <div layout="row">
+            <p class="text-right">激活送积分</p>
+            <p flex class="detail-content">
+                激活后赠送{{vm.prevCard.bonus_rule.init_increase_bonus || 0}}积分
+            </p>
+        </div>
+        <div layout="row">
+            <p class="text-right">单次上限</p>
+            <p flex class="detail-content">
+                {{vm.prevCard.bonus_rule.max_increase_bonus ? vm.prevCard.bonus_rule.max_increase_bonus : (vm.prevCard.bonus_rule.max_increase_bonus == 0 ? 0 : '不限')}}积分
+            </p>
+        </div>
+
+    </div>
+
+
+    <section ng-if="vm.prevCard.service_phone">
+        <div class="border-left" margin="[50, 0, 30, 0]">
+            <span class="span-text float-left" style="margin-left: 10px;">商户介绍</span>
+        </div>
+
+        <div layout="row">
+            <p class="text-right">客服电话</p>
+            <p flex class="detail-content">{{vm.prevCard.service_phone}}</p>
+        </div>
+    </section>
+
+    <section ng-if="vm.custom.length">
+        <div class="border-left" margin="[50, 0, 30, 0]">
+            <span class="span-text float-left" style="margin-left: 10px;">自定义入口</span>
+        </div>
+
+        <div layout="row" ng-repeat="item in vm.custom">
+            <p class="text-right">入口{{$index | custom_zh_index}}</p>
+            <div flex class="detail-content">
+                <p>入口名称：{{item.name}}</p>
+                <p>引&nbsp;&nbsp;导&nbsp;&nbsp;语：{{item.sub_title}}</p>
+                <p class="new-line">网页链接：{{item.url}}</p>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="border-left" margin="[50, 0, 30, 0]">
+        <span class="span-text float-left" style="margin-left: 10px;">会员卡详情</span>
+    </div>
+
+    <!-- <div layout="row">
+        <p class="text-right">享受折扣</p>
+        <p flex class="detail-content"> {{vm.prevCard.discount == '10' ? '不打' : vm.prevCard.discount}}折</p>
+    </div> -->
+    <div layout="row">
+        <p class="text-right">特权说明</p>
+        <p flex class="detail-content" ng-bind-html="vm.prevCard.prerogative" style="line-height: 28px;"></p>
+    </div>
+    <div layout="row">
+        <p class="text-right">使用须知</p>
+        <p flex class="detail-content" ng-bind-html="vm.prevCard.description" style="line-height: 28px;"></p>
+    </div>
+
+
+    <div class="border-left" margin="[50, 0, 30, 0]">
+        <span class="span-text float-left" style="margin-left: 10px;">使用设置</span>
+    </div>
+    <!-- <div layout="row" ng-if="vm.prevCard.can_share==1">
+        <p class="text-right">分享</p>
+        <p flex class="detail-content">
+            用户可以分享领券链接
+        </p>
+    </div> -->
+
+     <!-- <div layout="row" ng-if="vm.prevCard.auto_activate == 0">
+        <p class="text-right">激活</p>
+        <p flex class="detail-content">
+            用户需要激活后才能使用
+        </p>
+    </div> -->
+
+    <!-- <div layout="row"  ng-if="vm.prevCard.wx_activate == 1">
+        <p class="text-right">激活信息</p>
+        <div flex class="detail-content">
+            <div layout="row" class="create-action-filed" layout-align="start center">
+                <span class="type">必填信息</span><span class="filed">手机号</span>
+            </div>
+            <div layout="row"
+                 class="create-action-filed"
+                 layout-align="start center"
+                 ng-if="vm.prevCard.optional_form.common_field_id_list.length || vm.prevCard.optional_form.custom_field_list.length"
+                 layout="row" layout-wrap>
+
+                <span class="type">选填信息</span>
+                <span class="filed" ng-repeat="field in vm.prevCard.optional_form.common_field_id_list">{{ field | fields }}</span>
+                <span class="filed" ng-repeat="field in vm.prevCard.optional_form.custom_field_list track by $index">{{field}}</span>
+
+            </div>
+        </div>
+    </div> -->
+    <div layout="row">
+        <p class="text-right">操作提示</p>
+        <p flex class="detail-content">{{vm.prevCard.notice}}</p>
+    </div>
+
+    <div class="border-left" margin="[50, 0, 30, 0]" ng-show="vm.create.evelLists.length">
+        <span class="span-text float-left" style="margin-left: 10px;">会员权益</span>
+    </div>
+
+    <div ng-repeat="list in vm.create.evelLists">
+        <div layout="row">
+            <p style="font-weight: bold !important; width: 68px; text-align: right; margin-right: 14px;">等级{{$index + 1}}</p>
+            <p class="text-right">等级名称</p>
+            <p flex class="detail-content">{{list.level_name + '会员'}}</p>
+        </div>
+
+        <div layout="row">
+            <p style="font-weight: bold !important; width: 68px; text-align: right; margin-right: 14px;"></p>
+            <p class="text-right">积分要求</p>
+            <p flex class="detail-content">{{list.lower_bonus_limit}} - {{list.upper_bonus_limit + '积分'}}</p>
+        </div>
+
+        <div layout="row">
+            <p style="font-weight: bold !important; width: 68px; text-align: right; margin-right: 14px;"></p>
+            <p class="text-right">权益详情</p>
+            <p flex class="detail-content">享受{{list.discount}}折优惠</p>
+        </div>
+    </div>
+
+    <div class="border-left" margin="[50, 0, 30, 0]" ng-show="vm.create.balance_rules_list.length">
+        <span class="span-text float-left" style="margin-left: 10px;">充值规则</span>
+    </div>
+    <div ng-repeat="list in vm.create.balance_rules_list">
+        <div layout="row">
+            <p class="text-right" ng-if="$index == 0">一次性充值</p>
+            <p flex class="detail-content" ng-style="$index != 0 ? {'margin-left':'70px'} : {}">满{{list.full_money/100 || 0}}元，送{{list.presenter_money/100 || 0}}元</p>
+        </div>
+    </div>
+
+    <div class="border-left" margin="[50, 0, 30, 0]">
+        <span class="span-text float-left" style="margin-left: 10px;">适用门店</span>
+    </div>
+    <div layout="row" ng-if="vm.poiList.length && vm.prevCard.location_id_list != 'allPoi'" ng-repeat="item in vm.poiList">
+        <!--<p class="text-right">适用门店</p>
+        <div flex class="detail-content">
+            <table class="table table-bordered color666" style="width: 50%">
+                <thead>
+                    <tr>
+                        <td>门店名称</td>
+                        <td>分店名称</td>
+                        <td>门店地址</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="it in vm.poiList">
+                        <td>{{it.storeName}}</td>
+                        <td>{{it.branch_name}}</td>
+                        <td>{{it.address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>-->
+        <p class="text-right" ng-if="$index == 0">适用门店</p>
+        <div flex class="detail-content" ng-style="$index != 0 ? {'padding-left':'99px'} : {}">
+            {{item.storeName}}
+        </div>
+    </div>
+    <div layout="row" ng-if="vm.prevCard.location_id_list == 'allPoi'">
+        <p class="text-right">适用门店</p>
+        <p flex class="detail-content">所有门店适用</p>
+    </div>
+</section>
+
+<div ng-cloak ng-if="!vm.count  && vm.start">
+    <style>
+        .app-content{width: 94%; margin-left: 40px;}
+    </style>
+    <section style="min-height: 500px;" layout-align="center center" layout="column" ng-show="!vm.count" ng-cloak>
+        <p ng-if="$root.powers && $root.powers.indexOf('clubcard.card.preview_add.href') > -1 && vm.User.authStatus == '1'">暂无会员卡，<a ng-click="vm.createCard()">点击创建</a></p>
+        <div ng-if="$root.powers && $root.powers.indexOf('clubcard.card.preview_add.href') > -1 && vm.User.authStatus != '1'" style="text-align: center;color:#666">
+            <p style="margin-bottom:5px;" >若没有已认证微信服务号，请直接点击<a ng-click="vm.createCard()">创建会员卡</a></p>
+            <p  >若有已认证微信服务号请先<a ng-click="vm.authorize()">去授权</a>再创建会员卡，未授权时创建的会员卡无法同步到微信</p>
+
+        </div>
+         <p ng-if="!($root.powers && $root.powers.indexOf('clubcard.card.preview_add.href') > -1)">暂无会员卡</p>
+    </section>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

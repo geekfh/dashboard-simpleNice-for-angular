@@ -1,0 +1,162 @@
+<h4 class="contentTitle" ng-bind="$current.title"></h4>
+<md-divider></md-divider>
+<p class="warm-con mt-30" style="height: 100px; padding-right: 10px;line-height: 20px;padding: 10px;">
+	<span class="radiusspan" style="position: relative; top: 3px;"></span>
+	<!--<span>温馨提示：已开通S0（实时到账）的商户，勾选对应项目即可在慧POS上选择享受该服务；尚未开通则勾选无效。</span><br>
+	<span style="margin-left: 37px;"><span style="color: #F5473C">该服务需收取额外服务费</span>，开通请联系您的服务商。</span>-->
+	<span>温馨提示：</span><br>
+	<span style="margin-left: 37px;">1.S0为盒子推出的一项刷卡实时到账服务，<span style="color: #FF591C">该服务需收取额外费用</span>，如需开通请联系客服（1010-9888）；</span><br />
+	<span style="margin-left: 37px;">2.已开通S0的商户，勾选对应项目即可在慧POS上选择享受该服务，尚未开通则勾选无效；</span><br />
+	<span style="margin-left: 37px;">3.部分商户使用S0时，需要上传法人信用卡信息进行认证，只有认证通过才能正常使用S0。</span>
+
+</p>
+<div  ng-if="$root.powers && $root.powers.indexOf('settings.payMgr_store.list') >= 0">
+	<!--<div class="table-top margintop15" layout="row" layout-align="start center">
+		<div layout="row" flex="25">
+			<p class="text-p">筛选门店</p>
+			<div flex class="detail-content">
+				<md-select my-select placeholder="指定分组" ng-model="selected">
+					<md-option ng-repeat="k  in groupOrNames "  value="{{k.id}}"  class="mdOption " ng-class="{'active' :selected == k.id} ">
+						{{k.text}}
+					</md-option>
+				</md-select>
+
+			</div>
+		</div>
+
+		<div>
+			<md-autocomplete
+					ng-show="selected == 1"
+					md-no-cache="noCache"
+					md-selected-item="selectedItem"
+					md-search-text-change="searchTextChange(queryParams.mchtName)"
+					md-search-text="queryParams.mchtName"
+					md-selected-item-change="selectedItemChange(item)"
+					md-items="item in querySearch(queryParams.mchtName)"
+					md-item-text="item.mchtName"
+					md-min-length="0"
+					placeholder="请输入门店名称" style="width: 300px;">
+
+				<md-item-template>
+	                    <span md-highlight-text="queryParams.mchtName"
+			                    md-highlight-flags="^i">{{item.mchtName}}
+	                    </span>
+				</md-item-template>
+
+				<md-not-found>
+					暂时没有门店数据
+				</md-not-found>
+			</md-autocomplete>
+
+			<md-select my-select placeholder="所有分组" ng-model="queryParams.groupId" ng-show="selected == 2" style="width: 170px;">
+				<md-option ng-repeat="k  in groups"  value="{{k.groupId}}" class="mdOption " ng-class="{'active' :k.groupId == queryParams.groupId} ">
+					{{k.groupName}}
+				</md-option>
+			</md-select>
+		</div>
+
+	</div>-->
+	<div class="table-top" layout="row">
+		<div flex="100" layout="row" layout-align="start end">
+
+			<div layout="row">
+				<p class="text-p">交易门店</p>
+				<div class="detail-content" style="width: 160px;">
+					<md-select my-select placeholder="所有门店" ng-model="queryParams.visibleRange" ng-change="changeStoreType(queryParams.visibleRange)" aria-label="time">
+						<md-option ng-repeat="item  in storeTypeList "  value="{{item.value}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.value == queryParams.visibleRange}">
+							{{item.storeType}}
+						</md-option>
+					</md-select>
+				</div>
+				<div class="detail-content" style="width: 160px;" ng-if="queryParams.visibleRange == 4">
+					<md-select my-select placeholder="请选择门店分组" ng-model="selectedGroup" ng-change="changeStoreGroup(selectedGroup)" aria-label="time">
+						<md-option ng-repeat="item  in storeGroupList "  value="{{item.groupId}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.groupId == queryParams.visibleRange}">
+							{{item.groupName}}
+						</md-option>
+					</md-select>
+				</div>
+				<div class="detail-content" style="width:300px" ng-if="queryParams.visibleRange == 5">
+					<!--<md-input-container class="md-block">
+						<input placeholder="请输入门店名称"/>
+					</md-input-container>-->
+					<md-autocomplete
+							ng-disabled="false"
+							md-no-cache="true"
+							md-selected-item="selectedItem"
+							md-search-text-change="searchTextChange(searchText)"
+							md-search-text="searchText"
+							md-selected-item-change="selectedItemChange(item)"
+							md-items="item in querySearch(searchText)"
+							md-item-text="item.mchtName"
+							md-min-length="0"
+							placeholder="请输入门店名称"
+							md-menu-class="autocomplete-custom-template" layout="row">
+						<md-item-template>
+							<span md-highlight-text="searchText" md-highlight-flags="^i">{{item.mchtName}}</span>
+						</md-item-template>
+						<!--<md-not-found>
+							No states matching "{{ctrl.searchText}}" were found.
+							<a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
+						</md-not-found>-->
+					</md-autocomplete>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="table-top" layout="row" layout-align="start center">
+		<div layout="row" flex="75">
+			<p class="text-p"></p>
+			<div flex class="detail-content">
+				<md-button class="btn-app md-raised my-shadow my-button" ng-click="search()">查询</md-button>
+			</div>
+		</div>
+	</div>
+	<div class="border-left" margin="[60, 0, 20, 0]">
+		<span class="span-text float-left">查询结果</span>
+	</div>
+
+</div>
+
+<md-content>
+	<table ng-table="ngTable" class="table table-full table-hover table-full-small color666">
+
+		<thead class="table-header">
+			<tr>
+				<td width="36%">门店名称</td>
+				<td width="22%">分组名称</td>
+				<td width="22%">支付方式</td>
+				<td width="20%">结算周期</td>
+
+			</tr>
+		</thead>
+		<tbody>
+			<!--<tr>
+				<td>手足潮州牛肉坊（科苑店）</td>
+				<td>南山区</td>
+				<td>刷卡</td>
+				<td>
+					<md-checkbox  ng-model="$root.checkAll" ng-click="changeCheckAll($root.checkAll, $data)" style="margin-bottom:0;margin-right:0;"> </md-checkbox>T0
+					<md-checkbox  ng-model="$root.checkAll" ng-click="changeCheckAll($root.checkAll, $data)" style="margin-bottom:0;margin-left: 24px;"> </md-checkbox>S0
+				</td>
+			</tr>-->
+			<tr ng-repeat="item in $data">
+				<td >{{ item.mchtName }}</td>
+
+				<td my-limit="['item.groupName', 8]"></td>
+				<!--<td><span ng-repeat="payList in item.paymentModeList" >{{payList | payMgrMethod}}</span></td>-->
+				<td>刷卡</td>
+				<td>
+					<md-checkbox ng-if="false" ng-model="t0Selected[$index]" ng-click="changeCheck(t0Selected[$index], item, 1, $index)" style="margin-bottom:0;margin-right:0;">T0</md-checkbox>
+					<md-checkbox ng-model="s0Selected[$index]" ng-click="changeCheck(s0Selected[$index], item, 0, $index)" style="margin-bottom:0;">S0</md-checkbox>
+
+				</td>
+			</tr>
+		</tbody>
+
+	</table>
+	<md-content ng-show="noData" layout-align="center" class="no-data">
+		<p>{{noData}}</p>
+	</md-content>
+
+</md-content>

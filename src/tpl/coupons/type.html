@@ -1,0 +1,59 @@
+<style>
+    #typeDialog {width: 907px; background-color: #f9f9f9; padding: 40px; color: #666; }
+    #typeDialog .title {padding-bottom: 8px; font-size: 16px; font-weight: normal; }
+    #typeDialog .tips {margin-left: 30px; color: #acacac; font-size: 14px; }
+    #typeDialog .field-btn {margin-top: 20px; }
+    div {outline: none}
+</style>
+
+<md-dialog aria-label="选择优惠券类型" ng-cloak id="typeDialog" layout="column" ng-style="typeCtrl.canFriendsCards ? {}:{'width':'720px'}">
+    <span class="absolute closepoi" ng-click="typeCtrl.cancel()">+</span>
+
+    <div layout="row">
+
+        <div flex ng-click="typeCtrl.friend = true" ng-show="typeCtrl.canFriendsCards">
+            <h4 class="contentTitle selectpoi" style="margin-top:0">朋友的券</h4>
+            
+            <md-divider style="margin-bottom: 30px;"></md-divider>
+            <md-radio-group ng-model="typeCtrl.type" layout-align="start">
+                <md-radio-button ng-disabled="typeCtrl.User.poi_friend_disable" value="CASH_F1">无使用门槛代金券</md-radio-button>
+                <p class="tips">可抵扣现金，无使用门槛</p>
+                <md-radio-button ng-disabled="typeCtrl.User.poi_friend_disable" value="CASH_F2">满减代金券/指定品类代金券 </md-radio-button>
+                <p class="tips">可抵扣现金，需消费指定金额或品类</p>
+                <md-radio-button ng-disabled="typeCtrl.User.poi_friend_disable" value="GIFT_F">兑换券 </md-radio-button>
+                <p class="tips">此类型卡券不支持 “优惠前置” 方式核销</p>
+            </md-radio-group>
+            <p class="app-tips-err pl-30" ng-if="typeCtrl.User.normalStoreCount ==0">请先去绑定微信门店，经微信审核通过后才可创建朋友的券</p><!---->
+            <p class="app-tips-err pl-30" ng-if="typeCtrl.User.coinType ==0">尚未开通券点账户，无法创建朋友的券</p><!---->
+            <md-button class="btn-app md-raised" ng-click="typeCtrl.goCoin()" ng-if="typeCtrl.User.coinType ==0" style="margin-left:0;">开通券点账户</md-button><!---->
+        </div>
+
+        <div flex="5" ng-show="typeCtrl.canFriendsCards"></div>
+
+        <div flex ng-click="typeCtrl.friend = false">
+            <h4 class="contentTitle selectpoi" style="margin-top:0">普通券</h4>
+            <md-divider style="margin-bottom: 30px;"></md-divider>
+            <md-radio-group ng-model="typeCtrl.type" layout-align="start">
+                <md-radio-button value="DISCOUNT">折扣券</md-radio-button>
+                <p class="tips">可为用户提供消费折扣</p>
+                <md-radio-button value="CASH">代金券 </md-radio-button>
+                <p class="tips">可为用户提供抵扣现金服务。金额设置成为“满*元，减*元”</p>
+                <md-radio-button value="GIFT">兑换券 </md-radio-button>
+                <p class="tips">此类型卡券不支持 “优惠前置” 方式核销</p>
+                <md-radio-button value="GROUPON">团购券 </md-radio-button>
+                <p class="tips">此类型卡券不支持 “优惠前置” 方式核销</p>
+                <md-radio-button value="GENERAL_COUPON">优惠券</md-radio-button>
+                <p class="tips">此类型卡券不支持 “优惠前置” 方式核销</p>
+            </md-radio-group>
+        </div>
+
+    </div>
+
+    <md-divider style="margin-top: 20px;"></md-divider>
+    <div layout="row" class="field-btn">
+        <md-button ng-click="typeCtrl.cancel()" class="md-raised md-button my-button" style="margin-right: 20px !important;">取消</md-button>
+        <md-button ng-click="typeCtrl.hide({type: typeCtrl.type, friend: typeCtrl.friend})" class="btn-app md-raised my-button">
+            确认
+        </md-button>
+    </div>
+</md-dialog>

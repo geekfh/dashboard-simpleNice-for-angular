@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App" ng-cloak>
+<head>
+    <meta charset="UTF-8">
+    <title>盒子支付 - 商户平台</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="icon" href="http://7xogq3.com2.z0.glb.qiniucdn.com\favicon.png" type="image/x-icon">
+
+    <!--build:css static/style/lib.css-->
+    <link rel="stylesheet" href="../bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="../bower_components/angular-material/layouts/angular-material.layouts.min.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bower_components/ng-table/dist/ng-table.min.css">
+    <!--endbuild-->
+    
+    <!--build:css static/style/app.css-->
+    <link rel="stylesheet" href="../src/static/style/app.css">
+    <!--endbuild-->
+</head>
+<body  id="helpcenterPos">
+<div  layout="column"  ng-cloak style="min-height: 100%;" id="mainDiv">
+	<div id="helpCenterBg" ng-click="isShowHelpcenter()"></div>
+    <section layout="row" flex>
+        <sidebar ng-if="$root.ifLogin"></sidebar>
+        <md-content layout="column" class="scrollContent" flex style="height: 100vh;">
+            <div flex ui-view></div>
+        </md-content>
+    </section>
+    
+</div>
+<!-- 增加登录页面，sidebar布局放在content页面 -->
+<!--<div flex ui-view></div>-->
+
+
+<!-- <script src="../src/ws.js"></script> -->
+<!--<script src="../bower_components/angular/angular.min.js"></script>-->
+<!--<script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>-->
+<!--<script src="../bower_components/angular-material/angular-material.min.js"></script>-->
+
+<!--build:js static/script/lib.js-->
+<script src="../bower_components/angular/angular.min.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="../bower_components/angular-material/angular-material.min.js"></script>
+<script src="../bower_components/angular-messages/angular-messages.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<script src="../bower_components/angular-aria/angular-aria.min.js"></script>
+<script src="../bower_components/ng-table/dist/ng-table.js"></script>
+<script src="../bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script src="../bower_components/echarts/dist/echarts.js"></script>
+<!--endbuild-->
+
+<!--build:js static/script/app.js-->
+<script src="../src/index.js"></script>
+<script src="../src/common/router.js"></script>
+<script src="../src/common/directive.js"></script>
+<script src="../src/common/service.js"></script>
+<script src="../src/common/globalService.js"></script>
+<script src="../src/common/filter.js"></script>
+
+<script src="../src/common/user.directive.js"></script>
+
+<script src="../src/common/sidenav.controller.js"></script>
+<script src="../src/common/sidenav.directive.js"></script>
+
+<script src="../src/coupons/list.controller.js"></script>
+<script src="../src/coupons/list.service.js"></script>
+
+<script src="../src/coupons/create.controller.js"></script>
+<script src="../src/coupons/create_f.controller.js"></script>
+<script src="../src/coupons/create_f2.controller.js"></script>
+<script src="../src/coupons/edit_f.controller.js"></script>
+<script src="../src/coupons/edit_f2.controller.js"></script>
+<script src="../src/coupons/coin.controller.js"></script>
+<script src="../src/coupons/create.service.js"></script>
+<script src="../src/coupons/detail.controller.js"></script>
+
+<script src="../src/coupons/report.controller.js"></script>
+<script src="../src/coupons/report.service.js"></script>
+
+<script src="../src/coupons/check.controller.js"></script>
+<script src="../src/coupons/provide.controller.js"></script>
+<script src="../src/coupons/record.controller.js"></script>
+<script src="../src/coupons/send.controller.js"></script>
+
+<!-- 经营分析 -->
+<script src="../src/analysis/overview.controller.js"></script>
+<!-- 财务查询 -->
+<script src="../src/accounts/balance.list.controller.js"></script>
+<script src="../src/accounts/balance.detail.controller.js"></script>
+<script src="../src/accounts/details.list.controller.js"></script>
+<script src="../src/accounts/download.list.controller.js"></script>
+<script src="../src/accounts/flow.list.controller.js"></script>
+<!--营销中心-->
+<script src="../src/marketing/autoCoupon.rule.controller.js"></script>
+<script src="../src/marketing/autoCoupon.record.controller.js"></script>
+<script src="../src/marketing/activity.rule.controller.js"></script>
+<script src="../src/marketing/activity.record.controller.js"></script>
+<script src="../src/marketing/activity.detail.controller.js"></script>
+
+<!-- 账号设置 -->
+<script src="../src/settings/upGrade.controller.js"></script>
+<script src="../src/settings/wxchat.controller.js"></script>
+<script src="../src/settings/merchantInfo.controller.js"></script>
+<script src="../src/settings/payMgr.controller.js"></script>
+<script src="../src/settings/printSet.controller.js"></script>
+<!-- 登录 -->
+<script src="../src/login/login.controller.js"></script>
+<!-- 交易管理 -->
+<!--<script src="../src/dealMgr/laundry.list.controller.js"></script>-->
+<!-- 员工管理 -->
+<script src="../src/staff/list.controller.js"></script>
+<script src="../src/staff/detail.controller.js"></script>
+
+<!-- 公共控制器 -->
+<script src="../src/commonController/select.poi.controller.js"></script>
+<script src="../src/commonController/select.coupon.controller.js"></script>
+
+
+<script src="../src/clubcard/preview.controller.js"></script>
+<script src="../src/clubcard/card.create1.controller.js"></script>
+<script src="../src/clubcard/card.create2.controller.js"></script>
+<script src="../src/clubcard/card.create3.controller.js"></script>
+<script src="../src/clubcard/card.create4.controller.js"></script>
+
+<script src="../src/clubcard/card.service.js"></script>
+<script src="../src/clubcard/card.directive.js"></script>
+
+<script src="../src/clubcard/member.controller.js"></script>
+<script src="../src/clubcard/detail.controller.js"></script>
+<script src="../src/clubcard/member.service.js"></script>
+
+<script src="../src/clubcard/report.controller.js"></script>
+<script src="../src/clubcard/storedvalue.list.controller.js"></script>
+
+<script src="../src/common/map.js"></script>
+
+<script src="../src/poi/list.controller.js"></script>
+<script src="../src/poi/sublist.controller.js"></script>
+<script src="../src/poi/detail.controller.js"></script>
+<script src="../src/poi/poi.service.js"></script>
+<script src="../src/poi/create.controller.js"></script>
+<script src="../src/poi/create.service.js"></script>
+<!--endbuild-->
+
+<!-- <script src="../build/static/script/templates.js"></script> -->
+<script>
+
+    angular.module('App').value('User', {
+
+
+    });
+
+    angular.module('App').constant('tplUrl', '');
+    angular.module('App').constant('baseUrl', '/server/s300/');
+    /* angular.module('App').constant('baseUrl', '');*/
+
+</script>
+</body>
+</html>

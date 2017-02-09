@@ -1,0 +1,68 @@
+<style>
+ .box-top md-checkbox .md-icon{top: 8px;}
+</style>
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:680px;">
+    <span class="absolute closepoi" ng-click="close()">+</span>
+    <div style="padding: 40px;">
+
+        <h4 class="contentTitle selectpoi">筛选门店</h4>
+        <md-divider></md-divider>  
+       
+        <!--<md-input-container class="md-block" md-no-float style="width: 320px; margin: 30px 0;">
+            <span class="fr search" ng-click="search()"></span>
+            <input type="text" class="input myBoxShadow"  ng-model="queryParams.storeName" placeholder="请输入门店名称">
+        </md-input-container>-->
+
+        <div layout="row" class="mt-20" style="margin-bottom:10px;">
+            <p class="text-p">交易门店</p>
+            <div class="detail-content" style="width: 160px;">
+                <md-select my-select placeholder="所有门店" ng-model="selectedStoreType" ng-change="changeStoreType(selectedStoreType)" aria-label="time">
+                    <md-option ng-repeat="item  in storeTypeList "  value="{{item.value}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.value == selectedStoreType}">
+                        {{item.storeType}}
+                    </md-option>
+                </md-select>
+            </div>
+            <div class="detail-content" style="width: 160px;" ng-if="selectedStoreType == 2">
+                <md-select my-select placeholder="请选择门店分组" ng-model="selectedGroup" ng-change="changeStoreGroup(selectedGroup)" aria-label="time">
+                    <md-option ng-repeat="item  in storeGroupList "  value="{{item.groupId}}" class="mdOption md-ink-ripple" ng-class="{'active' : item.groupId == selectedStoreType}">
+                        {{item.groupName}}
+                    </md-option>
+                </md-select>
+            </div>
+
+            <div class="detail-content" style="width:300px;margin-top: -5px;" ng-if="selectedStoreType == 3">
+                <md-input-container class="md-block" md-no-float>
+                    <input type="text" class="input myBoxShadow" flex ng-model="queryParams.storeName" placeholder="请输入门店名称" >
+                    <clear-input value="queryParams.storeName"></clear-input>
+                </md-input-container>
+            </div>
+            <md-button ng-click="search()" class="btn-app md-raised my-button" style="height:36px;margin-top:10px!important">搜索</md-button>
+        </div>
+
+        <table ng-table="ngTable" class="table table-full table-hover table-full-small">
+            <thead class="table-header">
+            <tr>
+                <td width="8%" class="box-top"><md-checkbox style="margin-bottom: 5px;" ng-click="checkAll($root.isCheckAll, $data)" ng-model="$root.isCheckAll"></md-checkbox></td>
+                <td width="92%" style="vertical-align: bottom;">门店名称</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in $data">
+                <td class="box-top"><md-checkbox ng-click="check(item.isCheck, item)" ng-model="item.isCheck"></md-checkbox></td>
+                <td >{{ item.storeName || '---'}}</td>
+            </tr>
+            </tbody>
+
+        </table>
+        <md-content ng-show="start && !ngTable.data.length" layout-align="center" class="no-data">
+            <p>暂无数据</p>
+        </md-content>
+
+        <div layout="row" class="field-btn" style="margin: 65px 0 30px;">
+            <md-button ng-click="close()" class="md-raised md-button my-button" style="margin-right: 20px !important;">取消</md-button>
+            <md-button ng-click="confirm()" class="btn-app md-raised my-button">
+                确认
+            </md-button>
+        </div>
+    </div>
+</md-dialog>

@@ -1,0 +1,271 @@
+<style type="text/css">
+   .input-icon{background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAa5JREFUOBGdk71OAlEQhbkL2mlnR7A0ilrbQtSGV7AwgcKojZQkEBISSiyRAB2FD2D8QUNPaYIvgCEWNtpuAvgd2F0vZGPhJrMz98ycM/fXRJa+crm8O5lMcsBHWGLKZ4x5x7rRaLRVKpXebIrxBxBXqb3GzjDHx22PyIRx3XGcPPWucrNCken6iJ3PG5omuQM6rskUQ24qh12Mx+MHcSQQ0w9QnVOEHxBOSPaEW1+fuA9+C7lDnKZZDX9pALXmV6lDPrTJxWJxKpFKpWIvNY3ICzOaxmKxfQdyDrID0LLJIoZ9qlGtOAjltAfabS2jHUYIw/xa/LEEEipi+gvHYxMbjcaKPbZqE6HHZRcrHo1GA84/s4xrrFMYYjusJ4nXbgcfnTLgNaa6BXiHyBN34BRs0ysaagbPGrAxWQ8MHBt2H4/H98jlAb8xCX35tfjun8cYKBFUq9UN13XVeZ0Z/B4jXQYo3ZAwJDqM0zbRjwuFwqdH1kXSvajrXcxuIgJX2DZrTUmdhM657e82WJJ8Fp/zyD29B+KZknyEzv96TMEVnanMhRaes4cPmUHoc/4Bas35y03LlFsAAAAASUVORK5CYII=); width: 16px; height: 16px; display: inline-block; position: absolute; left: 10px; top: 9.5px;}
+   .add-photo-btn {display: inline-block; width: 330px; height: 80px; position: relative; border: 1px dashed #ddd; cursor: pointer; outline: none; }
+    .images-wrapper {width: 350px; outline: 1px solid #ddd; padding: 10px; }
+    .upload-directive, .upload-directive-wrapper{width: 100%;display: block;}
+    .text-image-item{ margin-bottom: 30px; outline: 1px dashed #ddd; padding-bottom: 34px;position: relative;}
+    .text-image-item textarea{height: 100px; resize: none;}
+    .text-image-item .del{display: block;bottom: 0;background: rgba(216, 210, 220, 0.8)}
+    md-input-container .app-tips-err{display: none}
+    md-input-container.md-input-invalid .app-tips-err{display: block}
+    .app-content{width: 69.5%; margin-left: 380px; padding: 4px 20px 20px 20px;}
+   .member-detail{padding:0}
+   
+@media screen and (max-width:1023px) {
+.app-content{width:685px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.app-content{width:72%; margin-left: 250px;}
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.app-content{width:74.5%; margin-left: 250px;}
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+}
+@media screen and (width:1366px){
+.app-content{width:63.5%;margin-left: 370px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70%;}
+}
+@media screen and (min-width:1920px) {
+	
+}  
+</style>
+<!-- 手机端 -->
+<section class="small-view" ng-include="'tpl/clubcard/card/mobile_view.html'" onload="loaded()">
+</section>
+<!-- end 手机端 -->
+<form name="form" novalidate  layout-padding ng-cloak style="padding: 0;">
+    <div class="member-detail" style="padding: 0;">
+        <h4 style="margin: 15px 0 8px;">会员权益</h4>
+        <md-divider style="margin-bottom:30px;"></md-divider>
+        <div layout="column" class="card-create"  ng-class="{'formError': vm.formError}" style="padding: 0;">
+
+            <!-- <div class="border-left" layout="row" layout-align="start center" margin="[10, 0, 20, 0]">
+                <span class="span-text float-left">会员权益</span>
+            </div> -->
+
+            <div layout="row" style="margin-top: 5px;">
+                <p class="text-right width70">会员卡优惠</p>
+                <div flex class="detail-content" layout-wrap layout="row" layout-align="start center">
+                    <div layout="row" layout-wrap>
+                        <div style="margin-right: 15px;">
+                            <md-checkbox  ng-model="vm.create.supply_level" ng-true-value="'1'" ng-false-value="'0'"> 等级设置</md-checkbox>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div layout="row"  layout-align="start center" style="display: inline-block;">
+                <p class="text-right width70 margin0" style="display: inline-block;">消费送积分</p>
+                <div class="detail-content" style="display: inline-block;padding-left: 26px;">
+
+                    <div layout="row" layout-align="start center">
+                        <span>每消费</span>
+                        <md-input-container style="width: 140px;" class="marL8">
+                            <input class="input-wid-140 paddingL0" type="number" required name="cost_money_unit" min="0" max="9999999" my-price="100" ng-pattern="/^[0-9]*$/"
+                                   ng-blur="vm.cost_money_unit = true;"
+                                   ng-model="vm.create.bonus_rule.cost_money_unit">
+                        </md-input-container>
+                        <span>元,赠送</span>
+                        <md-input-container style="width: 140px;" class="marL8">
+                            <input class="input-wid-140 paddingL0" type="number" required name="increase_bonus" min="0" max="99999" my-price ng-pattern="/^[0-9]*$/" ng-model="vm.create.bonus_rule.increase_bonus">
+                        </md-input-container>
+                        <p class="margin0"> 积分</p>
+                    </div>                   
+                </div> 
+                 <div style="display:block; margin-left: 100px;width: 100%;" ng-if="(vm.formError || vm.cost_money_unit) && (form.cost_money_unit.$error.required || form.cost_money_unit.$error.max ||form.cost_money_unit.$error.min || form.cost_money_unit.$error.pattern
+                                || form.increase_bonus.$error.required || form.increase_bonus.$error.max || form.increase_bonus.$error.min || form.increase_bonus.$error.pattern)" flex>
+                        <p class="app-tips-err">消费金额和赠送积分只能是大于等于0小于十万的整数。</p>
+                </div>
+                <div style="display:block; margin-left: 100px;width: 100%;" ng-if="(vm.create.bonus_rule.cost_money_unit == 0 || vm.create.bonus_rule.increase_bonus == 0) && !(vm.create.bonus_rule.cost_money_unit == 0 && vm.create.bonus_rule.increase_bonus == 0)" flex>
+                    <p class="app-tips-err">当此规则有一个为0时，两个输入框都必须填0。</p>
+                </div>
+            </div>
+
+
+            <div layout="row"  layout-align="start center" style="margin-top: -10px;">
+                <!-- 单次赠送上限-->
+                <p class="text-right width70 margin0">单次上限<span>(选填)</span></p>
+                <div class="detail-content ">
+                    <div layout="row">
+                        <md-input-container md-no-float class="md-block" style="width: 140px; display: inline-block;">
+                            <input type="number" class="app-input padding0 input-wid-140" name="max_increase_bonus" min="1" max="99999" my-price ng-pattern="/^[0-9]*$/"
+                                   ng-model="vm.create.bonus_rule.max_increase_bonus">
+                        </md-input-container>
+                        <p style="display: inline-block;padding-top: 22px;" class="margin0" > 积分</p>
+                    </div>
+                    <p class="placeholder" ng-if="!(form.max_increase_bonus.$error.min || form.max_increase_bonus.$error.max || form.max_increase_bonus.$error.pattern)">请设置单次增加积分的上限，不填写表示无限制</p>
+                    <!--<div ng-messages="form.max_increase_bonus.$error" flex>
+                        <p class="app-tips-err" ng-message-exp="['min', 'max']">单次上限只能是大于0小于99999的整数</p>
+                    </div>-->
+                    <div ng-if="form.max_increase_bonus.$error.min || form.max_increase_bonus.$error.max ||  form.max_increase_bonus.$error.pattern" flex>
+                        <p class="app-tips-err">单次上限只能是大于0小于十万的整数</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div layout="row"  layout-align="start center">
+                <p  class="text-right width70 margin0">激活送积分<span>(选填)</span></p>
+                <div  class="detail-content ">
+                    <md-input-container md-no-float class="md-block" style="width: 140px; display: inline-block;">
+                        <input type="text" class="app-input padding0 input-wid-140" name="init_increase_bonus" ng-model="vm.create.bonus_rule.init_increase_bonus" min="0"
+                               my-price max="99999" ng-pattern="/^[0-9]*$/">
+                    </md-input-container>
+
+                    <p style="display: inline-block;" class="margin0"> 积分</p>
+                    <br>
+                    <p class="placeholder" ng-if="!(form.init_increase_bonus.$error.min || form.init_increase_bonus.$error.max || form.init_increase_bonus.$error.pattern)">请设置激活会员卡赠送的积分，不填写表示不赠送</p>
+                    <!--<div ng-messages="form.init_increase_bonus.$error">
+                        <p  class="app-tips-err"  ng-message-exp="['min', 'max']">激活送积分只能是大于0小于99999的整数</p>
+                    </div>-->
+                    <div ng-if="form.init_increase_bonus.$error.min || form.init_increase_bonus.$error.max ||  form.init_increase_bonus.$error.pattern">
+                        <p  class="app-tips-err">激活送积分只能是大于0小于十万的整数</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div layout="row"  layout-align="start center" style="display: inline-block;">
+                <p  class="text-right width70 margin0">积分抵扣</p>
+                <div  class="detail-content" style="display: inline-block;padding-left: 26px;">
+                    <div layout="row" layout-align="start center">
+                        <div>每使用</div>
+                        <md-input-container style="width: 140px;" class="marL8">
+                            <input class="input-wid-140 paddingL0" type="number" required name="cost_bonus_unit" min="0"  my-price max="99999" ng-pattern="/^[0-9]*$/" ng-blur="vm.cost_bonus_unit = true" ng-model="vm.create.bonus_deduction_rule.cost_bonus_unit">
+                        </md-input-container>
+                        <div>积分，抵扣</div>
+                        <md-input-container style="width: 140px;" class="marL8">
+                            <input class="input-wid-140 paddingL0"  type="number" required min="0" my-price="100" max="9999999" ng-blur="vm.cost_bonus_unit = true" ng-pattern="/^[0-9]*$/" name="reduce_money" ng-model="vm.create.bonus_deduction_rule.reduce_money">
+                        </md-input-container>
+                        <p class="margin0">元</p>
+                    </div>                   
+                </div>
+                 <div style="display:block; margin-left: 100px;width: 100%;" ng-if="(vm.formError || vm.cost_bonus_unit) && (form.cost_bonus_unit.$error.required || form.cost_bonus_unit.$error.min|| form.cost_bonus_unit.$error.max || form.cost_bonus_unit.$error.pattern
+                            || form.reduce_money.$error.required || form.reduce_money.$error.min || form.reduce_money.$error.max || form.reduce_money.$error.pattern)" flex>
+                        <p class="app-tips-err" >积分和金额只能是大于等于0小于十万的整数</p>
+                 </div>
+                <div style="display:block; margin-left: 100px;width: 100%;" ng-if="(vm.create.bonus_deduction_rule.cost_bonus_unit == 0 || vm.create.bonus_deduction_rule.reduce_money == 0) && !(vm.create.bonus_deduction_rule.cost_bonus_unit == 0 && vm.create.bonus_deduction_rule.reduce_money == 0)" flex>
+                    <p class="app-tips-err" >当此规则有一个为0时，两个输入框都必须填0。</p>
+                </div>
+            </div>
+
+            <div layout="row"  layout-align="start center" style="margin-top: -15px;">
+                <p class="text-right width70" style="margin-top: 29px;">抵扣条件<span>(选填)</span></p>
+                <div flex class="detail-content">
+                    <div layout="row" layout-align="start center">
+                        <span>订单满</span>
+                        <md-input-container style="width: 140px;" class="marL8">
+                            <input class="input-wid-140 paddingL0" type="number" aria-label="订单金额" name="least_money" min="0" max="9999999" my-price="100" ng-pattern="/^[0-9]*$/" ng-model="vm.create.bonus_deduction_rule.least_money_to_use_bonus">
+                        </md-input-container>
+                        <span>元可用，单笔上限</span>
+                        <md-input-container style="width: 140px;"class="marL8">
+                            <input class="input-wid-140 paddingL0" type="number" aria-label="单笔上限" name="max_reduce" min="1" max="99999" my-price ng-pattern="/^[0-9]*$/" ng-model="vm.create.bonus_deduction_rule.max_reduce_bonus">
+                        </md-input-container>
+                        <p class="margin0">积分</p>
+                    </div>
+                    <!--<div ng-messages="form.least_money.$error">
+                        <p  class="app-tips-err"  ng-message-exp="['min', 'max']">抵扣条件只能是大于0小于99999的整数</p>
+                    </div>-->
+                    <div ng-if="form.least_money.$error.min || form.least_money.$error.max ||  form.least_money.$error.pattern">
+                        <p  class="app-tips-err" >抵扣条件只能是大于0小于十万的整数</p>
+                    </div>
+                    <!--<div ng-messages="form.max_reduce.$error">
+                        <p  class="app-tips-err"  ng-message-exp="['min', 'max']">单笔上限只能是大于0小于99999的整数</p>
+                    </div>-->
+                    <div ng-if="form.max_reduce.$error.max || form.max_reduce.$error.min || form.max_reduce.$error.pattern">
+                        <p  class="app-tips-err">单笔上限只能是大于0小于十万的整数</p>
+                    </div>
+
+                </div>
+            </div>
+            <section ng-repeat="list in vm.create.evelLists" ng-if="vm.create.supply_level === '1'">
+                <div class="border-left" layout="row" layout-align="start center" margin="[60, 0, 20, 0]">
+                    <span class="span-text float-left">等级{{$index + 1}}</span>
+                    <div flex layout="row" layout-align="end center">
+                        <a class="float-right" ng-click="deleteEvel($index)" ng-if="$index > 0">删除</a>
+                    </div>
+                </div>
+                <p class="warm-con mt-30" layout="row" layout-align="start center" ng-if="$index == 0">
+                    <span class="radiusspan"></span>
+                    温馨提示：等级分割的数值建议不要断层，否则将导致用户无法获取相应等级。
+                </p>
+                <div layout="row"  layout-align="start center">
+                    <p class="text-right width70 margin0">累计积分</p>
+                    <div class="detail-content">
+                        <div layout="row" layout-align="start center">
+                            <md-input-container style="width: 140px;">
+                                <input type="number" class="padding0 input-wid-140" name="min{{$index}}" min="0" max="99999" ng-pattern="/^[0-9]*$/" ng-blur="vm.showTip('integral ' + $index)" my-price required ng-model="list.lower_bonus_limit">
+                            </md-input-container>
+                            <span>到</span>
+                            <md-input-container style="width: 140px;" class="marL8">
+                                <input type="number" class="input-wid-140 paddingL0" name="max{{$index}}" min="0" max="99999" ng-pattern="/^[0-9]*$/" ng-blur="vm.showTip('integral ' + $index)" my-price required ng-model="list.upper_bonus_limit">
+                            </md-input-container>
+                            <p class="margin0"> 积分</p>
+
+                        </div>
+                        <span class="placeholder" ng-if="$index == 0" ng-hide="(vm.formError || vm.integral[$index]) && (form.min{{$index}}.$error.required || form.min{{$index}}.$error.min || form.min{{$index}}.$error.max || form.min{{$index}}.$error.pattern ||
+                                                                          form.max{{$index}}.$error.required || form.max{{$index}}.$error.min || form.max{{$index}}.$error.max || form.max{{$index}}.$error.pattern)">初始积分建议填0</span>
+                        <p class="app-tips-err" ng-show="(vm.formError || vm.integral[$index]) && (form.min{{$index}}.$error.required || form.min{{$index}}.$error.min || form.min{{$index}}.$error.max || form.min{{$index}}.$error.pattern ||
+                                                                          form.max{{$index}}.$error.required || form.max{{$index}}.$error.min || form.max{{$index}}.$error.max || form.max{{$index}}.$error.pattern)">积分只能是大于等于0小于十万的整数。</p>
+
+                        <!--<p class="app-tips-err" ng-show="vm.formError && form.max{{$index}}.$error.max">积分必须大于0小于99999且最多到小数点后2位。</p>
+                        <p class="app-tips-err" ng-show="vm.formError && form.min{{$index}}.$error.required">积分必须大于0小于99999999且最多到小数点后2位。</p>
+                        <p class="app-tips-err" ng-show="vm.formError && form.max{{$index}}.$error.max">积分必须大于0小于99999999且最多到小数点后2位。</p>-->
+                    </div>
+                </div>
+                <div layout="row"  layout-align="start center">
+                    <p  class="text-right width70 margin0" style="margin-top: -18px !important;">等级名称</p>
+                    <div flex="40" class="detail-content input-left-140">
+                        <md-input-container md-no-float class="md-block">
+                            <input type="text" han="8" class="app-input padding0 input-wid-140" ng-blur="vm.showTip('grade ' + $index)" name="name{{$index}}" required ng-model="list.level_name">
+                        </md-input-container>
+                        <span class="placeholder" ng-hide="(vm.formError || vm.grade[$index]) && (form.name{{$index}}.$error.required || form.name{{$index}}.$error.han || form.name{{$index}}.$error.pattern )">等级名称不能为空且不能超8个字符</span>
+                        <p class="app-tips-err" ng-show="(vm.formError || vm.grade[$index]) && (form.name{{$index}}.$error.required || form.name{{$index}}.$error.han)">等级名称不能为空且不能超过8个字符</p>
+                        <!--<p class="app-tips-err" ng-show="form.name{{$index}}.$error.han && vm.formError">最多可填写6个文字</p>-->
+                        <p class="app-tips-err" ng-show="(vm.formError || vm.grade[$index]) && form.name{{$index}}.$error.pattern  ">等级只能输入中文</p>
+                    </div>
+                </div>
+                <div layout="row"  layout-align="start center">
+                    <p  class="text-right width70 margin0" style="margin-top: -18px !important;">享受折扣</p>
+                    <div class="detail-content">
+                        <div layout="row" layout-align="start center">
+                            <md-input-container md-no-float class="md-block" style="width: 140px;">
+                                <input type="number" required class="app-input padding0 input-wid-140" ng-blur="vm.showTip('discount ' + $index)" name="discount{{$index}}" ng-model="list.discount" min="1"
+                                       my-price max="10">
+                            </md-input-container>
+                            <p style="margin-top: 15px !important;" class="margin0">折</p>
+                        </div>
+                        <span class="placeholder" ng-hide="(form.discount{{$index}}.$error.required || form.discount{{$index}}.$error.max) && (vm.discount[$index] || vm.formError)">填10表示不打折，若需折扣请填写1-9.9之间的数字</span>
+
+                        <p class="app-tips-err" ng-show="(form.discount{{$index}}.$error.required || form.discount{{$index}}.$error.max) && (vm.discount[$index] || vm.formError)">折扣必须为1-9.9之间的数字</p>
+
+                    </div>
+
+                </div>
+            </section>
+            <div layout="row" style="margin-top: 30px; padding-left: 0;" ng-show="vm.create.supply_level === '1'" >
+                <md-button class="md-raised my-shadow my-button" ng-click="addEvel()" >添加等级</md-button>
+            </div>
+            <md-divider  style="margin-top: 25px"></md-divider>
+            <div layout="row" style="margin-top: 25px; padding-left: 0;">
+                <md-button class="md-raised my-shadow my-button" ng-click="back()" >上一步</md-button>
+                <md-button style="margin-left: 10px !important;" class="md-raised my-shadow my-button" ng-click="next(form.$invalid)" >下一步</md-button>
+            </div>
+        </div>
+    </div>
+
+</form>

@@ -1,0 +1,467 @@
+<style>
+    div[ng-messages] p{ display: none; } .form-error div[ng-messages] p{ display: block; }
+    .app-content{/*width:696px;*/width:69.5%;margin-left:380px;}
+    .member-detail {  padding-left: 0;  padding-right: 0;  padding-top: 10px;  }
+    .app-content .span-text {margin-left: 2px;  }
+    md-checkbox.checkbox-time{margin-right:10px;}
+    md-checkbox.checkbox-time .md-label{margin-left:28px;}
+    .time-input{padding-left:36px!important;}
+    .md-datepicker-input-container{width:130px;}
+    .md-datepicker-triangle-button{right:10px;}
+    textarea{width: 548px !important;}
+    textarea + .md-char-counter{margin-right: -21px !important;}
+    textarea.textarea-heig-120 + .md-char-counter{margin-right: 0px !important;margin-top: 3px;}
+    
+@media screen and (max-width:1023px) {
+.suspension-wrap{left: 80px;}
+.app-content{width:681px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.suspension-wrap{left: 85px;}
+.app-content{width:71.5%; margin-left: 255px;}
+
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.suspension-wrap{left: 85px;}
+.app-content{width:74%; margin-left: 255px;}
+
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (width:1366px){
+.app-content{width:63.5%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70.5%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+</style>
+<!--悬浮框-->
+<section class="suspension-outer" ng-include=" 'tpl/coupons/mobile_view.html' " onload="vm.initPos()"></section>
+
+<section>
+    <form name="form" novalidate >
+        <div layout="column" class="member-detail card-create"  layout-padding ng-class="{'formError': vm.formError}">
+            <h4 style="font-weight:400;color: #2b2b2b;">{{$root.isEdit ? '编辑' : '新增'}}{{vm.coupon.cardType | cardType}}券</h4>
+            <md-divider></md-divider>
+
+            <div class="border-left" margin="[10, 0, 20, 0]">
+                <span class="span-text float-left" style="margin-top:-7px;">基本信息</span>
+            </div>
+
+            <p style="padding-left:0;">如商户信息有变更，请在<a class="text-decoration" href="#/settings/merchantInfo">商户信息</a>查看</p>
+
+            <div layout="row" layout-align="start start">
+                <p class="text-right width70" style="margin-top: 15px;">商户Logo</p>
+                <div  class="detail-content" layout="column">
+                    <div layout="row">
+                        <img width="100" height="100" ng-src="{{vm.user.s300LogoUrl}}" ng-if="vm.user.s300LogoUrl" />
+                        <myupload style="width: 110px;" ng-model="aa" pic="vm.pic" name="logo" ng-if="!vm.user.s300LogoUrl" ng-show="!vm.user.s300LogoUrl">上传Logo</myupload>
+                    </div>
+                    <div layout="row" style="margin-top: 3px;">
+                        <p ng-if="vm.user.brandName">{{vm.user.brandName}}</p>
+                        <p style="color: #ccc;" ng-if="!vm.user.brandName">图片建议尺寸为：300像素*300像素。仅支持.jpg、.png格式照片，大小不超过1MB。</p>
+                    </div>
+                    <div ng-messages="form.logo.$error">
+                        <p class="app-tips-err" ng-message="required">请上传图片</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center" ng-if="!vm.user.brandName">
+                <p class="text-right width70">商户名称</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.brandName}">
+                    <md-input-container md-no-float class="md-block input-left-280">
+                        <input type="text" class="app-input input-wid-280 paddingL0" ng-blur="vm.brandName = true"  name="brand_name" han="24" ng-model="vm.create.brandName" required>
+                    </md-input-container>
+                    <div ng-messages="form.brand_name.$error">
+                        <p class="app-tips-err" ng-message-exp="['required','han']">商户名称不能为空且长度不超过12个汉字或24个英文字母</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div layout="row" layout-wrap style="margin-top: -20px;" layout-align="start center">
+                <p  class="text-right" style="margin-top:-7px;">{{vm.coupon.cardType | cardType}}券标题</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.title}">
+                    <md-input-container md-no-float class="md-block input-left-280-1">
+                        <input type="text"
+                               class="app-input padding0 input-wid-280"
+                               han="18"
+                               name="title"
+                               ng-disabled="$root.isEdit"
+                               ng-model="vm.coupon.baseInfo.title"
+                               required
+                               ng-blur="vm.title = true">
+                    </md-input-container>
+                    <span class="placeholder" ng-hide="(vm.formError || vm.title) && (form.title.$error.required || form.title.$error.han)">{{vm.coupon.cardType | cardTips}}</span>
+                    <div ng-messages="form.title.$error">
+                        <p class="app-tips-err" ng-message-exp="['required','han']">{{vm.coupon.cardType | cardType}}券标题不能为空且长度不超过9个汉字或18个英文字母</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--折扣券-->
+            <div layout="row" layout-align="start center" ng-if="vm.coupon.cardType == 'DISCOUNT'">
+                <p class="text-right">折扣额度</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.discount}">
+                    <div>
+                        <div layout="row" layout-align="start center">
+                            <md-input-container md-no-float style="width: 140px">
+                                <input type="number" class="app-input padding0 input-wid-140" name="discount" required ng-blur="vm.discount = true"
+                                       min="1" max="9.9" ng-model="vm.coupon.discount"  aria-label="discount" ng-disabled="$root.isEdit">
+                            </md-input-container>折
+                        </div>
+                        <span class="placeholder" ng-hide="(vm.discount || vm.formError) && (form.discount.$error.required || form.discount.$error.max || form.discount.$error.min)">请填写1-9.9之间的数字，精确到小数点后1位</span>
+                    </div>
+                    <div ng-messages="form.discount.$error">
+                        <p class="app-tips-err" ng-message-exp="['max','min','required']">折扣额度必须在1-9.9之间，精确到小数点后1位。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--代金券-->
+            <div layout="column" ng-if="vm.coupon.cardType == 'CASH'"> 
+                <div layout="row"  layout-align="start center">
+                    <p class="text-right" style="margin-top:-7px;">抵扣条件</p>
+                    <div flex class="detail-content" ng-class="{'formError': vm.leastCost}">
+                        <div>
+                            <div layout="row" layout-align="start center">
+                                <md-input-container md-no-float style="width: 140px">
+                                    <input type="number" required
+                                           class="app-input padding0 input-wid-140"
+                                           name="leastCost"
+                                           min="0" max="99999"
+                                           ng-model="vm.create.leastCost"
+                                           aria-label="leastCost" ng-disabled="$root.isEdit"
+                                           ng-blur="vm.leastCost = true"
+                                           >
+                                </md-input-container>元
+                            </div>
+                            <span class="placeholder" ng-hide="(vm.formError || vm.leastCost) && (form.leastCost.$error.required)">消费满多少元可用， 无起用门槛则填0。</span>
+                        </div>
+                        <div ng-messages="form.leastCost.$error">
+                            <p class="app-tips-err" ng-message="required">抵扣条件必须为数字，无启用门槛则填0</p>
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" layout-align="start center">
+                    <p class="text-right" style="margin-top:-30px;">减免金额</p>
+                    <div flex class="detail-content" ng-class="{'formError': vm.reduceCost}">
+                        <div layout="row" layout-align="start center">
+                            <md-input-container md-no-float style="width: 140px">
+                                <input type="number" required ng-blur="vm.reduceCost = true" class="app-input padding0 input-wid-140" name="reduceCost" min="1" max="99999" ng-model="vm.create.reduceCost" ng-disabled="$root.isEdit">
+                            </md-input-container>
+                            <p>元</p>
+                        </div>
+                        <div ng-messages="form.reduceCost.$error">
+                            <p class="app-tips-err" ng-message="required">消费减免金额必须为大于0的数字</p>
+                        </div>
+                        <div class="app-tips" ng-hide="(vm.formError || vm.reduceCost) && (form.reduceCost.$error.required)">消费满多少元,减免多少元。 无起用门槛则填0。（例：满0元减50元，即表示无门槛代金券）</div>
+                    </div>
+                </div>
+            </div>
+             <!--end代金券-->
+
+            <div layout="row" layout-align="start center" style="margin-top: 10px; display: inline-block;">
+                <p class="text-right" style="margin: 0; display: inline-block; position: relative; top: -10px;">卡券颜色</p>
+                <div flex class="detail-content" style="margin: 0; display: inline-block;">
+                    <input type="hidden" name="color" ng-required="!$root.isEdit" ng-model="vm.create.color.cname">
+                    <my-color ng-model="vm.create.color.cname" color="vm.create.color" name="color"></my-color>   
+                      
+                </div>
+                <div ng-messages="form.color.$error" ng-if="!$root.isEdit" style="margin: 0; display: block;margin-left: 103px;margin-top: 15px;">
+                        <p class="app-tips-err" ng-message="required">请选择卡券颜色</p>
+                </div>      
+                
+            </div>
+
+            
+            <div layout="row" style="margin-top: 10px;" layout-align="start center">
+                <p class="text-right" style="margin: 0;margin-top:-69px;">有效期</p>
+                <div flex class="detail-content comn-font" layout="column" style="margin-left:16px;">
+                    <md-radio-group ng-model="vm.coupon.baseInfo.dateInfoType" name="time_limit" style="margin-left: -16px">
+                        <div layout="row">
+                            <md-radio-button value="DATE_TYPE_FIX_TIME_RANGE" style="margin-bottom:10px;" flex="5" ng-disabled="$root.isEdit && vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM'"></md-radio-button>
+                           <!-- <div style="margin-left: 2px;" flex="95">-->
+                                <span style="margin-top:1px;" >固定日期</span>
+                                <md-datepicker ng-model="vm.create.begin" md-min-date="vm.beginMinDate" name="beginTimestamp" ng-change="vm.checkTime()"
+                                               ng-disabled="vm.need_disabled || (vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM')"
+                                               ng-if="!$root.isEdit"   md-placeholder="选择开始日期" style="margin-right: 10px; margin-left: 8px;width:150px;height:35px;margin-top:-7px;"></md-datepicker>
+
+                                <md-datepicker ng-model="vm.create.begin" md-min-date="vm.beginMinDate" name="beginTimestamp"
+                                               ng-disabled="vm.need_disabled || (vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM')"
+                                               md-max-date="vm.beginMaxDate" ng-if="$root.isEdit"  ng-change="vm.checkTime()"
+                                               md-placeholder="选择开始日期"   style="margin-right: 10px; margin-left: 8px;width:150px;height:35px;margin-top:-7px;"></md-datepicker>
+                                <span style="line-height: 36px;;margin-top:-7px;">至</span>
+                                <md-datepicker name="endTimestamp"  ng-model="vm.create.end" md-min-date="vm.endMinDate" ng-change="vm.checkTime()"
+                                               md-placeholder="选择截至日期"   style="margin-left: 10px;width:150px;height:35px;;margin-top:-7px;" ng-disabled="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM'"></md-datepicker><!--md-max-date="vm.endMaxDate"-->
+                            <!--</div>-->
+                        </div>
+                        <div layout="row">
+                            <md-radio-button value="DATE_TYPE_FIX_TERM" style="margin-top:20px;" flex="5" ng-disabled="$root.isEdit && vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'"></md-radio-button>
+                            <!--<div flex="95">-->
+                                <span style="margin-top:21px;margin-right:6px;" >领取后，</span>
+                                <md-select my-select placeholder="" ng-model="vm.coupon.baseInfo.fixedBeginTerm" ng-disabled="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'" aria-label="time"  class="inline">
+                                    <md-option  value="0" class="mdOption inline" ng-class="{'active' : 0 == vm.coupon.baseInfo.fixedBeginTerm}" >
+                                        当天
+                                    </md-option>
+                                    <md-option ng-repeat="day in vm.dayArray "  value="{{day}}" class="mdOption" ng-class="{'active' : day == vm.coupon.baseInfo.fixedBeginTerm}">
+                                        {{day}}天
+                                    </md-option>
+                                </md-select>
+                                <span style="margin-top:21px;margin-right:10px;">生效，有效天数</span>
+                                <div  class="detail-content inline padding0" ng-class="{'formError': vm.fixedTerm}">
+                                    <md-input-container md-no-float class="md-block card-marR-wrap" style="margin:6px 0;">
+                                        <input   ng-blur="vm.fixedTerm = true" min="1" max="1095"  class="app-input padding0" ng-pattern="/^[1-9]\d{0,3}$/" type="number"
+                                               name="fixed_term"  ng-model="vm.coupon.baseInfo.fixedTerm" ng-required="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM'" style="width:150px;" ng-disabled="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'">
+                                    </md-input-container>
+
+                                </div>
+                                <span  style="margin-top:21px;">天</span>
+                                <!--<md-select my-select placeholder="" ng-model="vm.coupon.baseInfo.fixedTerm" ng-disabled="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'" aria-label="time"  class="inline">
+                                    <md-option ng-repeat="day  in vm.dayArray "  value="{{day}}" class="mdOption inline" ng-class="{'active' : day == vm.coupon.baseInfo.fixedTerm}">
+                                        {{day}}天
+                                    </md-option>
+                                </md-select>-->
+                            <!--</div>-->
+                        </div>
+                    </md-radio-group>
+                    <span class="placeholder" style="margin-left:-17px"
+                          ng-hide="((!vm.create.begin || ! vm.create.end) && vm.create.show_date_tip && vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE') ||
+                                 vm.create.show_date_tip_period ||
+                                 ((vm.create.begin && form.beginTimestamp.$invalid) || (vm.create.end && form.endTimestamp.$invalid)) ||
+                                 ((vm.fixedTerm || vm.formError) && (form.fixed_term.$error.required || form.fixed_term.$error.min || form.fixed_term.$error.max || form.fixed_term.$error.pattern) && vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM')">
+                        上面两种有效期形式一旦选定不可切换，请慎重选择
+                    </span>
+                    <div layout="row" ng-if="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'">
+                        <div  ng-if="(!vm.create.begin || ! vm.create.end) && vm.create.show_date_tip">
+                            <p class="app-tips-err" style="margin-left: -17px;">请选择卡券有效期时间</p>
+                        </div>
+                        <div ng-if="vm.create.show_date_tip_period">
+                            <p class="app-tips-err" style="margin-left: -17px;" >优惠券有效期不可以超过十年</p>
+                        </div>
+                        <div ng-if="(vm.create.begin && form.beginTimestamp.$invalid) || (vm.create.end && form.endTimestamp.$invalid)" >
+                            <p class="app-tips-err" style="margin-left: -17px;">请输入正确的时间格式</p>
+                        </div>
+                    </div>
+
+                    <div layout="row" ng-if="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM'">
+                        <div ng-if="(vm.fixedTerm || vm.formError) &&
+                         (form.fixed_term.$error.required || form.fixed_term.$error.min || form.fixed_term.$error.max || form.fixed_term.$error.pattern)">
+                            <p class="app-tips-err"  style="margin-left: -17px;" >有效天数请填写1-1095内的数字</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="border-left" margin="[40, 0, 10, 0]">
+                <span class="span-text float-left" style="margin-top:-7px;">优惠详情</span>
+            </div>
+
+            <div layout="row" layout-align="start center"  ng-if="vm.coupon.cardType == 'GENERAL_COUPON'">
+                <p class="text-right" style="margin-top:-118px;">优惠说明</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.defaultDetail}">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-wid-548 textarea-heig-120">
+                        <!--<input class="app-input padding0" name="defaultDetail" required ng-model="vm.coupon.defaultDetail" han="320">-->
+                        <textarea class="textarea-wid-548 textarea-heig-120" style="outline: none;" name="defaultDetail" ng-blur="vm.defaultDetail = true" required ng-model="vm.coupon.defaultDetail" han="320" ng-disabled="$root.isEdit"></textarea>                        
+                    </div>
+                    <div class="placeholder float-left" ng-hide="(vm.formError || vm.defaultDetail) && form.defaultDetail.$error.required">请填写卡券优惠说明</div>
+                    <div ng-messages="form.defaultDetail.$error">
+                        <p class="app-tips-err mar0-pad0" ng-message="required">优惠说明不能超过160个汉字或320个字母</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center" ng-if="vm.coupon.cardType == 'GIFT'">
+                <p class="text-right" style="margin-top:-118px;">兑换说明</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.gift}">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-wid-548 textarea-heig-120">
+                        <!--<input type="text" class="app-input padding0" name="gift" required ng-disabled="vm.coupon.cardId && vm.coupon.id" ng-model="vm.coupon.gift" han="320"></input>-->
+                        <textarea style="outline: none;"  class="textarea-wid-548 textarea-heig-120" name="gift" required ng-blur="vm.gift = true" ng-disabled="$root.isEdit" ng-model="vm.coupon.gift" han="320" ></textarea>                       
+                    </div>
+                     <div class="placeholder float-left" ng-hide="(vm.formError || vm.gift) && form.gift.$error.required">请填写卡券兑换说明</div>
+                    <div ng-messages="form.gift.$error">
+                        <p class="app-tips-err mar0-pad0" ng-message="required">兑换说明不能超过160个汉字或320个字母</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center" ng-if="vm.coupon.cardType == 'GROUPON'">
+                <p class="text-right" style="margin-top:-118px;">团购说明</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.dealDetail}">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-wid-548 textarea-heig-120">
+                        <!--<input type="text" class="app-input padding0" name="dealDetail" required ng-disabled="vm.coupon.cardId && vm.coupon.id" ng-model="vm.coupon.dealDetail" han="320">-->
+
+                        <textarea class="textarea-wid-548 textarea-heig-120" name="dealDetail" required ng-blur="vm.dealDetail = true" ng-disabled="$root.isEdit" ng-model="vm.coupon.dealDetail" han="320"></textarea>                        
+                    </div>
+
+                    <div class="placeholder float-left"  ng-hide="(vm.formError || vm.dealDetail) && form.dealDetail.$error.required">请填写团购说明</div>
+                    <div ng-messages="form.dealDetail.$error">
+                        <p class="app-tips-err mar0-pad0" ng-message="required">团购说明不能超过160个汉字或320个字母</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--使用须知 是公用字段-->
+            <div layout="row" layout-align="start center">
+                <p class="text-right" style="margin-top:-118px;">使用须知</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.description}">
+                    <div md-no-float class="md-block upper-textarea-bottom textarea-wid-548 textarea-heig-120">
+                        <!--<input type="text" class="app-input padding0" name="description" required han="320" ng-model="vm.coupon.baseInfo.description">-->
+
+                        <textarea class="app-textarea textarea-wid-548 textarea-heig-120" name="description" ng-blur="vm.description = true" required han="320" ng-model="vm.coupon.baseInfo.description"></textarea>                        
+                   </div>
+                    <div class="placeholder float-left" ng-hide="(vm.formError || vm.description) && form.description.$error.required">请填写卡券使用须知</div>
+                    <div ng-messages="form.description.$error">
+                        <p class="app-tips-err mar0-pad0" ng-message="required">使用须知不能超过160个汉字或320个字母</p>
+                    </div>
+                </div>
+            </div>
+            <div layout="row"  style="margin-top: 10px;">
+                <p class="text-right">可用时段</p>
+                <div flex="90" class="detail-content" layout="column" style="margin-left: 14px;">
+                    <md-radio-group ng-model="vm.create.time" name="time_limit" style="margin-left: -16px">
+                        <md-radio-button value="all">全部时间段</md-radio-button>
+                        <md-radio-button value="some">部分时间段</md-radio-button>
+                        <div ng-if="vm.create.time == 'some'" style="margin-left: 33px">
+                            <span style="margin-right:10px;margin-left:-4px;" class="color666">日期</span>
+                            <md-checkbox class="checkbox-time" ng-repeat="day in vm.create.time_limit" ng-model="day.check">周{{day.n}}</md-checkbox>
+                            <!--显示添加时段-->
+                            <div ng-if="!vm.create.show_time_limit_stamp">
+                                <div margin="[4,0,0,-3]"><a class="app-color td-under" ng-click="vm.create.show_time_limit_stamp = !vm.create.show_time_limit_stamp">添加时间段</a></div>
+                            </div>
+                            <div ng-if="vm.create.show_time_limit_stamp" margin="[4,0,0,0]">
+                                <span style="margin-right:10px;margin-left:-4px;" class="color666">时间</span>
+                                <input class="time-input" type="text" ng-model="vm.create.time_limit_begin"> 至 <input class="time-input" type="text" ng-model="vm.create.time_limit_end" style="margin-left:10px;">
+                                <p margin="[10,0,0,38]" class="app-tips-err" ng-show="vm.create.time_limit_error1">请输入正确的时间格式</p>
+                                <p margin="[10,0,0,38]" class="app-tips-err" ng-show="vm.create.time_limit_error2" >结束时间应不超过开始时间</p>
+                                <p margin="[10,0,0,38]" class="app-tips-err" ng-show="vm.create.time_limit_notall">必须同时填写开始时间与结束时间</p>
+                                <p  margin="[10,0,0,38]" class="placeholder" ng-hide="vm.create.time_limit_error1 || vm.create.time_limit_error2 || vm.create.time_limit_notall">请使用24小时制输入时间，格式如 11:00 至 14:30</p>
+                                <div margin="[20,0,0,38]"><a class="app-color td-under" ng-click="delTimeLimit()">删除时间段</a></div>
+                            </div>
+                            <div margin="[10,0,0,0]"><p class="app-tips-err" ng-show="vm.create.time_limit_noday">请选择日期</p></div>
+                        </div>
+                    </md-radio-group>
+                </div>
+            </div>
+
+            <div class="border-left" margin="[40, 0, 10, 0]">
+                <span class="span-text float-left" style="margin-top:-7px;">使用设置</span>
+            </div>
+
+            <div layout="row" layout-align="start start" style="margin-top:30px" ng-if="(!$root.isEdit && vm.user.authStatus == 1) || ($root.isEdit && vm.coupon.baseInfo.onWeixin == 1)">
+                <p  class="text-right"><md-checkbox ng-model="vm.coupon.baseInfo.canShare" ng-true-value="'1'" ng-false-value="'0'"></md-checkbox></p>
+                <div style="width: 200px; padding-left: 0;" class="detail-content" >
+                    用户可以分享领券链接
+                </div>
+                <p  class="text-right"><md-checkbox ng-model="vm.coupon.baseInfo.canGiveFriend" ng-true-value="'1'" ng-false-value="'0'"></md-checkbox></p>
+                <div style="width: 200px; padding-left: 0;" class="detail-content" >
+                    用户可以转赠
+                </div>
+            </div>
+
+
+            <div layout="row" layout-align="start center" ng-if="!($root.isEdit && vm.coupon.baseInfo.onWeixin == '1')">
+                <p  class="text-right">库存</p>
+                <div class="detail-content" ng-class="{'formError': vm.quantity}">
+                    <md-input-container md-no-float class="md-block" style="width: 140px;">
+                        <input type="number" class="app-input padding0 input-wid-140" ng-blur="vm.quantity = true" name="quantity"
+                                ng-model="vm.coupon.baseInfo.quantity" min="1" max="50000000" required>
+                    </md-input-container>
+                </div>
+                <p>份</p>
+                <div ng-messages="form.quantity.$error" style="position: relative;top: 40px; left: -162px;">
+                    <p  class="app-tips-err"  ng-message-exp="['required', 'min', 'max']">库存数量不能为空，且不能大于50000000</p>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center">
+                <p class="text-right">领券限制<span>(选填)</span></p>
+                <div class="detail-content">
+                    <md-input-container md-no-float  class="md-block" style="width: 140px; display: inline-block;">
+                        <input type="number" class="app-input padding0 input-wid-140" ng-model="vm.coupon.baseInfo.getLimit" name="getLimit" max="10000000" min="1">
+                    </md-input-container>
+                    <span style="position: relative;left: -3px;">张</span>
+                    <br>
+                    <p class="placeholder" ng-hide="vm.formError && (form.getLimit.$error.max || form.getLimit.$error.min)">每个用户每张券领取次数上限，如不填，则默认为1</p>
+
+                    <div ng-messages="form.getLimit.$error">
+                        <p class="app-tips-err" ng-message-exp="['max', 'min']">用户领券上限为1到10000000张</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start center">
+                <p class="text-right mt-18_">操作提示</p>
+                <div flex class="detail-content" ng-class="{'formError': vm.notice}">
+                    <md-input-container md-no-float class="md-block upper input-left-280">
+                        <input type="text" class="app-input padding0 input-wid-280" ng-blur="vm.notice = true" name="notice" han="32" ng-model="vm.coupon.baseInfo.notice" required>
+                        <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="(vm.formError || vm.notice) && (form.notice.$error.required || form.notice.$error.han)">操作提示不能为空且长度不超过16个汉字</span>
+                    </md-input-container>
+                    <div ng-messages="form.notice.$error">
+                        <p  class="app-tips-err"  ng-message="required">操作提示不能为空且长度不超过16个汉字</p>
+                        <p  class="app-tips-err"  ng-message="han">操作提示不能为空且长度不超过16个汉字</p>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="$root.powers && $root.powers.indexOf('coupons.create_edit.poi') > -1">
+                <div layout="row">
+                    <p class="text-right">适用门店</p>
+                    <div flex="90" class="detail-content">
+                        <md-radio-group ng-model="vm.create.poiRadio">
+                            <md-radio-button value="allPoi" ng-disabled="User.poiCount == 0">所有门店通用 <span ng-if="User.poiCount == 0">(目前暂无可用门店)</span></md-radio-button>
+                            <md-radio-button value="myPoi" ng-click="selectPoi()">指定门店</md-radio-button>
+                            <table class="table table-full table-hover table-full-small" ng-show="vm.create.poiRadio == 'myPoi' && poiLists.length" style="margin-top:40px;">
+                                <thead>
+                                <tr>
+                                    <td width="30">门店名称</td>
+                                    <!-- <td width="50">地址</td>-->
+                                    <td width="20">操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in poiLists">
+                                    <td ng-bind="item.storeName"></td>
+                                    <!--<td ng-bind="item.address"></td>-->
+                                    <td><a ng-click="remove($index)">删除</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <a ng-show="vm.create.poiRadio == 'myPoi' && poiLists.length" ng-click="selectPoi()">添加适用门店</a>
+                        </md-radio-group>
+                    </div>
+                </div>
+                <!--<p class="app-tips-err" >请先选择指定门店</p>-->
+            </div>
+
+
+            <md-divider></md-divider>
+            <div layout="row" style="margin: -10px 0 0 -10px" layout-align="start center">
+            	<md-button class="md-raised my-shadow my-button" ng-click="vm.stateGoBack()">取消</md-button>
+                <md-button class="btn-app md-raised"  ng-click="vm.addCoupon(form.$invalid)" ng-hide="vm.submiting">提交审核</md-button><!--ng-click="vm.addCoupon(form.$invalid)"-->
+                <md-button class="md-raised" disabled ng-show="vm.submiting">提交审核中...</md-button>
+            </div>
+
+        </div>
+
+    </form>
+</section>

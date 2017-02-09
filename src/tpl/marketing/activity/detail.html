@@ -1,0 +1,72 @@
+<div class="marketing-check-detail">
+	<h4 class="contentTitle ng-binding ng-scope">查看详情</h4>
+	<md-divider class="ng-scope"></md-divider>
+	<div class="marketing-content">
+		<div class="marketing-name">
+			<span>营销活动名称</span>
+			<span>{{showParams.activityName}}</span>
+		</div>
+		<div class="market-basic-infor">
+			<div class="border-left">
+				<span class="span-text float-left">基础信息</span>
+			</div>
+			<ul>
+				<li>
+					<span>年龄</span>
+					<span>{{showParams.age?showParams.age:'全部'}}</span>
+				</li>
+				<!--<li>
+					<span>性别</span>
+					<span>不限</span>
+				</li>-->
+				<li>
+					<span>会员等级</span>
+					<span>{{showParams.memberCardLevel?showParams.memberCardLevel:'全部'}}</span>
+				</li>
+			</ul>
+		</div>
+		<div class="consumer-behavior">
+			<div class="border-left">
+				<span class="span-text float-left">消费行为</span>
+			</div>
+			<ul>
+				<li ng-if="consumeTimes">
+					<span>累计消费次数</span>
+					<span>{{consumeTimes}}</span>
+				</li>
+				<li ng-if="lastConsumeDays">
+					<span>距上次消费</span>
+					<span>{{lastConsumeDays}}</span>
+				</li>
+				<!--<li>
+					<span>累积消费金额</span>
+					<span>{{showParams.prepaidBalance.begin}}-{{showParams.prepaidBalance.end}}元</span>
+				</li>-->
+				<li ng-if="prepaidBalance">
+					<span>储值余额</span>
+					<span>{{prepaidBalance}}</span>
+				</li>
+				<li ng-if="totalBalance">
+					<span>累积储值金额</span>
+					<span>{{totalBalance}}</span>
+				</li>
+				<li ng-if="totalBonus">
+					<span>累积积分数值</span>
+					<span>{{totalBonus}}</span>
+				</li>
+				<li>
+					<span>目标人数</span>
+					<span>{{showParams.payoutPersonNum}}人</span>
+				</li>
+				<li>
+					<span>赠送优惠券</span>
+					<span>{{showParams.cardName}}</span>
+				</li>
+				<li>
+					<span>赠送数量</span>
+					<span>{{showParams.payoutCardNum}}张/会员</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

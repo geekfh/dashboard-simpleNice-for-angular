@@ -1,0 +1,40 @@
+<h4 class="contentTitle" ng-bind="$current.title"></h4>
+<md-divider></md-divider>
+
+<div style="margin-top:30px;" >
+    <md-content>
+        <table  class="table table-full table-hover table-full-small color666">
+            <thead class="table-header">
+            <tr>
+                <td width="15%">状态</td>
+                <td width="30%">门店名称</td>
+                <td width="35%">门店地址</td>
+                <td width="20%">操作</td>
+            </tr>
+            </thead>
+            <tbody ng-hide="noData">
+            <tr >
+                <td>{{ wxPoiInfo.available_state | poiFilter }}</td>
+                <td >{{ wxPoiInfo.business_name }}</td>
+                <td >{{wxPoiInfo.province + wxPoiInfo.city + wxPoiInfo.district + wxPoiInfo.address}}</td>
+                <td class="td-btn">
+                    <div layout="row">
+                        <a href="javascript: ;" class="app-color" ng-click="detail()">查看详情</a>
+                        <a href="javascript: ;" class="app-color" ng-click="delete()" style="margin-left:20px;"
+                        ng-class="{'disabled':wxPoiInfo.avaliable_state == 2 || wxPoiInfo.update_status == 1}">删除</a><!--ng-hide="wxPoiInfo.avaliable_state == 2 || wxPoiInfo.update_status == 1"-->
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <md-content ng-show="isAuthorised && noData" layout-align="center" class="no-data">
+            <p>暂无门店，点击<a href="javascript: ;" class="app-color" ng-click="create()">新建门店</a></p>
+        </md-content>
+        <md-content ng-hide="isAuthorised" layout-align="center" class="no-data"><!--ng-hide="isAuthorised"-->
+            <p ng-if="isBrand">品牌方无授权的微信公众号，请联系品牌开通微信授权。</p>
+            <p ng-if="!isBrand">请<a ng-click="authorize()">去授权</a>微信公众号再创建微信门店，否则无法创建朋友的券</p>
+        </md-content>
+    </md-content>
+</div>
+
+

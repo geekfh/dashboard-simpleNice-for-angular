@@ -1,0 +1,186 @@
+<style type="text/css">
+    div[layout="row"]{margin: 10px 0;};
+    form div[layout="row"]{margin: 0;};
+</style>
+<section style="margin-top: 15px;">
+    <div>
+        <h4 style="font-size: 16px;" style="margin-top: 0;">查看详情</h4>
+        <md-divider ></md-divider>
+        
+        <div class="border-left" style="margin: 30px 0px 20px;">
+            <span class="span-text float-left">会员详情</span> 
+        </div>
+
+        <div layout="row" layout-align="start center" style="margin-top: 30px;">
+            <p class="text-right width70">会员卡号</p>
+            <p class=" marginleft30">{{vm.member.membershipNumber | splitting: 4 : '-'}}</p>
+        </div>
+        <div layout="row">
+            <p class="text-right width70">等级</p>
+            <p flex class="detail-content marginleft30">{{vm.member.memberLevel}}</p>
+        </div>
+
+        <!-- <div layout="row" layout-align="start center">
+            <p class="text-right width70">姓名</p>
+            <p class=" marginleft30">{{vm.member.nickname}}</p>
+        </div>
+
+        <div layout="row" layout-align="start center">
+            <p class="text-right width70">手机</p>
+            <p class=" marginleft30">{{vm.member.mobile}}</p>
+        </div> -->
+        <!--必填项 -->
+        <div ng-repeat="item in vm.userInfo" layout="row">
+            <p class="text-right width70">{{item.name | fieldFilter}}</p>
+            <p class="marginleft30">{{item.value}}</p>
+        </div>
+        <!--选填项 -->
+        <div ng-repeat="(k, v) in vm.member.userInfo" layout="row" ng-if="k">
+            <p class="text-right width70">{{k | fieldFilter}}</p>
+            <p class="marginleft30">{{v}}</p>
+        </div>
+
+        <div class="border-left" style="margin: 45px 0px 30px;">
+            <span class="span-text float-left">账户详情</span>
+        </div>
+
+        <!-- 余额 -->
+        <div layout="row" layout-wrap ng-hide="vm.changeBonus">
+            <p class="text-right width70">余额</p>
+            <p flex class="detail-content marginleft30">
+                <span class="inline-block" style="min-width: 60px"> {{vm.member.balance/100}}</span>
+        </div>
+        <!--积分-->
+        <div layout="row" layout-wrap ng-hide="vm.changeBonus">
+            <p class="text-right width70">积分</p>
+            <p flex class="detail-content marginleft30">
+                <span class="inline-block" style="min-width: 60px"> {{vm.member.bonus}}</span>
+                <!-- ng-show="vm.member.status == 'NORMAL' && vm.member.supplyBonus == '1'" -->
+                <a ng-if="vm.member.supplyBonus != '0' && vm.member.status != 'UNACTIVE' && vm.member.status != 'EXPIRE' && vm.member.status != 'DELETE' && vm.member.status != 'UNAVAILABLE'" ng-show="vm.member"
+                   ng-click="vm.changeBonus=true">修改</a></p>
+        </div>
+        <!-- 修改积分 -->
+        <div flex="grow"  class="member-detail-panel" ng-show="vm.changeBonus" style="border: none; margin-bottom: 10px;">
+            <!-- <div class="member-detial-title">积分</div> -->
+            <div layout="row">
+                <p class="text-right width70">积分</p>
+               <!-- <p class="marginleft30">{{vm.member.bonus}}</p>-->
+            </div>
+            <md-divider style="margin-left:15px;"></md-divider>
+
+            <form name="form" ng-class="vm.formError">
+                <!-- <div layout="row" layout-wrap layout-align="start center">
+                    <p class="text-left">当前积分</p>
+                    <p flex class="detail-content" style="margin-left: 10px;"> {{vm.member.bonus}}
+                </div> -->
+                <div layout="row" layout-wrap layout-align="start center" >
+                    <p class="text-left margin0" >增加积分</p>
+                    <div flex class="detail-content" >
+                        <md-input-container class="md-block" md-no-float>
+                            <input type="number"  ng-model="Bonus.add" min="1" max="100000" ng-change="Bonus.cut = ''" name="increaseBonus" ng-blur="vm.increaseBonus = true;">
+                        </md-input-container>
+
+                    </div>
+                </div>
+                <div style="margin-left:56px;margin-top:-10px;" ng-if="(vm.formError == 'formError' || vm.increaseBonus) && (form.increaseBonus.$error.min || form.increaseBonus.$error.max)" flex>
+                    <p class="app-tips-err">积分只能是大于等于1小于十万的整数</p>
+                </div>
+
+                <div layout="row" layout-wrap layout-align="start center">
+                    <p class="text-left margin0" >抵扣积分</p>
+                    <div flex class="detail-content" >
+                        <md-input-container class="md-block" md-no-float>
+                            <input type="number"  ng-model="Bonus.cut" min="1" max="100000" ng-change="Bonus.add = ''" name="costBonus" ng-blur="vm.costBonus = true;">
+                        </md-input-container>
+
+                    </div>
+                </div>
+                <div style="margin-left:56px;margin-top:-10px;" ng-if="(vm.formError == 'formError' || vm.costBonus) && (form.costBonus.$error.min || form.costBonus.$error.max)" flex>
+                    <p class="app-tips-err">积分只能是大于等于1小于十万的整数</p>
+                </div>
+
+                <div  ng-show="vm.changeBonus" style="margin-top:20px;">
+                    <div layout-align="start center" layout="row" style="margin-left: 55px;">
+                        <md-button class="btn-app md-raised my-shadow my-button"
+                                   ng-hide="vm.submiting1"
+                                   ng-click="vm.changeMember(Bonus || {}, form.$invalid)" style="margin: 0 5px !important;">确认</md-button>
+                        <md-button class="md-raised my-button" ng-show="vm.submiting" style="margin: 0 5px !important;">提交中...</md-button>
+                        <md-button class="md-raised my-button" ng-click="vm.changeBonus = null;Bonus = {}" ng-hide="vm.submiting" style="margin: 0 5px !important;">取消</md-button>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--状态-->
+        <div layout="row" ng-hide="vm.changeStatus">
+            <p class="text-right width70">当前状态</p>
+            <p flex class="detail-content marginleft30">
+                <span class="inline-block" style="min-width: 60px"> {{vm.member.status | MstatusFilter }}</span>
+                <a ng-click="vm.changeStatus=true" ng-show="vm.member"
+                ng-if="vm.member.status != 'UNACTIVE'  && vm.member.status != 'EXPIRE' && vm.member.status != 'DELETE' && vm.member.status != 'UNAVAILABLE'">修改</a></p>
+        </div>
+
+        <!--修改状态-->
+        <div  flex="grow" ng-show="vm.changeStatus" class="member-detail-panel" style="border: none; margin-bottom: 10px;">
+            <div layout="row">
+                <p class="text-right width70">当前状态</p>
+                <p class="marginleft30">{{vm.member.status | MstatusFilter }}</p>
+            </div>
+            <md-divider style="margin-left:15px;"></md-divider>
+            <form>
+                <md-radio-group ng-model="vm.member.status" layout="column" layout-align="start">
+                    <md-radio-button value="NORMAL">有效</md-radio-button>
+                    <md-radio-button value="UNAVAILABLE">无效</md-radio-button>
+                   <!-- <md-radio-button value="NORMAL">正常</md-radio-button>
+                    <md-radio-button value="DELETE">删除</md-radio-button>-->
+                    <p class="app-tips-err" ng-show="vm.member.status == 'UNAVAILABLE'">会员卡状态一经修改不能恢复,请谨慎操作</p>
+                    <!--<p class="app-tips-err" ng-show="vm.member.status == 'DELETE'">会员卡状态一经修改不能恢复,请谨慎操作</p>-->
+                </md-radio-group>
+                <div >
+                    <div layout-align="start center" layout="row">
+                        <md-button class="btn-app md-raised my-shadow my-button"
+                                   ng-hide="vm.submiting2"
+                                   ng-click="vm.changeMemberStatus()" style="margin: 0 5px !important;">确认</md-button>
+                        <md-button class="md-raised my-button" ng-show="vm.submiting" style="margin: 0 5px !important;">提交中...</md-button>
+                        <md-button class="md-raised my-button" ng-click="vm.cancel()" ng-hide="vm.submiting" style="margin: 0 5px !important;">取消</md-button>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div layout="row">
+            <p class="text-right width70">使用次数</p>
+            <p flex class="detail-content marginleft30">{{vm.member.useAmount}}</p>
+        </div>
+    </div>
+
+    <div class="border-left" style="margin: 45px 0px 20px;">
+        <span class="span-text float-left">积分使用情况</span>
+    </div>
+    <div   style="padding-bottom: 40px;" ng-show="vm.ngTableHistory.data.length">
+
+        
+        <div style="width: 640px">
+            <table ng-table="vm.ngTableHistory" class="contentable table table-full table-hover table-full-small">
+                <thead class="table-header">
+                <tr>
+                    <td width="30%" style="padding: 0 !important;">时间</td>
+                    <td width="20%" style="padding: 0 !important;">详情</td>
+                    <td width="50%" style="padding: 0 !important;">备注</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in $data">
+                    <td style="padding: 0 !important;">{{ item.date }}</td>
+                    <td my-limit="['item.detail', 7]" style="padding: 0 !important;"></td>
+                    <td style="padding: 0 !important;">{{ item.recordBonus }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</section>

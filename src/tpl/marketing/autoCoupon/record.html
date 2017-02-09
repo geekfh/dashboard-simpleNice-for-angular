@@ -1,0 +1,46 @@
+<h4 class="contentTitle" ng-bind="vm.pageTitle"></h4>
+<md-divider></md-divider>
+
+<div layout="row" layout-align="start center" flex="100" style="margin-top:30px;">
+    <div style="height: 80px;" ng-if="">
+        <div class="float-left Rectangle-3 text-center bg-color-03" layout="column" layout-align="center center">
+            <p class="Rectanglep4">{{waitingSettleAmt?waitingSettleAmt:'0'}}</p>
+            <p class="Rectanglep2">累计派券数量</p>
+        </div>
+        <div class="float-left Rectangle-3 bg-color-03 ml-21" layout="column" layout-align="center center">
+            <p class="Rectanglep4">{{settleAmt?settleAmt:'0'}}</p>
+            <p class="Rectanglep2">累计核销数量</p>
+        </div>
+        <div class="float-right Rectangle-3 bg-color-01 ml-21" layout="column" layout-align="center center">
+            <p class="Rectanglep1">{{settleAmt?settleAmt:'0' | currency:'¥'}}</p>
+            <p class="Rectanglep2">累计核销金额</p>
+        </div>
+    </div>
+    <div>累计派券数量：{{vm.totalCount || 0}}张</div>
+</div>
+
+<div  layout-align="start center" flex="100" style="margin-top:30px;">
+
+    <table ng-table="vm.ngTable" class="table table-full table-hover table-full-small color666" >
+        <thead class="table-header">
+        <tr>
+            <td width="25%">日期</td>
+            <td width="25%">卡券名称</td>
+            <td width="25%">卡券类型</td>
+            <td width="25%">每日统计（张）</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in $data">
+            <td >{{ item.sendTime }}</td>
+            <td >{{ item.title }}</td>
+            <td >{{ item.couponType | cardType}}券</td>
+            <td >{{ item.daySendCount }}</td>
+        </tr>
+        </tbody>
+
+    </table>
+    <md-content ng-show="vm.noData" layout-align="center" class="no-data">
+        <p>暂无数据</p>
+    </md-content>
+</div>

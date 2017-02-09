@@ -1,0 +1,179 @@
+<style>
+clear-input span{top: 8px !important;}	
+</style>
+<h4  class="contentTitle">派券方式</h4>
+<div class="contantDiv" my-contentdiv page-tab="vm.pageTab">
+    <h4 class="contentTitle floath4 normal" contantId="wechat" style="outline: none;" ng-show="vm.user.authStatus == '1'" ng-click="vm.tabChange('1',$event)" >
+        <!--<img class="content-title-img" style="margin-left:12px" ng-if="vm.queryParams.type == '1'" ng-src="http://7xplnx.com2.z0.glb.qiniucdn.com/friendCard__1478765045049.png"  alt="">
+        <img class="content-title-img" style="margin-left:12px" ng-hide="vm.queryParams.type == '1'" ng-src="http://7xogpz.com2.z0.glb.qiniucdn.com/friendCard__1478660396812.png" alt="">-->
+        关注微信派券
+    </h4>
+    <h4 class="contentTitle floath4 normal"  style="outline: none;"  contantId="receipts" ng-click="vm.tabChange('2',$event)" >
+        <!--<img class="content-title-img" ng-if="vm.queryParams.type == '2'" ng-src="http://7xplnx.com2.z0.glb.qiniucdn.com/friendCard__1478765153537.png"  alt="">
+        <img class="content-title-img"  ng-hide="vm.queryParams.type == '2'"   ng-src="http://7xogpz.com2.z0.glb.qiniucdn.com/friendCard__1478660494247.png"  alt="">-->
+        小票派券
+    </h4>
+</div>
+
+
+<div id="wechat" ng-show="vm.user.authStatus == '1'" ng-cloak >
+        <div class="Rectangle-color" flex="100" layout="row" layout-align="start center" style="margin-top:20px;" >
+            <div layout="column" layout-align="start start" flex="70" class="wechat-send-tip-box" ng-class="{'bg' : vm.isOpeningWechat == '1'}">
+                <p  class="wechat-send-tip1" ng-if="vm.isOpeningWechat == '0'">开启此功能后，系统将在消费者第一次关注公众号后自动推送优惠券至其微信。 </p>
+                <div flex class="wechat-send-tip2" ng-if="vm.isOpeningWechat == '1'">
+                   <p class=".wechat-send-tip-box.bg">使用规则：</p>
+                   <p>1. 当优惠券库存为0时，将停止当前规则对应的自动发券，请确保优惠券库存充足。</p>
+                   <p>2. 取消公众号授权后，将自动关闭此功能。</p>
+                </div>
+               </div>
+            <div flex="30" layout="row" layout-align="end center" style="margin: 0 20px 0 0;" ng-cloak>
+                <md-button ng-click="vm.switchIsOpening(vm.isOpeningWechat,1)" class="my-shadow btn-app" ng-if="vm.isOpeningWechat == '0' " style="min-width: 60px;">开启</md-button>
+                <md-button ng-click="vm.switchIsOpening(vm.isOpeningWechat,1)" class="my-shadow" ng-if="(vm.isOpeningWechat == '1' && vm.showWechatRule) ||  (vm.isOpeningWechat == '1' && !vm.weChatRules.length)" style="background: #fff;">关闭此功能</md-button>
+            </div>
+        </div>
+
+        <!--编辑规则-->
+        <md-content ng-if="vm.isOpeningWechat == '1' && !vm.showWechatRule" ><!--(vm.isOpeningWechat == '1' && !vm.weChatRules.length) || (vm.showCouponList && vm.isOpeningWechat == '1')-->
+            <div class="border-left" margin="[60, 0, 20, 0]">
+                <span class="span-text float-left">请选择一张优惠券</span>
+            </div>
+            <md-radio-group ng-model="vm.lastSelectedId" >
+                <table ng-table="vm.ngTable1" class="table table-full table-hover table-full-small color666">
+                    <thead class="table-header">
+                    <tr>
+                        <td width="5%"></td>
+                        <td width="20%">卡券名称</td>
+                        <td width="2%"></td>
+                        <td width="20%">卡券有效期</td>
+                        <td width="2%"></td>
+                        <td width="10%">库存</td>
+                        <td width="40%"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in $data">
+                            <td >
+                                <md-radio-button flex ng-value="item.cardId" ng-click="vm.selectedId = item.cardId" style="margin-bottom:0"></md-radio-button>
+                            </td>
+                            <td>{{ item.title }}</td>
+                            <td></td>
+                            <td ng-if="item.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'">{{ item.beginTimestamp }} 至 {{ item.endTimestamp }}</td>
+                            <td ng-if="item.dateInfoType == 'DATE_TYPE_FIX_TERM'">领取后{{item.fixedBeginTerm == 0 ? '当':item.fixedBeginTerm}}天生效{{item.fixedTerm}}天有效</td>
+                            <td></td>
+                            <td >{{ item.quantity }}</td>
+                            <td ></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-radio-group>
+            <div ng-if="vm.noData1" layout-align="center" class="no-data" layout="row">
+                <p>暂无优惠券，请先<a ng-click="vm.createCoupons()">创建优惠券</a></p>
+            </div>
+
+            <md-divider style="margin-top:88px;"></md-divider>
+            <div layout="row" style="margin-top:20px;">
+                <md-button   ng-if="vm.weChatRules.length"  layout-align="start center" class=" md-raised" ng-click="vm.cancelweChat()" style="min-width: 60px;left: -10px;"><span>取消</span></md-button>
+                <md-button class="btn-app md-raised" ng-click="vm.save(vm.selectedId || vm.lastSelectedId, 1)" style="min-width: 60px;left: -10px;" ng-style="{'left:-6px':vm.weChatRules.length}"><span>保存</span></md-button>
+            </div>
+        </md-content>
+
+       <!--展示规则-->
+       <md-content ng-if="vm.isOpeningWechat == '1' && vm.showWechatRule" >
+            <div class="border-left" margin="[60, 2, 20, 0]">
+                <span class="span-text float-left">派发的券</span>
+                <a class="float-right downloadTable-btn"  ng-click="vm.update(1)">更换优惠券</a>
+            </div>
+            <div  layout-align="start center" class="wechat-coupon-rule-box">
+                <div class="title" layout="row" flex="100">
+                    <span style="width:28%">卡券名称</span>
+                    <span style="width:28%">卡券有效期</span>
+                    <span style="width:15%">库存</span>
+                </div>
+                <div ng-repeat="item in vm.weChatRules" >
+                    <div layout="row" flex="100" class="rule" >
+                        <span ng-bind="item.title" style="width:28%"></span>
+                        <span ng-if="item.datetype == 'DATE_TYPE_FIX_TIME_RANGE'" style="width:28%">{{ item.beginTimestamp }} 至 {{ item.endTimestamp }}</span>
+                        <span ng-if="item.datetype == 'DATE_TYPE_FIX_TERM'" style="width:28%">领取后{{item.fixedBeginTerm == 0 ? '当':item.fixedBeginTerm}}天生效{{item.fixedTerm}}天有效</span>
+                        <span style="width:15%"><span class="edit" ng-if="item.cardStatus == 'CARD_STATUS_VERIFY_OK'" ng-click="vm.editInventory(item)"></span><span ng-bind="item.quantity"></span></span>
+                    </div>
+                    <p class="app-tips-err" ng-if="item.quantity < 50 && item.quantity > 0 && item.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存不足50张，为不影响优惠券推送功能，请及时增加库存</p>
+                    <p class="app-tips-err" ng-show="item.quantity == 0 && item.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存为0，当前规则已停用，请及时补充优惠券库存</p>
+                    <p class="app-tips-err" ng-show="item.cardStatus == 'CARD_STATUS_EXPIRED'">当前优惠券已过期，当前规则已停用，请及时更换优惠券</p>
+                </div>
+
+            </div>
+        </md-content>
+</div>
+
+<div id="receipts" ng-cloak class="dis-none">
+        <div class="Rectangle-color" flex="100" layout="row" layout-align="start center" style="margin-top:20px;" >
+            <div layout="column" layout-align="start start" flex="70" class="wechat-send-tip-box" ng-class="{'bg' : vm.isOpeningReceipts == '1'}">
+                <p  class="wechat-send-tip1" ng-if="vm.isOpeningReceipts == '0'">开启此功能后，POS将在消费者完成支付交易后自动打印优惠券二维码。</p>
+                <div flex style="" class="wechat-send-tip2" ng-if="vm.isOpeningReceipts == '1'">
+                    <p>使用规则：</p>
+                    <p>1. 当支付金额满足多个规则时，以其中最大金额对应的规则为准。</p>
+                    <p>2. 当优惠券库存为0时，将停止当前规则对应的自动发券，请确保优惠券库存充足。</p>
+                </div>
+            </div>
+            <div flex="30" layout="row" layout-align="end center" style="margin: 0 20px 0 0;" ng-cloak>
+                <md-button ng-click="vm.switchIsOpening(vm.isOpeningReceipts, 2)" class="btn-app my-shadow" ng-if="vm.isOpeningReceipts == '0' " style="min-width: 60px;">开启</md-button>
+                <md-button ng-click="vm.switchIsOpening(vm.isOpeningReceipts, 2)" class="my-shadow" ng-if="(vm.isOpeningReceipts == '1' && vm.showReceiptsRule) || (vm.isOpeningReceipts == '1' && !vm.receiptsRules.length)" style="background: #fff;">关闭此功能</md-button>
+            </div>
+        </div>
+
+        <md-content ng-if="vm.isOpeningReceipts == '1'">
+            <div class="border-left" margin="[60, 2, 20, 0]">
+                <span class="span-text float-left">派券规则</span>
+                <a class="float-right downloadTable-btn"  ng-click="vm.update(2)"  ng-if="vm.showReceiptsRule">更换优惠券</a>
+            </div>
+
+            <!--添加规则-->
+            <div ng-if="!vm.showReceiptsRule" >
+                <form name="form" novalidate  ng-cloak>
+                    <div  ng-repeat="list in vm.createReceiptsRules" class="color666" style="margin-top: 5px;">
+                        <div layout="row" layout-align="start center" >
+                            <span>满</span>
+                            <md-input-container style="width: 100px;margin-left:8px;">
+                                <input type="number" class="padding0" ng-blur="vm.rules_tip[$index] = true" name="amount{{$index}}"
+                                       min="1" required max="10000000" ng-pattern="/^[0-9]*$/" my-price="100" ng-model="list.amount">
+                            </md-input-container>
+                            <span>元，打印</span>
+                            <md-button class="md-raised noupper" ng-bind="list.title || '选择优惠券'" ng-click="vm.selectCoupon($index, list)"
+                                       style="width:160px;margin-left:8px;margin-right:30px;" ng-class="{'color-ac' : !list.cardId}" >选择优惠券</md-button>
+
+                            <a class="app-color underline" ng-click="vm.deleteRule($index)" ng-if="$index != 0">删除</a>
+                        </div>
+                        <p class="app-tips-err"
+                           ng-show="(vm.rules_tip[$index] || vm.formError) && (form.amount{{$index}}.$error.max || form.amount{{$index}}.$error.min || form.amount{{$index}}.$error.required || form.amount{{$index}}.$error.pattern)">使用条件金额请填写1到10万之间的整数</p>
+                    </div>
+
+                    <div layout="row"  layout-align="start center" style="margin:5px 0 -10px; " ng-hide="vm.createReceiptsRules.length == 10">
+                        <p><md-button ng-click="vm.addRule()" class="md-raised" >添加规则</md-button></p>
+                    </div>
+                    <md-divider  style="margin-top: 25px"></md-divider>
+                    <div layout="row" style="margin-top: 20px; padding-left: 0;">
+                    <md-button ng-if="vm.receiptsRules.length" layout-align="start center" class="md-raised" ng-click="vm.cancelReceipts()" style="min-width: 60px;left: -10px;"><span>取消</span></md-button>
+                        <md-button style="margin-left: 10px !important; min-width: 60px;left: -10px;" class="md-raised btn-app" ng-click="vm.save(vm.createReceiptsRules, 2, form.$invalid)">保存</md-button>
+                    </div>
+                </form>
+            </div>
+
+            <!--查看规则-->
+            <div class="receipts-coupon-rule-box" ng-if="vm.showReceiptsRule">
+                <div  ng-repeat="list in vm.receiptsRules" class="color666 " style="margin: 15px;" >
+                    <div layout="row" layout-align="start center" >
+                        <span>满{{list.amount ? list.amount/100 : '0'}}元，打印</span>
+                        <md-button class="my-disabled md-raised noupper" ng-bind="list.title" ng-click="vm.selectCoupon($index, list)" ng-disabled="true"
+                                   style="width:160px;margin-left:8px;margin-right:30px; color: #666 !important;background-color: #f9f9f9!important; border: none;box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);">--</md-button>
+                        <span>库存：{{list.quantity}}</span><span class="edit" ng-click="vm.editInventory(list)" ng-if="list.cardStatus == 'CARD_STATUS_VERIFY_OK'" style="margin-left:15px;margin-top:0"></span>
+
+                    </div>
+                    <p class="app-tips-err" ng-if="list.quantity < 50 && list.quantity > 0 && list.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存不足50张，为不影响优惠券推送功能，请及时增加库存</p>
+                    <p class="app-tips-err" ng-show="list.quantity == 0 && list.cardStatus == 'CARD_STATUS_VERIFY_OK'">当前优惠券库存为0，当前规则已停用，请及时补充优惠券库存</p>
+                    <p class="app-tips-err" ng-show="list.cardStatus == 'CARD_STATUS_EXPIRED'">当前优惠券已过期，当前规则已停用，请及时更换优惠券</p>
+                </div>
+            </div>
+        </md-content>
+</div>
+
+

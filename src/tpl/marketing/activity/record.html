@@ -1,0 +1,42 @@
+<h4  class="contentTitle">营销活动</h4>
+<div class="contantDiv">
+	<h4 class="contentTitle floath4 normal" ui-sref="marketing.activity.rule">营销活动</h4>
+	<h4 class="contentTitle floath4 activeh4 normal" style="outline: none;">营销记录</h4>
+</div>
+<div id="marketingRecord">
+	<md-content>
+		<table ng-table="ngTable" class="table table-full table-hover table-full-small color666">
+			<thead class="table-header">
+				<tr>
+					<td width="18%">派发时间</td>
+					<td width="27%">营销活动名称</td>
+					<td width="15%">卡券名称</td>
+					<td width="15%">卡券类型</td>
+					<td width="15%">成功派发数量</td>
+					<td width="10%">操作</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in $data">
+					<td>{{item.payoutTime}}</td>
+					<td>{{item.activityName}}</td>
+					<td>{{item.cardName}}</td>
+					<td>{{item.cardType}}</td>
+					<td>{{item.payoutNum}}</td>
+					<td class="td-btn"><a ui-sref="marketing.activity.detail({id:item.activityId})">查看详情</a></td>
+				</tr>
+				<!--<tr>
+				   <td>2016-11-30 10:36</td>
+				   <td>三周年店庆，会员专享大酬宾活动</td>
+				   <td>1000元代金券</td>
+				   <td>代金券</td>
+				   <td>100/200</td>
+				   <td class="td-btn"><a>查看详情</a></td>
+			   </tr>-->
+			</tbody>
+		</table>
+		<md-content ng-show="noData" layout-align="center" class="no-data">
+			<p>{{noDataInfo}}</p>
+		</md-content>
+	</md-content>
+</div>

@@ -1,0 +1,120 @@
+
+<style>
+	.app-content{width:69%;margin-left:380px;}
+	.upload-directive-wrapper img{width:100px;height:100px;}
+	.upload-directive-wrapper .delImg{margin-bottom:0px}
+	.app-content{min-height:initial;}
+	
+@media screen and (max-width:1023px) {
+.app-content{ width: 663px; margin-left: 272px;}
+.print-wrap {left: 80px;}
+}
+@media screen and (width:1024px){
+.app-content{width: 69%; margin-left: 272px;}
+.print-wrap {left: 80px;}
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.app-content{width:71%; margin-left: 290px;}
+}
+@media screen and (max-width:1279px){
+.print-wrap {width: 240px;min-height: 438px;position: fixed;  top: 104px; left: 85px;padding: 12px 12px 22px 12px !important;}
+.printTitle{font-size: 14px;}
+.printShopName{font-size: 12px; margin-bottom: 13px !important;}
+.printCon{font-size: 12px;}
+.printItem{height: 22px;line-height: 22px;}
+.printFoot{font-size: 12px;}
+.printFoot .printItem span:last-child{font-size: 16px !important;}
+.printImg img{width: 75px;height: 75px;}
+.printImg p{margin-top: 12px !important;}
+.waveBottom{width: 240px; height: 9px;}
+.printFoot .printItem{margin: 8px 0;}
+.receipt-receipt-text{top: 100px;}
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+.print-wrap{left: 100px;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67%;}
+.print-wrap{left: 100px;}
+}
+@media screen and (width:1366px){
+.app-content{width:63.5%;margin-left: 370px;}
+.print-wrap{left: 290px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70.5%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+	
+</style>
+<!--悬浮框-->
+<section class="suspension-outer" ng-include=" 'tpl/settings/print_bar.html' "></section>
+<!--展示-->
+<section ng-show="editFlag == '1'">
+	<div layout="row" layout-align="start end" class="border-bottom" style="margin: -10px 0 10px 0;">
+		<h4  class="contentTitle float-left" flex="30">设置详情</h4>
+		<div layout="row" layout-align="end end" flex="70" style="margin: -10px 0 10px 0;">
+			<a ng-click="editPage()">修改</a>
+		</div>
+	</div>
+	<div class="border-left" style="margin-top: 30px;">
+		<span class="span-text float-left">小票尾部自定义</span>
+	</div>
+	<div layout="row" layout-align="start" style="margin-top:30px;">
+		<p class="text-right formItemName">尾部图片</p>
+		<div flex class="detail-content" style="margin-left: 30px;">
+			<img ng-if="queryParams.picUrl" ng-src="{{queryParams.picUrl}}" alt="" class="printShowImg">
+			<span ng-if="!queryParams.picUrl">无</span>
+		</div>
+	</div>
+	<div layout="row" layout-align="start" style="margin-top:30px;">
+		<p class="text-right formItemName">文字描述</p>
+		<div flex class="detail-content" style="margin-left: 30px;">
+			{{queryParams.description?queryParams.description:'无'}}
+		</div>
+	</div>
+</section>
+<!--编辑-->
+<section ng-show="editFlag != '1'">
+	<div layout="row" layout-align="start end" class="border-bottom" style="margin: -10px 0 10px 0;">
+		<h4  class="contentTitle float-left" >编辑（设置后，打印的任何小票都将在尾部打印出设置的图片和文字）</h4>
+	</div>
+	<div class="border-left" style="margin-top: 30px;">
+		<span class="span-text float-left">小票尾部自定义</span>
+	</div>
+	<div layout="row" layout-align="start start" style="margin-top: 25px;">
+		<p class="text-right formItemName" style="margin-top: 15px;">尾部图片<br /><span>(选填)</span></p>
+		<div  class="detail-content" layout="column" style="margin-left: 30px;">
+			<div layout="row">
+				<myupload style=" color: #666;" ng-model="aa"  size='5' noname="true" uploadurl="'merchant/uploadPic'" pic="pic" name="logo" >上传图片</myupload>
+			</div>
+			<div layout="column" style="margin-top: 3px;">
+				<p style="color: #ccc;margin-bottom:0;">图片建议尺寸为：300像素*300像素。仅支持.jpg、.png格式照片，大小不超过5MB。</p>
+				<p style="color: #ccc;">建议使用商户Logo（请勿使用彩色图片）</p>
+			</div>
+		</div>
+	</div>
+	<!--使用须知 是公用字段-->
+	<div layout="row" layout-align="start center">
+		<p class="text-right formItemName" style="margin-top:-85px;">文字描述<span>(选填)</span></p>
+		<div flex class="detail-content" style="margin-left: 30px;">
+			<div md-no-float class="md-block upper-textarea-bottom textarea-wid-548 textarea-heig-120" >
+				<textarea style="color: #ACACAC;" placeholder="示例：&#13;&#10; 微信关注“×××”公众号&#13;&#10; 客服热线：123-4567-890" class="app-textarea textarea-wid-548 textarea-heig-120 ph-print" name="description" required han="100" ng-model="queryParams.description"></textarea>
+			</div>
+		</div>
+	</div>
+	<div  style="margin-top:300px;">
+		<md-divider></md-divider>
+		<md-button class="md-raised my-shadow my-button" ng-click="cancel()">取消</md-button>
+		<md-button class="btn-app printSave" ng-click="savePrint()" style="box-shadow: 1px 1px 3px 0 rgba(0, 0, 0, 0.2);">保存</md-button>
+	</div>
+</section>

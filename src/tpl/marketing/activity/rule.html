@@ -1,0 +1,235 @@
+<h4  class="contentTitle">营销活动</h4>
+<section ng-show="!noInitPage">
+	<div class="contantDiv">
+		<h4 class="contentTitle floath4 activeh4 normal">营销活动</h4>
+		<h4 class="contentTitle floath4 normal" style="outline: none;" ui-sref="marketing.activity.record">营销记录</h4>
+	</div>
+
+	<div id="marketingEvent">
+		<div class="event-theme">
+			<div class="border-left">
+				<span class="span-text float-left">活动主题</span>
+			</div>
+			<div layout="row" layout-align="start center" style="margin-bottom: 25px; position: relative;">
+				<p  class="text-right" style="color: #666666;margin-top: 20px;">营销活动名称</p>
+				<form name="form" novalidate>
+					<div flex class="detail-content" ng-class="{'formError': ifActivityName}">
+						<md-input-container md-no-float class="md-block upper" style="width: 556px;margin-left: 30px;">
+							<input aria-label="close" type="text" name="activityName" class="app-input padding0" required han="60" ng-model="markingParams.activityName" ng-blur="checkActivityName()">
+						</md-input-container>
+						<div ng-messages="form.activityName.$error" style="position: absolute;left: 114px;top: 55px;">
+							<p class="app-tips-err" ng-message-exp="['required','han']">活动名称不能为空！</p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="base-infor">
+			<div class="border-left">
+				<span class="span-text float-left">基础信息</span>
+			</div>
+			<div class="base-main">
+				<div class="b-age">
+					<p>年龄</p>
+					<ul>
+						<li ng-class="{'curr-Selected':ageCheckAll}" ng-click="selectAge()">全部</li>
+						<li ng-repeat="item in ageArr" ng-class="{'curr-Selected':item.ifChecked == '1'}" ng-click="selectAge($index)">{{item.name}}</li>
+					</ul>
+				</div>
+				<!--<div class="b-sex">
+					<p>性别</p>
+					<ul>
+						<li>不限</li>
+						<li class="curr-Selected">男</li>
+						<li>女</li>
+					</ul>
+				</div>-->
+				<div class="b-grade">
+					<p>会员等级</p>
+					<ul>
+						<li ng-class="{'curr-Selected':levelCheckAll}" ng-click="selectLevel()">全部</li>
+						<li class="padding16" ng-repeat="item in levelArr" ng-class="{'curr-Selected':item.ifChecked == '1'}" ng-click="selectLevel($index)">{{item.name}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="consumption-behavior">
+			<div class="border-left">
+				<span class="span-text float-left">消费行为</span>
+			</div>
+			<div class="consumption-det">
+				<div layout="row" layout-align="start center"  class="consumption-list">
+					<span class="consum-tit">累积消费次数</span>
+					<md-input-container style="width: 140px;margin-left: 30px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="3" ng-model="markingParams.consumeTimes.begin" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('consumeTimes')">
+					</md-input-container>
+					<span>至</span>
+					<md-input-container style="width: 140px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="3" ng-model="markingParams.consumeTimes.end" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('consumeTimes')">
+					</md-input-container>
+					<span class="margin0">次</span>
+					<div class="optional-text">(选填)</div>
+					<div class="err-tips" ng-show="consumeTimes">结束值不能小于开始值，请修改</div>
+					<div class="reminder" ng-show="!consumeTimes">例如1~18次，表示筛选范围是累计消费次数在1~18次的顾客</div>
+				</div>
+				<div layout="row" layout-align="start center" class="consumption-list">
+					<span class="consum-tit">距上次消费</span>
+					<md-input-container style="width: 140px;margin-left: 30px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="3" ng-model="markingParams.lastConsumeDays.begin" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('lastConsumeDays')">
+					</md-input-container>
+					<span>至</span>
+					<md-input-container style="width: 140px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="3" ng-model="markingParams.lastConsumeDays.end" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('lastConsumeDays')">
+					</md-input-container>
+					<span class="margin0">天</span>
+					<div class="optional-text">(选填)</div>
+					<div class="err-tips" ng-show="lastConsumeDays">结束值不能小于开始值，请修改</div>
+					<div class="reminder" ng-show="!lastConsumeDays">例如 10～60天，表示从当前日期计算，距上次消费的时间在 10～60天内的顾客</div>
+				</div>
+				<!--<div layout="row" layout-align="start center" class="consumption-list">
+					<span class="consum-tit">累积消费金额</span>
+					<md-input-container style="width: 140px;margin-left: 30px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="number" required name="cost_money_unit" min="0" max="9999999" my-price="100" ng-pattern="/^[0-9]*$/" ng-blur="vm.cost_money_unit = true" ng-model="vm.create.bonus_rule.cost_money_unit">
+					</md-input-container>
+					<span>至</span>
+					<md-input-container style="width: 140px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="number" required name="increase_bonus" min="0" max="99999" my-price ng-pattern="/^[0-9]*$/" ng-model="vm.create.bonus_rule.increase_bonus">
+					</md-input-container>
+					<span class="margin0">元</span>
+					<div class="optional-text">(选填)</div>
+				</div>-->
+				<div layout="row" layout-align="start center" class="consumption-list">
+					<span class="consum-tit">储值余额</span>
+					<md-input-container style="width: 140px;margin-left: 30px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="9" ng-model="cPrepaidBalanceBegin" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('prepaidBalance')">
+					</md-input-container>
+					<span>至</span>
+					<md-input-container style="width: 140px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="9" ng-model="cPrepaidBalanceEnd" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('prepaidBalance')">
+					</md-input-container>
+					<span class="margin0">元</span>
+					<div class="optional-text">(选填)</div>
+					<div class="err-tips" ng-show="prepaidBalance">结束值不能小于开始值，请修改</div>
+				</div>
+				<div layout="row" layout-align="start center" class="consumption-list">
+					<span class="consum-tit">累积储值金额</span>
+					<md-input-container style="width: 140px;margin-left: 30px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="9" ng-model="cTotalBalanceBegin" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('totalBalance')">
+					</md-input-container>
+					<span>至</span>
+					<md-input-container style="width: 140px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="9" ng-model="cTotalBalanceEnd" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('totalBalance')">
+					</md-input-container>
+					<span class="margin0">元</span>
+					<div class="optional-text">(选填)</div>
+					<div class="err-tips" ng-show="totalBalance">结束值不能小于开始值，请修改</div>
+				</div>
+				<div layout="row" layout-align="start center" class="consumption-list">
+					<span class="consum-tit">累积积分数值</span>
+					<md-input-container style="width: 140px;margin-left: 30px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="9" ng-model="markingParams.totalBonus.begin" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('totalBonus')">
+					</md-input-container>
+					<span>至</span>
+					<md-input-container style="width: 140px;" class="marL8">
+						<input aria-label="close" class="input-wid-140 paddingL0" type="text" maxlength="9" ng-model="markingParams.totalBonus.end" onkeyup="this.value=this.value.replace(/[^\d]+/,'')" ng-change="changeValue('totalBonus')">
+					</md-input-container>
+					<span class="margin0">分</span>
+					<div class="optional-text">(选填)</div>
+					<div class="err-tips" ng-show="totalBonus">结束值不能小于开始值，请修改</div>
+				</div>
+			</div>
+			<div layout="row" class="filter-btn">
+				<md-button class="md-raised my-shadow my-button" ng-click="countPersonNum()">计算人数</md-button>
+				<div class="target-account">
+					<span>目标人数：</span>
+					<span class="target-right">{{payoutPersonNum?payoutPersonNum:0}}人</span>
+				</div>
+			</div>
+			<div class="consumption-num">
+				<!--	<div class="target-num">
+						<p>目标人数</p>
+						<div class="target-right">{{payoutPersonNum?payoutPersonNum:0}}人</div>
+					</div>-->
+				<div class="send-coupon">
+					<p>赠送优惠券</p>
+					<div class="target-right">
+						<md-button class="md-raised noupper" ng-bind="card.title || '选择优惠券'" ng-click="selectCoupon(card)"
+								style="width:160px;margin-left:0px;margin-right:30px;" ng-class="{'color-ac' : !card.cardId}" >选择优惠券</md-button>
+						<span class="edit" ng-click="editInventory(card)"></span>
+						<span class="stock">&nbsp;{{card.quantity}}</span>
+					</div>
+				</div>
+				<div class="send-num">
+					<p>赠送数量</p>
+					<div class="target-right">
+						<md-input-container style="width: 140px;margin-left: 0;" class="marL8">
+							<input aria-label="close" class="input-wid-140 paddingL0" type="text" ng-model="markingParams.payoutCardNum" readonly>
+						</md-input-container>
+						<span>张/会员</span>
+					</div>
+				</div>
+				<!--<div class="inform-way">
+					<p>通知方式</p>
+					<div class="target-right">
+						<md-checkbox  ng-model="vm.create.supply_level" ng-true-value="'1'" ng-false-value="'0'">短信通知</md-checkbox>
+						<span>&nbsp;&nbsp;(剩余0条&nbsp;&nbsp;<a style="text-decoration: underline;">充值</a>)</span>
+					</div>
+				</div>-->
+			</div>
+		</div>
+		<div class="sure-send-coupon">
+			<md-button class="btn-app md-raised my-shadow" ng-click="payout(form.activityName.$error)">确定派券</md-button>
+			<span style="margin-left: 10px;">本月已派券{{payoutCount}}次，还剩{{30-payoutCount}}次</span>
+		</div>
+	</div>
+	<!--
+	<div id="marketingRecord">
+		<md-content>
+			<table ng-table="ngTable" class="table table-full table-hover table-full-small color666">
+				<thead class="table-header">
+					<tr>
+						<td width="15%">派发时间</td>
+						<td width="30%">营销活动名称</td>
+						<td width="15%">卡券名称</td>
+						<td width="15%">卡券类型</td>
+						<td width="15%">成功派发数量</td>
+						<td width="10%">操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in $data">
+						<td>{{item.payoutTime}}</td>
+						<td>{{item.activityName}}</td>
+						<td>{{item.cardName}}</td>
+						<td>{{item.cardType}}</td>
+						<td>{{item.payoutNum}}</td>
+						<td class="td-btn"><a ui-sref="marketing.activity.detail({id:item.activityId})">查看详情</a></td>
+					</tr>
+					&lt;!&ndash;<tr>
+					   <td>2016-11-30 10:36</td>
+					   <td>三周年店庆，会员专享大酬宾活动</td>
+					   <td>1000元代金券</td>
+					   <td>代金券</td>
+					   <td>100/200</td>
+					   <td class="td-btn"><a>查看详情</a></td>
+				   </tr>&ndash;&gt;
+				</tbody>
+			</table>
+
+		</md-content>
+	</div>-->
+</section>
+<div ng-cloak ng-show="noInitPage">
+	<style>
+		/*.app-content{width: 1040px; margin-left: 40px;}*/
+	</style>
+	<md-divider></md-divider>
+	<section style="min-height: 500px;" layout-align="center center" layout="column" ng-cloak>
+		<div style="text-align: center;color:#666">
+			<p style="margin-bottom:5px;" >您还未创建会员卡</p>
+			<p>创建成功后，才可对会员进行营销活动。<a ng-click="createCard()">立即创建</a></p>
+		</div>
+	</section>
+</div>

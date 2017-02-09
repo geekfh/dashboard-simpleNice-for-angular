@@ -1,0 +1,36 @@
+<style>
+    .succ{width: 464px; background-color: #f9f9f9; padding: 20px 30px; color: #666; }
+
+    section.section_tip{width:480px;}
+    .succ{height:280px;padding: 88px 0 72px;text-align: center; }
+    .succ img{width: 64px;}
+
+    md-radio-button{display:inline-block;}
+</style>
+<section  class="succ section_tip" ng-show="onlyTip" >
+    <img src="http://7xogq3.com2.z0.glb.qiniucdn.com/friendCard__1471488792048.png" alt="" ng-if="!showLoading">
+    <div class="la-ball-clip-rotate" ng-if="showLoading"><div class="loading-img" ></div></div>
+    <h3>{{tip}}</h3>
+</section>
+<section aria-label="" ng-cloak id="dialog" style="padding: 0;" layout="column" ng-show="!onlyTip" class="section_tip"  ng-class="{'applicatedMoreWays-dialog':IsWidth}">
+    <span class="absolute closepoi" ng-click="cancel()">+</span>
+    <div style="padding: 40px;">
+        <h4 class="contentTitle selectpoi" style="margin: 10px 0;">{{title}}</h4>
+        <md-divider></md-divider>
+
+        <section  style="margin-top: 20px;margin-bottom:22px;color:#666">
+            <div layout="row" layout-align="start center" >
+                <p ng-bind-html="content" style="line-height: 25px;"></p>
+            </div>
+        </section>
+
+        <div ng-hide="hideBtn">
+            <md-divider ></md-divider >
+            <div layout="row" class="field-btn" style="margin-top: 30px;">
+                <md-button ng-click="cancel()" class="md-raised md-button my-button" style="margin:0 5px !important;" ng-hide="hideCancel">取消</md-button>
+                <md-button ng-click="submit()" class="btn-app md-raised my-button"  style="margin:0 5px !important;">确定</md-button>
+            </div>
+        </div>
+
+    </div>
+</section>

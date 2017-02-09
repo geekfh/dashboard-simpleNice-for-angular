@@ -1,0 +1,63 @@
+<style>
+    .card-title{overflow: hidden;word-break: keep-all;text-overflow: ellipsis;display: inline-block;line-height: 1;margin-right: 4px; margin-top: 15px;}
+    .edit{width: 24px;height: 24px;float: left;margin: 0 10px 0 0; cursor: pointer; background-color: #8bc13c; border-radius: 2px; background-repeat: no-repeat; background-position: center center; 
+    outline:0; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAK9JREFUKBVjYCAS/P//3wyIHwBxG5FaGBiAisWA+AMQw0AbMyHdQJXGQDWmQMwOxFpQ9XJQGjsF1ARyHsimf0CcC8SroXwz7DqAokAFME1AJhiANEcCsRgpmkA6QTaDnI0dACXRbYJpIsl5tNPEBTQaOZ6IsokJqCoLiFtAqqEAZAhuP4GCB6jAEap4EpAGaSasCapxFlQjiALZzIU9vNFEgQovAjFIM8hmJjRpnFwA8XIkexjxQEoAAAAASUVORK5CYII=);} .td-btn a.md-button{margin-right: -2px}
+@media screen and (max-width:1038px) {
+.auto-wid1{width: 12% !important;}
+.auto-wid2{width: 18% !important;}
+}
+
+</style>
+<div ng-cloak>
+<div layout="row" layout-align="start end" class="border-bottom dis-block" style="margin: -10px 0 10px 0;">	
+	<h4  class="contentTitle dis-block">优惠券管理</h4>	
+	<div layout="row" layout-align="end end" class="dis-block addCoupons-mar">
+        <md-button class="md-raised my-style" ng-click="vm.goCoin()" ng-if="vm.user.authStatus == '1' && vm.user.coinType == '1' && $root.powers && $root.powers.indexOf('coupons.list_my.coin') >= 0" ng-show="$root.canFriendsCards">我的券点
+            <span ng-show="vm.totalCoin">( {{vm.totalCoin || 0}} )</span></md-button>
+        <md-button class="btn-app md-raised my-shadow" ng-if="$root.powers && $root.powers.indexOf('coupons.list_add.button') >= 0" ng-click="vm.createCoupons()">新增优惠券</md-button>
+    </div>
+</div>
+
+    <table ng-table="vm.ngTable" class="table table-full table-hover table-full-small color666"  ng-cloak style="margin-top:30px;">
+        <thead class="table-header">
+            <tr>
+                <td width="26%">卡券名称</td>
+                <td width="20%">卡券有效期</td>
+                <td width="14%">全部状态</td>
+                <td width="14%" class="auto-wid1">库存</td>
+                <td width="16%" class="auto-wid2">操作</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in $data">
+                <td class="horizontal"><div class="card-title" my-limit="['item.baseInfo.title', 12]"></div><span class="app-label" ng-if="item.baseInfo.type == 2">共享</span></td>
+                <td ng-if="item.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'">{{ item.baseInfo.beginTimestamp }} 至 {{ item.baseInfo.endTimestamp }}</td>
+                <td ng-if="item.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM'">领取后{{item.baseInfo.fixedBeginTerm == 0 ? '当':item.baseInfo.fixedBeginTerm}}天生效{{item.baseInfo.fixedTerm}}天有效</td>
+
+
+                <td>{{ item.baseInfo.status | baseInfoStatus }}</td>
+                <td class="quantity">
+                    <span class="edit" ng-click="vm.getPrice(item)" ng-if="item.baseInfo.status == 'CARD_STATUS_VERIFY_OK' && $root.powers && $root.powers.indexOf('coupons.list_modify') >= 0"></span><!--item.baseInfo.type == '2' && -->
+                    <span class="float-left">{{ item.baseInfo.quantity }}</span>
+                </td>
+
+                <td class="td-btn text-center">
+                    <a ng-click="vm.detail(item)" style="margin-right: 10px;">查看详情</a>
+                    <!-- <a ng-click="vm.edit(item)" style="margin-right: 10px;" ng-if="$root.powers && $root.powers.indexOf('coupons.detail_modify') >= 0">编辑</a> -->
+                    <!-- /server/s300/cards/qrCode/{{item.cardId}}?merchantAppid={{vm.user.authorizerAppid}} -->
+                    <a ng-click="vm.getQrCode(item)" ng-show="item.baseInfo.status =='CARD_STATUS_VERIFY_OK' && item.baseInfo.quantity" style="margin-right: 10px;">二维码</a>
+
+                    <a ng-click="vm.delCard(item.cardId)" ng-if="$root.powers && $root.powers.indexOf('coupons.list_del') >= 0">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<md-content ng-show="vm.noData" ng-if="$root.powers && $root.powers.indexOf('coupons.list_add.href') == -1" layout-align="center" class="no-data">
+    <p>暂无优惠券</p>
+</md-content>
+<md-content ng-show="vm.noData" ng-if=" $root.powers && $root.powers.indexOf('coupons.list_add.href') >= 0" layout-align="center" class="no-data" style="border-bottom: none;padding-top: 228px;">
+    <p ng-if="vm.user.authStatus == '1'">暂无优惠券，<a ng-click="vm.createCoupons()">点击创建</a></p>
+    <p style="margin-bottom:5px;color:#666" ng-if="vm.user.authStatus != '1'">若有已认证微信服务号，请直接点击<a ng-click="vm.createCoupons()">创建优惠券</a></p>
+        <p style="color:#666" ng-if="vm.user.authStatus != '1'">若没有已认证微信服务号请先<a ng-click="vm.authorize()">去授权</a>再创建优惠券，未授权时创建的卡券无法同步到微信 </p>
+</md-content>
+</div>

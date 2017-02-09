@@ -1,0 +1,52 @@
+<style>
+ .box-top md-checkbox .md-icon{top: 8px;}
+</style>
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:680px;">
+    <span class="absolute closepoi" ng-click="close()">+</span>
+    <div style="padding: 40px;">
+
+        <h4 class="contentTitle selectpoi">选择优惠券</h4>
+        <md-divider></md-divider>  
+       
+        <md-input-container class="md-block" md-no-float style="width: 320px; margin: 30px 0;">
+            <span class="fr search" ng-click="search()"></span>
+            <input type="text" class="input myBoxShadow"  ng-model="queryParams.title" placeholder="请输入卡券名称">
+        </md-input-container>
+        <md-radio-group ng-model="selectedCoupon.cardId" >
+            <table ng-table="ngTable" class="table table-full table-hover table-full-small">
+                <thead class="table-header">
+                <tr>
+                    <td width="5%" class="box-top"></td>
+                    <td width="35%" style="vertical-align: bottom;">卡券名称</td>
+                    <td width="35%" style="vertical-align: bottom;">有效期</td>
+                    <td width="25%" style="vertical-align: bottom;text-align:right;">库存</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in $data">
+                    <td><md-radio-button flex ng-value="item.cardId" ng-click="check(item)" style="margin-bottom:0" ></md-radio-button></td>
+                    <td >{{ item.title || '---'}}</td>
+                    <td ng-if="item.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'">{{ item.beginTimestamp }} 至 {{ item.endTimestamp }}</td>
+                    <td ng-if="item.dateInfoType == 'DATE_TYPE_FIX_TERM'">领取后{{item.fixedBeginTerm == 0 ? '当':item.fixedBeginTerm}}天生效{{item.fixedTerm}}天有效</td>
+                    <td style="text-align:right;">{{ item.quantity ? item.quantity : item.quantity == 0 ? 0 : '---'}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </md-radio-group>
+
+        <md-content ng-show="start && !ngTable.data.length && !hasCoupon" layout-align="center" class="no-data">
+            <p>暂无优惠券，请先<a ng-click="createCoupons()">创建优惠券</a></p>
+        </md-content>
+
+        <md-content ng-show="start && !ngTable.data.length && hasCoupon" layout-align="center" class="no-data">
+            <p>暂无优惠券</p>
+        </md-content>
+
+        <div layout="row" class="field-btn" style="margin: 73px 0 0px;">
+            <md-button ng-click="close()" class="md-raised md-button my-button" style="margin-right: 20px !important;">取消</md-button>
+            <md-button ng-click="confirm()" class="btn-app md-raised my-button">
+                确认
+            </md-button>
+        </div>
+    </div>
+</md-dialog>

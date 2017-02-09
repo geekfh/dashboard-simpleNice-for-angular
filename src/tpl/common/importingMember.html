@@ -1,0 +1,47 @@
+<style>
+	.delImg{margin-bottom: 20px;}
+</style>
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:480px;">
+    <span class="absolute closepoi" ng-click="close()">+</span>
+    <div style="padding: 40px;">
+
+        <h4 class="contentTitle selectpoi" ng-if="importMember">导入会员</h4>
+        <h4 class="contentTitle selectpoi" ng-if="importRecharge">批量充值</h4>
+        <md-divider></md-divider>
+
+        <!-- <md-input-container class="md-block" md-no-float>
+            <input type="text" class="input myBoxShadow">
+        </md-input-container> -->
+
+        <!--导入会员-->
+        <div style="margin-top:30px;" ng-if="importMember">
+            <p >1.请先<a class="underline app-color" target="_blank" href="/server/s300/memberCardUsers/template">下载模板</a>，填入会员信息后导入。</p>
+            <p>2.根据规则填写(姓名与手机号必填，其他选填)。</p>
+            <p>3.请勿更改模板字段。</p>
+            <p>4.单次导入最大条数不超过1千。</p>
+            <p>5.只能上传Excel格式内容。</p>
+        </div>
+
+        <!--导入批量充值-->
+        <div style="margin-top:30px;" ng-if="importRecharge">
+            <p>1.请先<a class="underline app-color" target="_blank" href="/server/s300/memberCardStored/prepaidTemplate">下载批量充值模板</a>，填入会员信息后导入。</p>
+            <p>2.导入的手机号只能是已存在的会员手机号，否则无法导入。</p>
+            <p>3.根据规则填写(字段不能为空，充值金额不能为零)。</p>
+            <p>4.请勿更改模板字段。</p>
+            <p>5.单次导入最大条数不超过500条。</p>
+            <p>6.只能上传Excel格式内容。</p>
+        </div>
+
+
+        <!--<a style="margin: 20px 0; display: inline-block;" target="_blank" href="/server/s300/memberCardUsers/template">下载模板</a>-->
+        <myupload style="margin: 20px 0 30px 0;" text-num="6" is-pic="false" in-dialog="true" pic="pic"  ng-model="pic.name" name="name">上传文件</myupload>
+
+        <md-divider></md-divider> 
+        <div layout="row" class="field-btn" style="margin-top: 30px;">
+            <md-button ng-click="close()" class="md-raised md-button my-button" style="margin-right: 20px !important;">取消</md-button>
+            <md-button ng-click="confirm()" class="btn-app md-raised my-button">
+                确认
+            </md-button>
+        </div>
+    </div>
+</md-dialog>

@@ -1,0 +1,127 @@
+<style type="text/css">
+   .input-icon{background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAa5JREFUOBGdk71OAlEQhbkL2mlnR7A0ilrbQtSGV7AwgcKojZQkEBISSiyRAB2FD2D8QUNPaYIvgCEWNtpuAvgd2F0vZGPhJrMz98ycM/fXRJa+crm8O5lMcsBHWGLKZ4x5x7rRaLRVKpXebIrxBxBXqb3GzjDHx22PyIRx3XGcPPWucrNCken6iJ3PG5omuQM6rskUQ24qh12Mx+MHcSQQ0w9QnVOEHxBOSPaEW1+fuA9+C7lDnKZZDX9pALXmV6lDPrTJxWJxKpFKpWIvNY3ICzOaxmKxfQdyDrID0LLJIoZ9qlGtOAjltAfabS2jHUYIw/xa/LEEEipi+gvHYxMbjcaKPbZqE6HHZRcrHo1GA84/s4xrrFMYYjusJ4nXbgcfnTLgNaa6BXiHyBN34BRs0ysaagbPGrAxWQ8MHBt2H4/H98jlAb8xCX35tfjun8cYKBFUq9UN13XVeZ0Z/B4jXQYo3ZAwJDqM0zbRjwuFwqdH1kXSvajrXcxuIgJX2DZrTUmdhM657e82WJJ8Fp/zyD29B+KZknyEzv96TMEVnanMhRaes4cPmUHoc/4Bas35y03LlFsAAAAASUVORK5CYII=); width: 16px; height: 16px; display: inline-block; position: absolute; left: 10px; top: 9.5px;}
+   .add-photo-btn {display: inline-block; width: 330px; height: 80px; position: relative; border: 1px dashed #ddd; cursor: pointer; outline: none; }
+    .images-wrapper {width: 350px; outline: 1px solid #ddd; padding: 10px; }
+    .upload-directive, .upload-directive-wrapper{width: 100%;display: block;}
+    .text-image-item{ margin-bottom: 30px; outline: 1px dashed #ddd; padding-bottom: 34px;position: relative;}
+    .text-image-item textarea{height: 100px; resize: none;}
+    .text-image-item .del{display: block;bottom: 0;background: rgba(216, 210, 220, 0.8)}
+    md-input-container .app-tips-err{display: none}
+    md-input-container.md-input-invalid .app-tips-err{display: block}
+    .app-content{width: 69.5%; margin-left: 380px;padding: 4px 20px 20px 20px;}
+   md-input-container{margin-top:0;margin-bottom:0}
+    .member-detail{padding:0}
+    
+@media screen and (max-width:1023px) {
+.app-content{width:685px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.app-content{width:72%; margin-left: 250px;}
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.app-content{width:74.5%; margin-left: 250px;}
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+}
+@media screen and (width:1366px){
+.app-content{width:63.5%;margin-left: 370px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+</style>
+<!-- 手机端 -->
+<section class="small-view" ng-include="'tpl/clubcard/card/mobile_view.html'" onload="loaded()">
+</section>
+<!-- end 手机端 -->
+<form name="form" novalidate  ng-cloak>
+    <div class="member-detail">
+        <h4 style="margin: 15px 0 8px;">储值规则</h4>
+        <md-divider style="margin-bottom:30px;" ></md-divider>
+        <div layout="column" class="card-create"  ng-class="{'formError': vm.formError}">
+            <div layout="row"  class="color666">
+                <p >储值功能</p>
+                <div flex class="detail-content" layout-wrap layout="row" layout-align="start center">
+                    <div layout="row" layout-wrap>
+                        <div style="margin-right: 15px;">
+                            <md-checkbox ng-disabled="(vm.create.tradeFlag == '1' && vm.create.supply_balance == '1') || (vm.create.sync_weixin == '1' && vm.create.supply_balance == '1' && $root.isEdit)"
+                                         ng-model="vm.supply_balance" ng-true-value="'1'" ng-false-value="'0'"> 点击开通后，若已产生交易数据则功能不可关闭</md-checkbox><!--开通后微信会员卡不可关闭-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--V3.0版本的需求：储值密码开放到H5页面，由C端用户自己设置是否需要设置密码-->
+            <!--<div   layout-align="start center" ng-if="vm.supply_balance == '1'" class="color666" style="margin-top:10px;">
+                <p class="margin0">密码设置（选定后不可更改）</p>
+                <div layout="row" layout-wrap style="margin-left:85px;">
+                    <div style="margin-right: 15px;margin-top:13px;">
+                        <md-radio-group  ng-model="vm.create.free_pwd">
+                            <md-radio-button value="0" ng-disabled="$root.free_pwd == 1">消费时输密，消费者每次消费时需要输入密码才能支付</md-radio-button>
+                            <md-radio-button value="1" ng-disabled="$root.free_pwd == 1">免密支付，消费者在消费时无需输密</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                </div>
+                <div ng-if="vm.settingPwd">
+                    <p  class="app-tips-err" >请设置消费密码</p>
+                </div>
+            </div>-->
+
+
+            <div ng-if="vm.supply_balance == '1'" >
+                <div class="border-left" layout="row" layout-align="start center" margin="[40, 0, 40, 0]">
+                    <span class="span-text float-left">充值规则</span>
+                </div>
+                <div layout="row"  layout-align="start center" style="margin-bottom:20px; background: #f9f9f9;padding: 10px 10px 0 10px" class="color666">
+                    <p>规则设置：一次性充值满100元，送10元；一次性充值满200元，送60元；那么客户充值400元，只赠送60元。最多设置10个规则。</p>
+                </div>
+
+                <div  ng-repeat="list in vm.create.balance_rules_list" class="color666" style="margin: 15px;">
+                    <div layout="row" layout-align="start center" >
+                        <span>一次性充值，满</span>
+                        <md-input-container style="width: 140px;margin-left:8px;">
+                            <input type="number" class="padding0 input-wid-140" ng-blur="vm.showTip($index)" name="full{{$index}}" min="1" max="10000000" ng-pattern="/^([0-9]*[1-9][0-9]*)$/" my-price="100" required ng-model="list.full_money">
+                        </md-input-container>
+                        <span>元，送</span>
+                        <md-input-container style="width: 140px;margin-left:8px;">
+                            <input type="number" class="input-wid-140 paddingL0" ng-blur="vm.showTip($index)" name="presenter{{$index}}" min="1" max="10000000" ng-pattern="/^([0-9]*[1-9][0-9]*)$/" my-price="100" required ng-model="list.presenter_money">
+                        </md-input-container> 
+                        <p class="margin0"> 元</p>
+                        <p class="delete-btn" ng-click="deleteRule($index)"></p>
+                    </div>                   
+                    <p class="app-tips-err" ng-show="(vm.balance_rules_tip[$index] || vm.formError) && (form.full{{$index}}.$error.required || form.full{{$index}}.$error.max || form.full{{$index}}.$error.min || form.full{{$index}}.$error.pattern
+                                            || form.presenter{{$index}}.$error.required || form.presenter{{$index}}.$error.max || form.presenter{{$index}}.$error.min || form.presenter{{$index}}.$error.pattern)">输入金额需大于等于1且只能是不超过十万的整数</p>
+                    <!--<p class="app-tips-err" ng-show="vm.formError && form.full{{$index}}.$error.max">金额大于等于1且只能到百分位</p>
+                    <p class="app-tips-err" ng-show="vm.formError && form.full{{$index}}.$error.min">金额大于等于1且只能到百分位</p>
+                    <p class="app-tips-err" ng-show="vm.formError && form.presenter{{$index}}.$error.required">金额大于等于1且只能到百分位</p>
+                    <p class="app-tips-err" ng-show="vm.formError && form.presenter{{$index}}.$error.max">金额大于等于1且只能到百分位</p>
+                    <p class="app-tips-err" ng-show="vm.formError && form.presenter{{$index}}.$error.min">金额大于等于1且只能到百分位</p>-->
+                </div>
+
+                <div layout="row"  layout-align="start center" style="margin-top:10px;" ng-hide="vm.create.balance_rules_list.length == 10">
+                    <p><a ng-click="addRule()" class="underline">添加储值规则</a></p>
+                </div>
+            </div>
+
+
+            <md-divider  style="margin-top: 25px"></md-divider>
+            <div layout="row" style="margin-top: 25px; padding-left: 0;">
+                <md-button class="md-raised my-shadow my-button" ng-click="back()" >上一步</md-button>
+                <md-button style="margin-left: 10px !important;" class="md-raised my-shadow my-button" ng-click="next(form.$invalid)" >下一步</md-button>
+            </div>
+        </div>
+    </div>
+
+</form>

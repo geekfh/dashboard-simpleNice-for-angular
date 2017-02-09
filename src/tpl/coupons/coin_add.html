@@ -1,0 +1,67 @@
+
+<style>
+    .coin-dialog {width: 896px;padding: 18px 40px 38px;background-color: #f2f2f2; }
+    .coin-dialog .top-bar div{position: relative;text-align: center;background: #ffad9a;color: #fff;padding: 11px }
+    .coin-dialog .top-bar div.step {background: #ff591c}
+    .coin-dialog .top-bar div:first-child:after{content: ' '; border: 15px solid #ffad9a; position: absolute; right: -16px; top: 6px; z-index: 1; transform: rotate(45deg); }
+    .coin-dialog .top-bar div:first-child.step:after{border-color:#ff591c; }
+    .coin-dialog .num{font-size: 16px;color: #2b2b2b;font-weight: bold}
+    .coin-dialog .tips{color: #666;line-height: 30px;letter-spacing: 1px;}
+    .coin-dialog .select-bar {box-shadow: 1px 1px 1px 0 #aaa;width: 300px;height: 36px;margin-bottom: 30px;border-radius: 3px; background: #fff;overflow: hidden}
+    .coin-dialog .select-bar span {line-height: 14px;padding: 12px;color: #666;cursor: pointer;border-right: 1px solid #eaeaea;outline: 0}.coin-dialog .select-bar span:last-child{border: none;margin-right: -1px}
+    .coin-dialog .select-bar span.selected {background: #ff591c; color: #fff}
+    .coin-input{background: #fff;padding: 20px;margin-bottom: 30px;position: relative;border: 1px solid #dedede}
+    .coin-input:before,.coin-input:after{content: ' '; border: 1px solid #dedede; position: absolute; right: 544px; top: -4px; z-index: 1; transform: rotate(45deg); background: #fff;width: 16px;height: 16px;}
+    .coin-input:before {transform: rotate(0deg);border: 0;z-index: 2;top: 0;width: 30px;right: 540px}
+    .coin-input input{width: 280px;margin:0 16px;border: 1px solid #dedede;text-indent: 4px}
+
+    .coin-dialog .step2 {text-align: center}
+    .coin-dialog .step2 img{width: 200px;height: 200px;margin-top: 100px}
+    div[ng-messages] p {display: block;}
+    .coin-dialog .close {font-size: 26px; transform: rotate(45deg); position: absolute; top: 10px; right: 18px; cursor: pointer;outline: 0 } </style>
+<md-dialog aria-label="券点充值" ng-cloak class="coin-dialog" layout="column">
+
+    <h2 class="title">充值  <span class="close" ng-click="vm.cancel()">+</span></h2>
+    <div class="top-bar" layout="row">
+        <div flex ng-class="{step: vm.step == '1'}">1 选择重置券点数量</div>
+        <div flex ng-class="{step: vm.step == '2'}">2 扫码支付</div>
+    </div>
+    <div class="step1" ng-show="vm.step == 1">
+        <p class="num">请选择所需充值的券点数量</p>
+        <p class="tips">每1元可充值1券点。<br>充值时，若遇到支付后，未及时到账情况，请耐心等待，系统会自动核查，在当天充值到账，请及时关注余额变化和充值订单的状态。<br>须知：券点是腾讯为了向朋友的券功能商户收取互联网增值服务使用费，而提供的一种通用的收费取到或计费方式，不是任何代币票券，不能用于本功能以外，且不提供退款</p>
+        <form name="form" novalidate class="{form-error: form.$invalid}">
+            <div class="select-bar" layout="row">
+                <span flex ng-click="vm.click(100)" ng-class="{selected: vm.selected=='100'}">100</span>
+                <span flex ng-click="vm.click(200)" ng-class="{selected: vm.selected=='200'}">200</span>
+                <span flex ng-click="vm.click(500)" ng-class="{selected: vm.selected=='500'}">500</span>
+                <span flex ng-click="vm.click(1000)" ng-class="{selected: vm.selected=='1000'}">1000</span>
+                <span ng-click="vm.click('other')" ng-class="{selected: vm.selected=='other'}">其他数量</span>
+            </div>
+            <div class="coin-input" ng-if="vm.showInput">
+                <div layout="row" layout-align="start center">
+                    <p>充值数量</p>
+                    <md-input-container  md-no-float class="md-block"><input name="input" type="number" min="100" max="100000" ng-pattern="/^\d{0,7}$/" aria-label="充值" ng-model="vm.input" placeholder="请输入充值券点数量">
+                    </md-input-container>
+                    <p flex>点</p>
+                </div>
+                <div ng-messages="form.input.$error">
+                    <p class="app-tips-err" ng-message-exp="['pattern', 'min', 'max']">请输入100 - 100000之间的整数</p>
+                </div>
+
+            </div>
+        </form>
+
+        <md-divider ></md-divider>
+        <div layout="row" class="field-btn mt-20">
+            <md-button ng-click="vm.next()" class="md-raised" ng-disabled="form.$invalid" style="margin-left:3px;">下一步</md-button>
+        </div>
+    </div>
+    <div class="step2" ng-if="vm.step == 2">
+        <div><img ng-src="{vm.qrcode_url}" alt=""></div>
+        <h2>付款金额：{{vm.coin}}元</h2>
+        <p>请使用微信扫描二维码进行付款</p>
+        <p class="app-tips">注意：券点一经充值，不可退款，请仔细确认。</p>
+
+        充值成功 // 手动确认
+    </div>
+</md-dialog>

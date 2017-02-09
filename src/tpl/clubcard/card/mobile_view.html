@@ -1,0 +1,53 @@
+<div class="title">示例</div>
+<div class="round" layout="column" ng-style="{'background-color': vm.create.color.cvalue || '#5885cf'}">
+    <div>        
+        <div layout="column" class="top-spacing">
+            <p class="margin0 fs13 white" ng-bind="vm.user.brandName || vm.create.brand_name || vm.create.brandName"></p>
+           <!-- <p class="margin0 fs10 white" ng-bind="vm.create.title | myLimit: 9"></p>-->
+        </div>
+        <!--<div class="detailIcon float-right" style="margin: 2px 0 0 0;"></div>-->
+    </div>
+    <div layout="row" class="small-view-tit">
+        <!--<p class="white fs26 margin0 ls2">{{vm.myCardNum | splitting}}</p>-->
+        <p class="white fs22 margin0 ls2">{{vm.myCardName}}</p>
+    </div>
+  <!--  <div layout="row" style="margin-top: 9px;">
+        <p class="margin0 fs11 white" ng-show="vm.create.dateType == 'DATE_TYPE_FIX_TIME_RANGE' && vm.create.date.begin">
+        有效期: {{vm.create.date.begin | date: 'yyyy.MM.dd'}} - {{vm.create.date.end | date: 'yyyy.MM.dd'}}
+        </p>
+        <p class="margin0 fs11 white" ng-show="vm.create.dateType == 'DATE_TYPE_PERMANENT'">有效期: 永久有效</p>
+    </div>-->
+</div>
+<div class="middle horizontal">
+	<div class="smallLogo" ng-style="vm.create.wxchatLogo"></div>
+    <div class="vertical flexw-1">        
+        <p class="margin0 text-center fs15" ng-style="{'color': vm.create.color.cvalue || '#5885cf'}">888</p>
+        <p class="margin0 text-center fs10 origin-center">积分</p>
+    </div>
+    <div class="vertical flexw-1" >        
+        <!-- <p class="margin0 text-center fs12" ng-style="{'color': vm.create.color.cvalue || '#5885cf'}" ng-bind="vm.create.evelLists[vm.create.evelLists.length - 1].discount || '9.9'"></p> -->
+        <p class="margin0 text-center fs15" ng-style="{'color': vm.create.color.cvalue || '#5885cf'}" ng-bind="8.8"></p>
+        <p class="margin0 text-center fs10 origin-center">折扣</p>
+    </div>
+    <div class="vertical flexw-1" >        
+        <p class="margin0 text-center fs15" ng-style="{'color': vm.create.color.cvalue || '#5885cf'}">888.88</p>
+        <p class="margin0 text-center fs10 origin-center">账户余额</p>
+    </div>
+</div>
+<div class="back-white qrcde s-erweima">
+    <div class="p-wrap">
+        <p class="margin0" >8888 8888 8888</p><!--{{vm.create.service_phone ? vm.create.service_phone : '1888-8888-8888'}}-->
+        <p class="margin0" ng-bind="vm.create.notice"></p>
+    </div>
+    <img class="img-wrap" src="http://7xogpz.com2.z0.glb.qiniucdn.com/qrcode.png" width="38" height="38">
+</div>
+<ul class="table-view det-ul">
+    <li ng-show="vm.create.poiLists.length || vm.create.poiRadio == 'allPoi' || vm.prevCard || $root.isEdit">
+        <p class="margin0 fs14 float-left" style="color: #3b3b3c; line-height: 38px;">适用门店</p>
+        <p class="margin0 float-right ic-right-normal" style="margin-top: 16px !important;"></p>
+    </li>    
+    <li ng-repeat="custom in vm.create.custom">
+        <p class="margin0 fs14 float-left" style="color: #3b3b3c; line-height: 38px;" ng-bind="custom.name"></p>
+        <p class="margin0 float-right ic-right-normal" style="margin-top: 16px !important;"></p>
+    </li>
+</ul>

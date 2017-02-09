@@ -1,0 +1,162 @@
+<md-dialog aria-label="" ng-cloak id="typeDialog" layout="column" style="width:480px;">
+    <span class="absolute closepoi" ng-click="close()">+</span>
+    <div style="padding: 40px;">
+
+        <h4 class="contentTitle selectpoi">交易详情</h4>
+        <md-divider></md-divider>
+
+        <div class="field-btn clearfix dealDetailItem" style="margin-top: 10px; height: 85px;">
+            <span style="font-weight: 500;font-size:15px;">{{data.mchtName ? data.mchtName : '--'}}</span>
+            <p style="margin-top: -5px;">门店编号：{{data.mchtNo ? data.mchtNo : '--'}}</p>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem" ng-if="!data.isRecharge">
+            <span class="fl">实付金额</span>
+            <span class="fr">{{data.paidAmount ? data.paidAmount/100 : 0 | currency : '￥'}}</span>
+        </div>
+
+        <!--充值-->
+        <div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">订单金额</span>
+            <span class="fr">{{data.orderAmount ? data.orderAmount/100 : 0 | currency : '￥'}}</span>
+        </div>
+
+        <!--消费-->
+        <div class="field-btn clearfix dealDetailItem" ng-if="!data.isRecharge">
+            <span class="fl">订单金额</span>
+            <span class="fr">{{data.comsumeAmount ? data.comsumeAmount/100 : 0 | currency : '￥'}}</span>
+        </div>
+        <!--消费记录-->
+        <div class="field-btn clearfix dealDetailItem" ng-if="!data.isRecharge" style="height:130px;padding-top:10px;" >
+            <p style="height:20px;line-height:20px;">
+                <span class="fl">优惠减免</span>
+                <span class="fr">{{data.reduceAmount ? (-data.reduceAmount/100) : 0 | currency : '￥'}}</span>
+            </p>
+           <p style="height:20px;line-height:20px;margin-left:28px;" class="disabled-color">
+               <span class="fl">积分减免</span>
+               <span class="fr">{{data.bonousReduce ? (data.bonousReduce/100) : 0 | currency : '￥'}}</span>
+           </p>
+            <p style="height:20px;line-height:20px;margin-left:28px;" class="disabled-color">
+                <span class="fl">折扣减免</span>
+                <span class="fr">{{data.discountReduce ? (data.discountReduce/100) : 0 | currency : '￥'}}</span>
+            </p>
+            <p style="height:20px;line-height:20px;margin-left:28px;" class="disabled-color">
+                <span class="fl">优惠券减免</span>
+                <span class="fr">{{data.couponReduce ? (data.couponReduce/100) : 0 | currency : '￥'}}</span>
+            </p>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">实收金额</span>
+            <span class="fr">{{data.paidAmount ? data.paidAmount/100 : 0 | currency : '￥'}}</span>
+        </div>
+        <div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">赠送金额</span>
+            <span class="fr">{{data.giftAmount ? data.giftAmount/100 : 0 | currency : '￥'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">SN号</span>
+            <span class="fr">{{data.snNo ? data.snNo : '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">收银员</span>
+            <span class="fr">{{data.cashName ? data.cashName :'--'}}</span>
+        </div>
+
+        <!--<div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">收款方式</span>
+            <span class="fr">{{data.payType | paymentMethod}}</span>
+        </div>-->
+
+        <div class="field-btn clearfix dealDetailItem" ng-if="!data.isRecharge">
+            <span class="fl">收款方式</span>
+            <span class="fr">储值支付</span>
+        </div>
+
+        <!--<div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">结算周期</span>
+            &lt;!&ndash;<span class="fr">{{data.cycle | settlementCycle}}</span>&ndash;&gt;
+            <span class="fr">{{data.settlementPeriod | settlementCycle}}</span>
+        </div>-->
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">交易类型</span>
+            <span class="fr">{{data.transType ?  (data.transType | tradeType) : '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">交易状态</span>
+            <span class="fr">{{data.transStatus ? (data.transStatus | tradStatusCard) : '--'}}</span>
+        </div>
+
+        <!--<div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">消费卡号</span>
+            <span class="fr">{{data.consumeNumber}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">卡类型</span>
+            <span class="fr">{{data.cardType | cardType}}</span>
+        </div>-->
+
+        <div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">订单编号</span>
+            <span class="fr">{{data.orderNo ? data.orderNo : '--'}}</span>
+        </div>
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">流水号</span>
+            <span class="fr">{{data.transNo ? data.transNo : '--'}}</span>
+        </div>
+
+        <!--<div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">参考号</span>
+            <span class="fr">{{data.referNo}}</span>
+        </div>-->
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">会员卡号</span>
+            <span class="fr">{{data.memberCardNo ? data.memberCardNo : '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem" ng-if="!data.isRecharge">
+            <span class="fl">交易时间</span>
+            <span class="fr">{{data.comsumeTime ? data.comsumeTime : '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem" ng-if="data.isRecharge">
+            <span class="fl">交易时间</span>
+            <span class="fr">{{data.transTime ? data.transTime : '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix memoItem" ng-if="!data.isRecharge">
+            <span class="fl">备注</span>
+            <span class="fr">{{data.remark }}</span>
+        </div>
+    </div>
+</md-dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

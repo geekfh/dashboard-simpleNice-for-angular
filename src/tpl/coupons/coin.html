@@ -1,0 +1,81 @@
+<style>
+    .coin-top ol {padding-left:16px;color: #666}
+    .coin-top ol li{margin: 5px 0;}
+    .coin-detail .title{padding: 6px 16px;font-weight: normal;border-bottom: 1px solid #ddd;color: #2d2d2d;  background-color: #f9f9f9;}
+    .title span {margin-top: 0}
+    .coin-detail .content{padding: 16px 16px 2px;}
+    .coin-detail .content p span{font-size: 24px;padding-right: 10px}
+    .coin-detail .coin-item{ border: 1px solid #ddd;}
+    .mid-title{margin: 30px 0 8px;font-size:16px;}
+    .coin-detail .md-button {margin: 0}
+</style>
+<h4 class="contentTitle" flex="30">我的券点</h4>
+<md-divider></md-divider>
+<div class="border-left ng-scope" margin="[30, 0, 15, 0]" style="margin: 10px 0px 20px;"><span class="span-text float-left">如何使用和获取券点</span> </div>
+<div class="coin-top" style="margin-bottom: 20px;">
+    <ol>
+        <li>券点用来给朋友的券添加库存。每次添加，会根据券的库存单价及添加数量计算出所需支出的券点。</li>
+        <li>券点分为免费券点、付费券点，两者统称券点，价值和作用是相同的。</li>
+        <li>免费券点来源于平台运营活动奖励，付费券点则需要你自行充值。</li>
+    </ol>
+</div>
+
+
+<div class="coin-detail" layout="row">
+    <div class="free coin-item" flex>
+        <div class="title">免费券点</div>
+        <div class="content">
+            账户余额 <p><span>{{vm.coins.free_coin || 0}}</span>券点</p>
+        </div>
+    </div>
+    <div style="width: 20px"></div>
+    <div class="pay coin-item" flex>
+        <div class="title"> <span class="fr app-tips">如需发票，可在<a href="https://mp.weixin.qq.com/" target="_blank">微信公众号平台</a>索要</span>付费券点</div>
+        <div class="content">
+            账户余额
+            <p layout-align="center"><span class="app-tips-err">{{vm.coins.pay_coin || 0}}</span>券点 <a ng-click="vm.showConfirm()" class="btn-app my-button my-shadow md-raised md-button fr">充值</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="border-left ng-scope" margin="[50, 0, 15, 0]" style="margin: 10px 0px 20px;">
+    <span class="span-text float-left">流水记录</span> 
+    <a class="float-right text-decoration downloadTable-btn" target="_blank" ng-click="vm.getExcel($event)">下载表格</a>
+</div>
+
+
+<search-day date="date" ></search-day>
+
+<md-button style="margin: 20px 70px !important;" class="btn-app md-raised my-shadow my-button md-button" type="button" ng-transclude="" ng-click="vm.search()">查询</md-button>
+<table ng-table="vm.ngTable" class="table break-word color666" style="margin-top:60px;">
+    <thead class="table-header">
+        <tr> 
+            <td width="8%">订单编号</td> 
+            <td width="14%">时间</td> 
+            <td width="9%">全部状态</td> 
+            <td width="11%">免费券点(个)</td> 
+            <td width="11%">付费券点(个)</td> 
+            <!-- <td width="8%">支付金额</td>  -->
+            <td width="16%">备注</td> 
+            <td width="3%">操作</td> 
+        </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in $data">
+       <!-- <td >{{ item.order_id | limitTo: 7 }}...</td>-->
+        <td >{{ item.order_id }}</td>
+        <td >{{ (item.create_time * 1000) | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{ item.status | coinStatus}}</td>
+        <td >{{ item.free_coin_count }}</td>
+        <td >{{ item.pay_coin_count }}</td>
+        <!--<td my-limit="['item.memo || item.desc', 10]"></td>-->
+        <td >{{item.memo || item.desc}}</td>
+        <td>
+            <a ui-sref="coupons.coinDetail({id: item.order_id})">详情</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<md-content ng-show="vm.noData" layout-align="center" class="no-data">
+    <p>暂无数据</p>
+</md-content>

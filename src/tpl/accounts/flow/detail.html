@@ -1,0 +1,103 @@
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:480px;">
+    <span class="absolute closepoi" ng-click="close()">+</span>
+    <div style="padding: 40px;">
+
+        <h4 class="contentTitle selectpoi">交易详情</h4>
+        <md-divider></md-divider>
+
+        <div class="field-btn clearfix dealDetailItem" style="margin-top: 10px; height: 85px;">
+            <span style="font-weight: 500;font-size:15px;">{{data.mchtName}}</span>
+            <p style="margin-top: -5px;">门店编号：{{data.mchtNo}}</p>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem" >
+            <span class="fl">交易金额</span>
+            <span class="fr">{{data.txAmt | currency : '￥'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">SN号</span>
+            <span class="fr">{{data.snNo}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">收银员</span>
+            <span class="fr">{{data.userName}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">收款方式</span>
+            <span class="fr">{{data.type | paymentMethod}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">结算周期</span>
+            <!--<span class="fr">{{data.cycle | settlementCycle}}</span>-->
+            <span class="fr">{{data.cycleName || '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">交易类型</span>
+            <span class="fr">{{data.subCode}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">交易状态</span>
+            <span class="fr">{{data.state | tradStatus}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">卡号</span>
+            <span class="fr">{{data.acNo || '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">卡类型</span>
+            <span class="fr">{{data.cardTypeName || '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">流水号</span>
+            <span class="fr">{{data.transNo}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">参考号</span>
+            <span class="fr">{{data.vocheNo || '--'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">交易时间</span>
+            <span class="fr">{{data.txTime}}</span>
+        </div>
+
+        <div class="field-btn clearfix memoItem">
+            <span class="fl">备注</span>
+            <span class="fr">{{data.memo}}</span>
+        </div>
+    </div>
+</md-dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

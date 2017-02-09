@@ -1,0 +1,76 @@
+
+<!-- 增加登录页面，sidebar布局放在content页面 -->
+<!--<div  layout="column"  ng-cloak style="min-height: 100%;margin-left: 260px;">
+    <section layout="row" flex>
+        <sidebar></sidebar>
+        <md-content layout="column" flex style="background: #f9f9f9;height: 100vh">
+            <div flex>
+				<h2 class="page-title"><a href="#/index" class="app-color">卡券中心 </a> <span>&nbsp&nbsp/&nbsp&nbsp</span> <a ng-if="$root.titleArr.length" ng-href="{{$root.titleObj.href}}" ng-bind="$root.titleObj.title"></a>
+                <span ng-if="$root.titleArr.length">&nbsp&nbsp/&nbsp&nbsp</span>{{$root.title}}</h2>
+				<app-card class="app-content" flex layout="row">
+					
+				    <div  ui-view flex></div>
+
+				</app-card>
+				<div ng-show="submitingData" class="loading"><div class="loader"></div></div>
+            </div>
+        </md-content>
+
+    </section>
+
+
+</div>-->
+<h2 class="page-title" style="color:#bbb;">
+	<a href="#/index" class="app-color" style="margin-left: -10px;">商户平台 </a> 
+	<span>&nbsp&nbsp/&nbsp&nbsp</span> 
+	<a ng-if="$root.titleArr.length" ng-href="{{$root.titleObj.href}}" ng-bind="$root.titleObj.title"></a>
+    <span ng-if="$root.titleArr.length">&nbsp&nbsp/&nbsp&nbsp</span>{{$root.title}}  <!---->
+    <span class="browser-tip" ng-if="$root.ifRightBrowser">您当前使用的浏览器可能导致部分按钮无法点击，请点击下载<a href="http://7xiteg.com1.z0.glb.clouddn.com/chrome-standalone-setup.exe" style="text-decoration: underline;">谷歌浏览器</a>与<a href="http://7xiteg.com1.z0.glb.clouddn.com/firefox-setup.exe" style="text-decoration: underline;">火狐浏览器</a>,否则将影响功能的使用。</span>
+    <!--<span class="link-text">帮助中心</span>-->
+
+
+</h2>
+<!-- 导航条 -->
+<div class="navRect" layout="row" ng-show="$root.nav.isShow">
+    <div flex="33" layout="column" layout-align="center center" class="rect" ng-class="{'backActive': $root.nav.step == 1}">
+        <p ng-bind="$root.nav.firstText"></p>
+    </div>
+    <div flex="33" layout="column" layout-align="center center" class="rect" ng-class="{'backActive': $root.nav.step == 2}">
+        <p ng-bind="$root.nav.secondText"></p>
+    </div>
+    <div flex="33" layout="column" layout-align="center center" class="rect" ng-class="{'backActive': $root.nav.step == 3}">
+        <p ng-bind="$root.nav.thirdText"></p>
+    </div>
+    <div class="triangle-right" ng-style="{'border-left-color': $root.nav.step == 1 ? '#ff591c' : $root.nav.step == 2 ? '#ffab8f' : '#fff'}"></div>
+    <div class="triangle-right" ng-show="$root.nav.step == 3" style="border-left-color: #ffab8f;"></div>
+    <div class="triangle-left" ng-style="{'border-left-color': $root.nav.step == 1 ? '#fff' : $root.nav.step == 2 ? '#ff591c' : '#ffab8f'}"></div>
+    <div class="triangle-left" ng-show="$root.nav.step == 1"></div>
+</div>
+
+<!-- 导航条-会员卡 -->
+<div class="navRect" layout="row" ng-show="$root.nav.clubcard.isShow">
+    <div flex="25" layout="column" layout-align="center center" class="rect" ng-class="{'backActive': $root.nav.clubcard.step == 1}">
+        <p ng-bind="$root.nav.clubcard.firstText"></p>
+        <div class="triangle1-4" ng-style="{'border-left-color': $root.nav.clubcard.step == 1 ? '#ff591c' : $root.nav.clubcard.step == 2 ? '#ffab8f' : '#fff'}"></div>
+        <div class="triangle1-4" ng-show="$root.nav.clubcard.step == 3 || $root.nav.clubcard.step == 4 " style="border-left-color: #ffab8f;"></div>
+    </div>
+    <div flex="25" layout="column" layout-align="center center" class="rect" ng-class="{'backActive': $root.nav.clubcard.step == 2}">
+        <p ng-bind="$root.nav.clubcard.secondText"></p>
+        <div class="triangle2-4" ng-style="{'border-left-color': ($root.nav.clubcard.step == 1 || $root.nav.clubcard.step == 4) ? '#fff' : $root.nav.clubcard.step == 2 ? '#ff591c' : '#ffab8f'}"></div>
+        <div class="triangle2-4" ng-show="$root.nav.clubcard.step == 1 || $root.nav.clubcard.step == 4"></div>
+    </div>
+    <div flex="25" layout="column" layout-align="center center" class="rect" ng-class="{'backActive': $root.nav.clubcard.step == 3}">
+        <p ng-bind="$root.nav.clubcard.thirdText"></p>
+        <div class="triangle3-4" ng-style="{'border-left-color': $root.nav.clubcard.step == 3 ? '#ff591c' : $root.nav.clubcard.step == 4 ? '#ffab8f' : '#fff'}"></div>
+        <div class="triangle3-4" ng-show="$root.nav.clubcard.step == 1 || $root.nav.clubcard.step == 2 "></div>
+    </div>
+    <div flex="25" layout="column" layout-align="center center" class="rect" ng-class="{'backActive': $root.nav.clubcard.step == 4}">
+        <p ng-bind="$root.nav.clubcard.forthText"></p>       
+    </div>
+</div>
+<app-card class="app-content" flex layout="row">
+	
+    <div  ui-view flex></div>
+
+</app-card>
+<div ng-show="submitingData" class="loading"><div class="loader"></div></div>

@@ -1,0 +1,49 @@
+<style>
+    .succ,#dialog {width: 464px; background-color: #f9f9f9; padding: 20px 30px; color: #666; }
+    #dialog .title {font-size: 24px; font-weight: normal; }
+    #dialog .field-btn {margin-top: 20px; }
+    .pl-40{padding-left: 40px}
+    input {border-color: rgba(0,0,0,0.45);}
+    .succ{height:280px;padding: 88px 0 72px;text-align: center; transition: all 0.4s}
+    .succ img{width: 64px;}
+    .tip{font-size: 14px;  font-weight: 300;  color: #bbbbbb;}
+    md-radio-button{display:inline-block;}
+</style>
+<section ng-if="vm.success" class="succ">
+    <img src="http://7xogq3.com2.z0.glb.qiniucdn.com/friendCard__1471488792048.png" alt="">
+    <h3>修改成功</h3>
+</section>
+<section aria-label="选择优惠券类型" ng-cloak id="dialog" style="padding: 0;" layout="column" ng-if="!vm.success">
+    <span class="absolute closepoi" ng-click="vm.cancel()">+</span>
+    <div style="padding: 40px;">
+        <h4 class="contentTitle selectpoi" style="margin: 10px 0;">库存设置</h4>
+            <md-divider></md-divider>  
+        
+        <section  style="margin-top: 20px;margin-bottom:30px;">
+            <div layout="row" layout-align="start center">
+                <md-radio-group ng-model="vm.setQuantity">
+                    <md-radio-button value="add" >增加</md-radio-button>
+                    <md-radio-button style="margin-left:60px;" value="reduce" >减少</md-radio-button>
+                </md-radio-group>
+            </div>
+            <div layout="row" layout-align="start center" >
+                <md-input-container flex="70" md-no-float class="md-block" style="margin-bottom:0;">
+                    <input type="number" style="width: 88%;padding:0!important;" class="app-input" placeholder="" min="1" max="100000" name="count" ng-model="vm.count"  aria-label="增加库存" ng-pattern="/^\d{0,6}$/">
+                    <span style="line-height:32px;"></span>张
+                </md-input-container>
+            </div>
+            <p class="tip" style="margin-top:8px;margin-bottom:20px;">库存不能少于1</p>
+            <p class="app-tips-err" ng-show="vm.err1" ng-if="vm.setQuantity == 'add'">请输入要添加的库存数量，数量为 1-100000之间的整数</p>
+            <p class="app-tips-err" ng-show="vm.err1" ng-if="vm.setQuantity == 'reduce'">请输入要减少的库存数量，数量为 1-100000之间的整数</p>
+            <p class="app-tips-err" ng-show="vm.err2">请输入小于当前库存数的值</p>
+
+        </section>
+
+
+        <md-divider ></md-divider >
+        <div layout="row" class="field-btn" style="margin-top: 30px;">
+            <md-button ng-click="vm.cancel()" class="md-raised md-button my-button" style="margin:0 5px !important;">取消</md-button>
+            <md-button ng-click="vm.submit()" class="btn-app md-raised my-button"  style="margin:0 5px !important;">确认</md-button>
+        </div>
+    </div>    
+</section>

@@ -1,0 +1,433 @@
+<style>
+	.no_outline:focus{outline: none;}
+</style>
+<h4 class="contentTitle">商户信息</h4>
+
+<div class="contantDiv" contant-div>
+    <h4 class="contentTitle floath4 activeh4 normal" contantId="basic">基本信息</h4>
+    <h4 class="contentTitle floath4 normal no_outline" contantId="amount" ng-click="showAmountInfo()" >额度信息</h4>
+</div>
+<!--基本信息-->
+<div id="basic">
+    <div class="basic-tips" flex="100" layout="row" layout-align="start center" ng-if="$root.powers && ($root.powers.indexOf('settings.merchantInfo_update.to.brand') > -1)">
+
+        <!--<div layout="row" layout-align="start center" style="margin: 0 0 0 20px;">
+            <md-button class="btn-app md-raised my-shadow my-button" ui-sref="settings.upGrade">升级为集团商户</md-button>
+        </div>-->
+        <div layout="column" layout-align="start start" class="basic-tips-text">
+            <!--<p style="margin: 5px 0 5px 20px;">注：普通商户升级为集团商户，将享有会员卡，优惠券等功能权限。</p>-->
+            <h5>升级集团商户</h5>
+            <p>集团商户是应对多门店对账、集中收银和品牌营销等问题的综合解决方案，更多详情：huipos.kf5.com <br>
+                                升级方式：关注右侧公众号【盒子支付O2O】，进入【集团商户申请】页面，填写并提交表单，1-2个工作日即可自动完成。</p>
+        </div>
+        <div class="wechat-img"></div>
+    </div>
+
+    <!--<div layout="row" layout-align="start start" margin="[40, 0, 20, 0]" class="color666"
+         ng-if="$root.powers && ($root.powers.indexOf('settings.merchantInfo_store.name') > -1)">
+        <p class="text-right width70">门店名称</p>
+        <p style="margin-left: 30px;" >{{basicInfo.mchtName}}</p>
+    </div>-->
+
+    <!--品牌管理员未授权-->
+    <div layout="row" layout-align="start start" margin="[25, 0, 20, 0]" class="color666"
+         ng-class=" {'mt-60':!($root.powers && $root.powers.indexOf('settings.merchantInfo_store.name') > -1)}"
+         ng-if="$root.powers && ($root.powers.indexOf('settings.merchantInfo_brand.logo.update') > -1) && canEdit ">
+        <p class="text-right width70" ng-if="isBrand">品牌Logo</p>
+        <p class="text-right width70" ng-if="!isBrand">商户Logo</p>
+        <!--<img ng-src="{{basicInfo.mchtLogo}}" width="100" height="100" style="margin-left: 30px;margin-top:-5px;" />-->
+        <!--<div flex="70" layout="row" layout-align="end center" >
+            <md-button class="btn-app md-raised my-shadow my-button" ng-click="editBasicInfo()">修改</md-button>
+        </div>-->
+        <myuploadimg  in-dialog="true" style="margin-left: 30px;"  size="5m" ng-model="basicInfo.mchtLogo" pic="pic" name="icon_file">上传</myuploadimg>
+    </div>
+
+
+    <!--品牌门店管理员或品牌管理员已授权-->
+    <div layout="row" layout-align="start start" margin="[25, 0, 20, 0]" class="color666"
+         ng-class=" {'mt-60':!($root.powers && $root.powers.indexOf('settings.merchantInfo_store.name') > -1)}"
+         ng-if="($root.powers && ($root.powers.indexOf('settings.merchantInfo_brand.logo') > -1) && ($root.powers.indexOf('settings.merchantInfo_brand.logo.update') == -1)) ||
+            ($root.powers && ($root.powers.indexOf('settings.merchantInfo_brand.logo.update') > -1) && !canEdit)">
+        <p class="text-right width70" ng-if="isBrand">品牌Logo</p>
+        <p class="text-right width70" ng-if="!isBrand">商户Logo</p>
+        <img ng-src="{{basicInfo.mchtLogo}}" width="100" height="100" style="margin-left: 30px;margin-top:-5px;" />
+        <!--<div flex="70" layout="row" layout-align="end center" >
+            <md-button class="btn-app md-raised my-shadow my-button" ng-click="editBasicInfo()">修改</md-button>
+        </div>-->
+
+    </div>
+
+
+    <!--品牌管理员未授权-->
+    <div layout="row" layout-align="start start" margin="[-15, 0, -15, 0]" class="color666"
+         ng-if="$root.powers && ($root.powers.indexOf('settings.merchantInfo_brand.name.update') > -1) && canEdit">
+        <p class="text-right width70" style="line-height: 65px;" ng-if="isBrand">品牌名称</p>
+        <p class="text-right width70" style="line-height: 65px;" ng-if="!isBrand">商户名称</p>
+        <!--<md-input-container md-no-float class="md-block" style="margin-left: 30px;width:300px;margin-top:-9px;">
+            <input ng-model="basicInfo.brandMchtName" placeholder="请输入品牌名称" class="input myBoxShadow">
+            <clear-input value="basicInfo.brandMchtName"></clear-input>
+        </md-input-container>-->
+
+        <div  class="detail-content " >
+            <md-input-container md-no-float class="md-block input-left-280" style="margin-left:30px;">
+                <input type="text" ng-pattern="" placeholder="请输入品牌名称" class="app-input padding0  input-wid-280" id="mchtName"
+                       name="brand_name" han="24" ng-model="basicInfo.brandMchtName" required>
+            </md-input-container>
+        </div>
+
+        <md-button class=" md-raised my-shadow my-button" ng-click="editBrandName()" style="margin-top:14px!important;">修改</md-button>
+    </div>
+
+    <!--品牌门店管理员或品牌管理员已授权-->
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666"
+         ng-if="($root.powers && ($root.powers.indexOf('settings.merchantInfo_brand.name') > -1) && ($root.powers.indexOf('settings.merchantInfo_brand.name.update') == -1)) ||
+         ($root.powers && ($root.powers.indexOf('settings.merchantInfo_brand.name.update') > -1) && !canEdit)">
+        <p class="text-right width70" ng-if="isBrand">品牌名称</p>
+        <p class="text-right width70" ng-if="!isBrand">商户名称</p>
+        <p style="margin-left: 30px;" >{{basicInfo.brandMchtName}}</p>
+    </div>
+    <!--服务支持-->
+    <div class="border-left" margin="[50, 0, 20, 0]">
+        <span class="span-text float-left" >服务支持</span>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">拓展员</p>
+        <p style="margin-left: 30px;" >{{basicInfo.explorerName}}</p>
+    </div>
+    <div layout="row" layout-align="start start"  class="color666">
+        <p class="text-right width70">拓展员手机</p>
+        <p style="margin-left: 30px;" >{{basicInfo.explorePhone}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">商户编号</p>
+        <p style="margin-left: 30px;" >{{basicInfo.mchtNo}}</p>
+    </div>
+    <!--经营信息-->
+    <div class="border-left" margin="[50, 0, 20, 0]">
+        <span class="span-text float-left" >经营信息</span>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">商家名称</p>
+        <p style="margin-left: 30px;" >{{basicInfo.mchtName}}</p>
+        <!--<md-input-container md-no-float class="md-block" style="margin-left: 30px;width:300px;margin-top:-9px;" >
+            <input ng-model="icon_file" placeholder="深圳手足牛肉坊（信和广场店）">
+        </md-input-container>-->
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">商家地址</p>
+        <p style="margin-left: 30px;" >{{basicInfo.address}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">公司电话</p>
+        <p style="margin-left: 30px;" >{{basicInfo.comTel}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">经营范围</p>
+        <p style="margin-left: 30px;" >{{basicInfo.scope}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">经济类型</p>
+        <p style="margin-left: 30px;" >{{basicInfo.mchtKind}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">营业执照号</p>
+        <p style="margin-left: 30px;" >{{basicInfo.licNo}}</p>
+    </div>
+    <!--<div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">营业执照</p>
+        <img ng-src="{{basicInfo.licenseImg}}"  style="margin-left: 30px;width:400px;height:250px;" />
+    </div>-->
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">税务登记号</p>
+        <p style="margin-left: 30px;" >{{basicInfo.taxNo}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">账号后缀</p>
+        <p style="margin-left: 30px;" >{{basicInfo.brandSuffix}}</p>
+    </div>
+
+    <!--法人代表信息-->
+    <div class="border-left" margin="[50, 0, 20, 0]">
+        <span class="span-text float-left" >法人代表信息</span>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">姓名</p>
+        <p style="margin-left: 30px;" >{{basicInfo.mchtUserName}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">手机号码</p>
+        <p style="margin-left: 30px;" >{{basicInfo.userPhone}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">身份证号码</p>
+        <p style="margin-left: 30px;" >{{basicInfo.cardNo}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">电子邮箱</p>
+        <p style="margin-left: 30px;" >{{basicInfo.userEmail}}</p>
+    </div>
+    <!--账户资料-->
+    <div class="border-left" margin="[50, 0, 20, 0]">
+        <span class="span-text float-left" >账户资料</span>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">开户名</p>
+        <p style="margin-left: 30px;" >{{basicInfo.accountName}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">开户行</p>
+        <p style="margin-left: 30px;" >{{basicInfo.zbankName}}</p>
+    </div>
+    <div layout="row" layout-align="start start" margin="[15, 0, 15, 0]" class="color666">
+        <p class="text-right width70">账户号码</p>
+        <p style="margin-left: 30px;" >{{basicInfo.accountNo}}</p>
+    </div>
+    <!--终端设备-->
+    <div  margin="[50, 0, 20, 0]" ng-if="$root.powers && $root.powers.indexOf('settings.merchantInfo_terminal.list') > -1">
+        <div class="border-left" >
+            <span class="span-text float-left" >终端设备</span>
+        </div>
+
+        <table  class="table table-full table-hover table-full-small color666" style="margin-top: 30px;">
+            <thead class="table-header">
+            <tr>
+                <td width="33%">终端名称</td>
+                <td width="33%">SN号</td>
+                <td width="33%">终端号</td>
+            </tr>
+            </thead>
+            <tbody ng-show="basicInfo.terminalList && basicInfo.terminalList.length > 0">
+            <tr ng-repeat="item in basicInfo.terminalList">
+                <td >{{item.termMachTp}}</td>
+                <td >{{item.snNo}}</td>
+                <td >{{item.termlNo}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div ng-show="!basicInfo.terminalList || basicInfo.terminalList.length == 0" style="margin:15px;text-align:center;color:#666;">暂无终端设备信息....</div>
+    </div>
+
+</div>
+<!-- 额度信息 -->
+<div id="amount">
+    <div ng-if="$root.powers && $root.powers.indexOf('settings.merchantInfo_store.list') > -1 ">
+        <div class="table-top margintop15" layout="row">
+            <div flex="25" layout="row" layout-align="start end">
+
+                <div layout="row">
+                    <!--<p class="text-p" style="margin-top: 5px !important;text-align:right;">筛选分组</p>
+                    <div class="detail-content" style="width: 160px;" >
+                        <md-select my-select placeholder="指定商户" ng-model="queryParams.visibleRange"  aria-label="time" ng-change="changeSelectedType(queryParams.visibleRange)">
+                            <md-option ng-repeat="item  in selecteTypeList "  value="{{item.id }}" class="mdOption" ng-class="{'active' : item.id  == queryParams.visibleRange}">
+                                {{item.name}}
+                            </md-option>
+                        </md-select>
+                    </div>-->
+
+                    <p class="text-p" style="text-align:right;margin-right:20px!important;">选择门店</p>
+                    <div class="detail-content" style="width:300px" ng-show="queryParams.visibleRange == '1' ">
+                        <md-autocomplete
+                                ng-disabled="false"
+                                md-no-cache="true"
+                                md-selected-item="selectedItem"
+                                md-search-text-change="searchTextChange(selectedStore)"
+                                md-search-text="selectedStore"
+                                md-selected-item-change="selectedItemChange(item)"
+                                md-items="item in querySearch(selectedStore)"
+                                md-item-text="item.mchtName"
+                                md-min-length="0"
+                                placeholder="请输入门店名称"
+                                md-menu-class="autocomplete-custom-template" layout="row">
+                            <md-item-template>
+                                <span md-highlight-text="selectedStore" md-highlight-flags="^i">{{item.mchtName}}</span>
+                            </md-item-template>
+                            <md-not-found>
+                                暂时没有门店数据
+                            </md-not-found>
+                        </md-autocomplete>
+                    </div>
+                    <div class="detail-content" style="width: 160px;"  ng-show="queryParams.visibleRange == '2' " >
+                        <md-select my-select placeholder="指定分组" ng-model="queryParams.groupId"  aria-label="time">
+                            <md-option ng-repeat="item  in groupList "  value="{{item.groupId }}" class="mdOption" ng-class="{'active' : item.groupId  == queryParams.groupId}">
+                                {{item.groupName}}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <!--<div class="detail-content" style="width: 160px;" ng-click="showStore()"  ng-show="queryParams.visibleRange == 3">
+                        <md-select my-select placeholder="指定商户" ng-model="queryParams.mchtNo"  aria-label="time">
+                            <md-option ng-repeat="item  in storeList "  value="{{item.mchtId}}" class="mdOption" ng-class="{'active' : item.mchtId == queryParams.mchtNo}">
+                                {{item.mchtName}}
+                            </md-option>
+                        </md-select>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div class="table-top" layout="row" layout-align="start center">
+            <div layout="row" flex="25">
+                <div layout="row">
+                    <p class="text-p"></p>
+                    <div flex class="detail-content">
+                        <md-button class="btn-app md-raised my-shadow my-button" ng-click="search()" style="margin-left:8px!important;">查询</md-button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="border-left" margin="[60, 0, 20, 0]" ng-show="isSearched && isFirst">
+            <span class="span-text float-left">查询结果</span>
+        </div>
+        <div class="border-left" margin="[60, 0, 20, 0]" ng-show="!isFirst">
+            <span class="span-text float-left">查询结果</span>
+        </div>
+        <md-content ng-show="isSearched">
+            <table ng-table="ngTable" class="table table-full table-hover table-full-small newLine color666" style="margin-top: 15px;">
+                <thead class="table-header ">
+                <tr>
+                    <td width="10%">门店名称</td>
+                    <td width="1%"></td>
+                    <td width="6%">T+1<br>单日</td>
+                    <td width="8%">借记卡<br>T+1单笔</td>
+                    <td width="8%">信用卡<br>T+1单笔</td>
+                    <td width="7%">S+0<br>单日</td>
+                    <td width="8%">借记卡<br>S+0单笔</td>
+                    <td width="8%">信用卡<br>S+0单笔</td>
+                    <td width="6%">微信<br>单日</td>
+                    <td width="6%">微信<br>单笔</td>
+                    <td width="8%">支付宝<br>单日</td>
+                    <td width="8%">支付宝<br>单笔</td>
+                    <td width="8%">慧店<br>微信单日</td>
+                    <td width="8%">慧店<br>微信单笔</td>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- <tr ng-repeat="item in $data">
+                    <td >{{ item.mobile }}</td>
+                    <td >{{ item.membershipNumber }}</td>
+                    <td>{{item.status | MstatusFilter}}</td>
+                    <td >{{ item.bonus }}</td>
+                    <td >{{ item.lastUseDate | date: 'yyyy-MM-dd' }}</td>
+                    <td class="td-btn"> <a class="md-button md-raised" ng-click="vm.detail(item)">详情</a></td>
+                </tr> -->
+                <tr ng-repeat="item in $data | limitTo: 1">
+                    <td >{{item.name}}</td>
+                    <td ></td>
+                    <td >{{item.t1DailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.t1TradeAmountOfDebitCard | simplifiedDigital}}</td>
+                    <td >{{item.t1TradeAmountOfCreditCard | simplifiedDigital}}</td>
+                    <td >{{item.t0DailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.t0TradeAmountOfDebitCard | simplifiedDigital}}</td>
+                    <td >{{item.t0TradeAmountOfCreditCard | simplifiedDigital}}</td>
+                    <td >{{item.weixinDailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.weixinSingleAmount | simplifiedDigital}}</td>
+                    <td >{{item.alipayDailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.alipaySingleAmount | simplifiedDigital}}</td>
+                    <td >{{item.wsDailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.wsSingleAmount | simplifiedDigital}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <md-content ng-show="!isLoading && noData" layout-align="center" class="no-data">
+                <p>{{noDataInfo}}</p>
+            </md-content>
+        </md-content>
+
+        <div ng-show="showSearching" style="text-align:center;padding:50px 0;">正在查询.....</div>
+    </div>
+
+    <div ng-if=" !($root.powers && $root.powers.indexOf('settings.merchantInfo_store.list') > -1)">
+        <div class="border-left" margin="[60, 0, 20, 0]" >
+            <span class="span-text float-left">查询结果</span>
+        </div>
+        <md-content ng-show="isSearched">
+            <table ng-table="ngTable" class="table table-full table-hover table-full-small newLine color666" style="margin-top: 15px;">
+                <thead class="table-header ">
+                <tr>
+                    <td width="10%">门店名称</td>
+                    <td width="1%"></td>
+                    <td width="6%">T+1<br>单日</td>
+                    <td width="8%">借记卡<br>T+1单笔</td>
+                    <td width="8%">信用卡<br>T+1单笔</td>
+                    <td width="7%">S+0<br>单日</td>
+                    <td width="8%">借记卡<br>S+0单笔</td>
+                    <td width="8%">信用卡<br>S+0单笔</td>
+                    <td width="6%">微信<br>单日</td>
+                    <td width="6%">微信<br>单笔</td>
+                    <td width="8%">支付宝<br>单日</td>
+                    <td width="8%">支付宝<br>单笔</td>
+                    <td width="8%">慧店<br>微信单日</td>
+                    <td width="8%">慧店<br>微信单笔</td>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- <tr ng-repeat="item in $data">
+                    <td >{{ item.mobile }}</td>
+                    <td >{{ item.membershipNumber }}</td>
+                    <td>{{item.status | MstatusFilter}}</td>
+                    <td >{{ item.bonus }}</td>
+                    <td >{{ item.lastUseDate | date: 'yyyy-MM-dd' }}</td>
+                    <td class="td-btn"> <a class="md-button md-raised" ng-click="vm.detail(item)">详情</a></td>
+                </tr> -->
+                <tr ng-repeat="item in $data | limitTo: 1">
+                    <td >{{item.name}}</td>
+                    <td ></td>
+                    <td >{{item.t1DailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.t1TradeAmountOfDebitCard | simplifiedDigital}}</td>
+                    <td >{{item.t1TradeAmountOfCreditCard | simplifiedDigital}}</td>
+                    <td >{{item.t0DailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.t0TradeAmountOfDebitCard | simplifiedDigital}}</td>
+                    <td >{{item.t0TradeAmountOfCreditCard | simplifiedDigital}}</td>
+                    <td >{{item.weixinDailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.weixinSingleAmount | simplifiedDigital}}</td>
+                    <td >{{item.alipayDailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.alipaySingleAmount | simplifiedDigital}}</td>
+                    <td >{{item.wsDailyAmount | simplifiedDigital}}</td>
+                    <td >{{item.wsSingleAmount | simplifiedDigital}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <md-content ng-show="noData" layout-align="center" class="no-data">
+                <p>{{noDataInfo}}</p>
+            </md-content>
+        </md-content>
+        <div ng-show="showSearching" style="text-align:center;padding:50px 0;">正在查询.....</div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

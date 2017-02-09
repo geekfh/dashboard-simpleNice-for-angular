@@ -1,0 +1,98 @@
+<!--详情-->
+<div class="suspension-wrap"  style="background: #fff" ng-if="vm.isDetail && vm.preview.baseInfo.onWeixin == 0 ">
+    <div class="suspension-header"></div>
+    <div class="suspension-top" ng-style="{background: vm.preview.baseInfo.color}">
+        <div class="logo" ng-if="vm.preview.merchant.s300LogoUrl"><img ng-src="{{vm.preview.merchant.s300LogoUrl}}" alt=""></div>
+        <div class="name">
+            <!--商户名称-->
+            <p class="mth-name">{{vm.preview.merchant.brandName}}</p>
+            <!--券名-->
+            <p class="card-name">{{vm.preview.baseInfo.title}}</p>
+        </div>
+    </div>
+    <div class="suspension-bottom">
+        <p class="time">有效期：{{vm.validity.begin + ' 至 ' + vm.validity.end}}</p>
+        <div class="Qrcode"><img src="http://7xogq3.com2.z0.glb.qiniucdn.com/friendCard__1471488681947.png"></div>
+        <p class="time">1234 2324 4352</p>
+        <p><a class="td-under">优惠详情</a></p>
+    </div>
+</div>
+
+<div class="suspension-wrap friend" ng-style="{background: vm.preview.baseInfo.color}" style="background: #c0c0c0" ng-if="vm.isDetail && vm.preview.baseInfo.onWeixin == 1 ">
+    <div class="suspension-header-f"></div>
+    <div class="suspension-inner-f">
+        <div class="logo" ng-if="vm.preview.merchant.s300LogoUrl"><img ng-src="{{vm.preview.merchant.s300LogoUrl}}" alt=""></div>
+        <div class="top">
+            <!--商户名称-->
+            <p class="mth-name">{{vm.preview.merchant.brandName}}</p>
+            <!--券名-->
+            <p class="card-name">{{vm.preview.baseInfo.title}}</p>
+            <p class="useBtn" ng-style="{background: vm.preview.baseInfo.color}" style="background: #c0c0c0">立即使用</p>
+            <div class="item clearfix" ng-if="vm.validity.begin || vm.validity.end" style="border-bottom:1px dashed #e7e7e7;padding-bottom:13px;">
+                <div class="title" style="padding-left:10px;">有效期：</div><div class="content">{{vm.validity.begin + ' 至 ' + vm.validity.end}}</div>
+            </div>
+        </div>
+        <div class="middle" >
+            <div class="item" style="border-bottom:1px solid #e7e7e7;">
+                <div class="title" >可用门店</div><div class="more"> > </div>
+            </div>
+            <div class="item" >
+                <div class="title" >公众号</div><div class="more"> > </div>
+            </div>
+
+        </div>
+    </div>
+    <!--<div class="suspension-bottom-f clearfix">
+        <div class="middle">自定义入口（选填）</div><div class="more"> > </div>
+    </div>-->
+</div>
+
+<!--创建or编辑-->
+<!--未授权-->
+<div  class="suspension-wrap"  style="background: #fff" ng-if="!vm.isDetail && ( (!$root.isEdit && vm.user.authStatus != 1) || ($root.isEdit && vm.coupon.baseInfo.onWeixin == 0) )" id="suspensionWrap">
+    <div class="suspension-header"></div>
+    <div class="suspension-top" ng-style="{background: vm.create.color.cvalue}">
+        <div class="logo" ng-if="vm.user.s300LogoUrl || vm.pic.qiniu_file_url"><img ng-src="{{vm.user.s300LogoUrl || vm.pic.qiniu_file_url}}" alt=""></div>
+        <div class="name">
+            <!--商户名称-->
+            <p class="mth-name">{{vm.user.brandName || vm.create.brandName}}</p>
+            <!--券名-->
+            <p class="card-name">{{vm.coupon.baseInfo.title}}</p>
+        </div>
+    </div>
+    <div class="suspension-bottom">
+        <p class="time">有效期：{{vm.validity.begin + ' 至 ' + vm.validity.end}}</p>
+        <div class="Qrcode"><img src="http://7xogq3.com2.z0.glb.qiniucdn.com/friendCard__1471488681947.png"></div>
+        <p class="time">1234 2324 4352</p>
+        <p><a class="td-under">优惠详情</a></p>
+    </div>
+</div>
+<!--已授权-->
+<div  class="suspension-wrap" ng-style="{background: vm.create.color.cvalue}" style="background: #c0c0c0" ng-if="!vm.isDetail && ( (!$root.isEdit && vm.user.authStatus == 1) ||($root.isEdit && vm.coupon.baseInfo.onWeixin == 1) )">
+    <div class="suspension-header-f"></div>
+    <div class="suspension-inner-f">
+        <div class="logo" ng-if="vm.user.s300LogoUrl"><img ng-src="{{vm.user.s300LogoUrl}}" alt=""></div>
+        <div class="top">
+            <!--商户名称-->
+            <p class="mth-name">{{vm.user.brandName}}</p>
+            <!--券名-->
+            <p class="card-name">{{vm.coupon.baseInfo.title || vm.create.title}}</p>
+            <p class="useBtn" ng-style="{background: vm.create.color.cvalue}" style="background: #c0c0c0">立即使用</p>
+            <div class="item clearfix" ng-if="vm.validity.begin || vm.validity.end" style="border-bottom:1px dashed #e7e7e7;padding-bottom:13px;">
+                <div class="title" style="padding-left:10px;">有效期：</div><div class="content">{{vm.validity.begin + ' 至 ' + vm.validity.end}}</div>
+            </div>
+        </div>
+        <div class="middle" >
+            <div class="item" style="border-bottom:1px solid #e7e7e7;">
+                <div class="title" >可用门店</div><div class="more"> > </div>
+            </div>
+            <div class="item" >
+                <div class="title" >公众号</div><div class="more"> > </div>
+            </div>
+
+        </div>
+    </div>
+    <!--<div class="suspension-bottom-f clearfix">
+        <div class="middle">自定义入口（选填）</div><div class="more"> > </div>
+    </div>-->
+</div>

@@ -1,0 +1,208 @@
+<h4  class="contentTitle">员工管理</h4>
+<md-divider></md-divider>
+<div class="table-top margintop15" layout="row" layout-align="start center" ng-show="$root.powers && $root.powers.indexOf('staff.list_store.list') >= 0">
+	<p class="text-p">筛选门店</p>
+	<div>
+		<md-autocomplete
+				md-no-cache="noCache"
+				md-selected-item="selectedItem"
+				md-search-text-change="searchTextChange(searchText)"
+				md-search-text="searchText"
+				md-selected-item-change="selectedItemChange(item)"
+				md-items="item in querySearch(searchText)"
+				md-item-text="item.mchtName"
+				md-min-length="0"
+				placeholder="请输入门店名称" style="width: 300px;">
+
+			<md-item-template>
+                    <span md-highlight-text="searchText"
+		                    md-highlight-flags="^i">{{item.mchtName}}
+                    </span>
+			</md-item-template>
+
+			<md-not-found>
+				暂时没有门店数据
+			</md-not-found>
+		</md-autocomplete>
+	</div>
+
+
+</div>
+<div class="table-top" layout="row">
+	<div flex="25" layout="row" layout-align="start end">
+
+		<div layout="row">
+			<p class="text-p" style="margin-top: 5px !important;">员工姓名</p>
+			<div class="detail-content" style="width: 160px;">
+				<md-input-container class="md-block" md-no-float>
+					<input type="text" maxlength="12" class="input myBoxShadow" flex ng-model="queryParams.userName">
+					<clear-input value="queryParams.userName"></clear-input>
+				</md-input-container>
+			</div>
+		</div>
+	</div>
+
+</div>
+<div ng-show="ifList">
+	<div class="table-top" layout="row">
+		<div flex="25" layout="row" layout-align="start end">
+
+			<div layout="row">
+				<p class="text-p" style="margin-top: 5px !important;">手机号码</p>
+				<div class="detail-content" style="width: 160px;">
+					<md-input-container class="md-block" md-no-float>
+							<input type="text" maxlength="11" class="input myBoxShadow" flex ng-model="queryParams.userPhone" onkeyup="this.value=this.value.replace(/\D/g,'')">
+							<clear-input value="queryParams.userPhone"></clear-input>
+					</md-input-container>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="table-top" layout="row" layout-align="start center">
+		<div layout="row" flex="25">
+			<p class="text-p"></p>
+			<div flex class="detail-content">
+				<md-button class="md-raised my-shadow my-button" ng-click="reload()" >重置</md-button>
+				<md-button class="btn-app md-raised my-shadow my-button" ng-click="search()" style="margin-left:10px!important;">查询</md-button>
+			</div>
+		</div>
+	</div>
+
+	<div class="border-left" margin="[60, 0, 20, 0]" ng-show="ifSearched">
+		<span class="span-text float-left">查询结果</span>
+		<!--<a class="float-right" ng-click="staffDetail({'ifList':false})">+新增员工账号</a>-->
+		<!--<a class="float-right" ui-sref="staff.detail({searchText:'kkk'})">+新增员工账号</a>-->		
+	</div>
+    <div class="addStaff-account"><a class="mainLeft-btn" ng-click="goAddStaff()">+新增员工账号</a></div>
+	<md-content ng-show="ifSearched">
+		<table ng-table="ngTable" class="table table-full table-hover table-full-small color666">
+
+			<thead class="table-header">
+				<tr>
+					<td width="20%">门店名称</td>
+					<td width="12%">员工姓名</td>
+					<td width="20%">登录账号</td>
+					<td width="13%">角色权限</td>
+					<td width="15%">手机号码</td>
+					<td width="10%">状态</td>
+					<td width="10%">操作</td>
+				</tr>
+			</thead>
+			<tbody>
+				 <tr ng-repeat="item in $data">
+					<td >{{ item.mchtName }}</td>
+					<td >{{ item.userName }}</td>
+					<td>{{item.loginAccount}}</td>
+					<td >{{ item.primary | roleAuthority}}</td>
+					<td >{{ item.userPhone }}</td>
+					<td >{{ item.status | staffStatus}}</td>
+					 <!--<td class="td-btn"> <a class="md-button md-raised" ng-click="staffDetail({'ifList':false, 'id':item.userId})">详情</a></td>-->
+					 <td class="td-btn"> <a ui-sref="staff.detail({'id':item.userId})">查看详情</a></td>
+				</tr>
+			</tbody>
+
+		</table>
+		<md-content ng-show="noData" layout-align="center" class="no-data">
+			<p>{{noData}}</p>
+		</md-content>
+
+	</md-content>
+</div>
+<!--<div class="staffDeatilCon" ng-hide="ifList">
+	<div class="table-top" layout="row">
+		<div flex="25" layout="row" layout-align="start end">
+
+			<div layout="row">
+				<p class="text-p" style="margin-top: 5px !important;">登录账号</p>
+				<div class="detail-content" style="width: 160px;">
+					<md-input-container class="md-block suffixRea" md-no-float>
+						<input type="number" class="input myBoxShadow" flex ng-model="loginPrefix" ng-change="valueChange()">
+						<span class="accountSuffix">@{{brandSuffix}}</span>
+					</md-input-container>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="table-top" layout="row">
+		<div flex="25" layout="row" layout-align="start end">
+
+			<div layout="row">
+				&lt;!&ndash;<span style="margin: 11px 10px 0 0;">手机号码<br />（选填）</span>&ndash;&gt;
+				<p class="text-p" style="margin-top: 5px !important;">手机号码</p>
+				<div class="detail-content" style="width: 160px;">
+					<md-input-container class="md-block" md-no-float>
+						<input type="text" maxlength="11" class="input myBoxShadow" flex ng-model="queryParams.userPhone">
+					</md-input-container>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<p style="margin: -9px 0 0 70px; color: #bbbbbb;" ng-hide="true">若填写手机号，系统将会将账号密码直接发送到手机上</p>
+	<div class="table-top" layout="row">
+		<div flex="25" layout="row" layout-align="start end">
+			<div layout="row">
+				<p class="text-p" style="margin-top: 5px !important;">角色权限</p>
+				<div class="detail-content" style="width: 160px; line-height: 63px;">
+					<input type="hidden" ng-model="queryParams.primary"/>
+					{{primaryName}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="table-top" layout="row">
+		<div flex="25" layout="row" layout-align="start end">
+
+			<div layout="row">
+				<p class="text-p" style="margin-top: 5px !important;">密码</p>
+				<div class="detail-content" style="width: 160px;">
+					<md-input-container class="md-block" md-no-float>
+						<input type="password" minlength="6" class="input myBoxShadow" flex ng-model="queryParams.pwd">
+					</md-input-container>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="table-top" layout="row" ng-show="ifModify">
+		<div flex="100" layout="row" layout-align="start end">
+			<div layout="row">
+				<p class="text-p">状态</p>
+				<div class="detail-content" style="width: 160px;">
+					<md-select my-select placeholder="正常" ng-model="selectedType" ng-change="changeStoreType(selectedType)" aria-label="time">
+						<md-option ng-repeat="item in storeTypeList "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == selectedType}">
+							{{item.storeType}}
+						</md-option>
+					</md-select>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="table-top" layout="row" layout-align="start center">
+		<div layout="row" flex="25">
+			<p class="text-p"></p>
+			<div flex class="detail-content">
+				<md-button class="btn-app md-raised my-shadow my-button" ng-click="staffSub(queryParams.userId)" >确定</md-button>
+				<md-button class="md-raised my-shadow my-button" ng-click="staffDetail({'ifList':true})" >取消</md-button>
+			</div>
+		</div>
+	</div>
+	<div class="authDesc">
+		<div class="border-left">
+			<span class="span-text float-left">权限说明</span>
+		</div>
+		<div class="mt-20">
+			<p class="authDescTit">管理员：</p>
+			<p>具备店铺所有”财务查询“，”交易流水“的操作权限。</p>
+		</div>
+		<div class="mt-20">
+			<p>收银员：</p>
+			<p>具备店铺所有”交易流水“，”消费“的操作权限。</p>
+		</div>
+	</div>
+</div>-->

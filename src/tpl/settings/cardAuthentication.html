@@ -1,0 +1,49 @@
+<style>
+	#typeDialog {width: 907px; background-color: #f9f9f9; padding: 40px; color: #666; }
+	#typeDialog .title {padding-bottom: 8px; font-size: 16px; font-weight: normal; }
+	#typeDialog .tips {color: #acacac; font-size: 14px; }
+	#typeDialog .field-btn {margin-top: 20px; }
+	div {outline: none}
+</style>
+
+<md-dialog aria-label="法人信用卡认证" ng-cloak id="typeDialog" layout="column" style="width: 907px;">
+	<span class="absolute closepoi" ng-click="typeCtrl.cancel()">+</span>
+
+	<div layout="row">
+		<form name="form" novalidate>
+			<div flex ng-class="{'formError': typeCtrl.formError}">
+				<h4 class="contentTitle selectpoi" style="margin-top:0">法人信用卡认证</h4>
+				<md-divider style="margin-bottom: 26px;"></md-divider>
+				<p style="margin-bottom: 30px;">为保障您的资金安全，需要对<span style="color: #FF591C">（{{typeCtrl.mchtName}}）</span>法人的信用卡照片和信用卡卡号进行身份认证。<br />请确保信用卡已激活可用。</p>
+				<div layout="row">
+					<p class="cardAuthenItemLeft">信用卡照片</p>
+					<div class="cardAuthenItemRight">
+						<uploadimg pic="typeCtrl.pic" nopic="typeCtrl.nopic" size="5"></uploadimg>
+						<p class="tips" style="margin-top:7px;" ng-hide="typeCtrl.nopic">请上传完整、字迹清晰的信用卡正面照片。仅支持.jpg，.png或.gif格式，大小不超过10M。</p>
+						<p class="app-tips-err" style="margin-top:7px; width: 450px;" ng-show="typeCtrl.nopic">请上传信用卡图片</p>
+					</div>
+				</div>
+				<div layout="row" layout-align="start center">
+					<p class="text-right width70">信用卡卡号</p>
+					<div flex class="detail-content" style="margin-left: 30px;">
+						<md-input-container md-no-float class="md-block">
+							<input type="text" class="app-input padding0 input-wid-280" name="cardNum" ng-model="typeCtrl.cardNum" required>
+						</md-input-container>
+						<div ng-messages="form.cardNum.$error">
+							<p class="app-tips-err" ng-message="required">请输入信用卡卡号</p>
+						</div>
+					</div>
+				</div>
+				<p class="app-tips-err">{{typeCtrl.errMessage}}</p>
+			</div>
+		</form>
+	</div>
+
+	<md-divider style="margin-top: 20px;"></md-divider>
+	<div layout="row" class="field-btn">
+		<md-button ng-click="typeCtrl.cancel()" class="md-raised md-button my-button" style="margin-right: 20px !important;">取消</md-button>
+		<md-button ng-click="typeCtrl.cardAuthenSub()" class="btn-app md-raised my-button">
+			确认
+		</md-button>
+	</div>
+</md-dialog>

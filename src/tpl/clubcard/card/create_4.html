@@ -1,0 +1,146 @@
+<style type="text/css">
+    .app-content{width: 69.5%; margin-left: 380px;}
+    .member-detail{padding:0}
+    .input-left-280 .md-char-counter{top: 12px;}
+    
+@media screen and (max-width:1023px) {
+.app-content{width:685px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.app-content{width:72%; margin-left: 250px;}
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.app-content{width:74.5%; margin-left: 250px;}
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+}
+@media screen and (width:1366px){
+.app-content{width:63.5%;margin-left: 370px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+</style>
+<!-- 手机端 -->
+<section class="small-view" ng-include="'tpl/clubcard/card/mobile_view.html'" onload="loaded()">
+</section>
+<!-- end 手机端 -->
+<md-content style="padding-bottom: 100px">
+    <form name="form" novalidate>
+        <div layout="column" layout-wrap class="member-detail card-create">
+            <h4 style="margin: 15px 0 8px;">功能设置</h4>
+            <md-divider style="margin-bottom:30px;"></md-divider>
+            <div ng-class="{'formError': vm.formError}">
+                <div >
+                    <div layout="row" layout-align="start start" class="pt-15" >
+                        <p class="text-left" style="margin-top: 9px;">激活信息</p>
+                        <div layout="column" flex="90" layout-wrap class="detail-content">
+                            <div layout="row" class="create-action-filed input-wid-280" layout-align="start center">
+                                <span class="type">必填信息</span><span class="filed">手机号</span> <span class="filed">姓名</span>
+                            </div>
+
+                            <div class="create-action-filed textarea-wid-548" layout-align="start center" layout="row" layout-wrap ng-if="vm.create.usedFields.selectFields.length || vm.create.usedFields.customFields.length">
+
+                                <span class="type">选填信息</span>
+                                <span class="filed" ng-repeat="field in vm.create.usedFields.selectFields track by $index">{{field.k}}</span>
+                                <span class="filed" ng-repeat="field in vm.create.usedFields.customFields track by $index">{{field}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div layout="row"><custom-field ng-if="vm.create.usedFields" used-fields="vm.create.usedFields"></custom-field></div>
+                </div>
+
+                <div layout="row" style="margin-top: 25px;" ng-if="$root.powers && $root.powers.indexOf('card.create_edit.poi') > -1">
+                    <p class="text-left">适用门店</p>
+                    <div flex="90" class="detail-content">
+                        <md-radio-group ng-model="vm.create.poiRadio">
+                            <md-radio-button value="allPoi">所有门店通用</md-radio-button>
+                            <md-radio-button value="myPoi" ng-click="selectPoi()">指定门店</md-radio-button>
+                            <table class="table table-full table-hover table-full-small" ng-show="vm.create.poiRadio == 'myPoi' && vm.create.poiLists.length">
+                                <thead>
+                                <tr>
+                                    <td width="80%">门店名称</td>
+                                    <td width="20%">操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="item in vm.create.poiLists">
+                                    <td ng-bind="item.storeName"></td>
+                                    <td><a ng-click="remove($index)">删除</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <a ng-show="vm.create.poiRadio == 'myPoi' && vm.create.poiLists.length" ng-click="selectPoi()">添加适用门店</a>
+                        </md-radio-group>
+                    </div>
+                </div>
+
+                <!--<div layout="row" style="margin-top: 25px;">-->
+                    <!--<p class="text-left" style="margin-top: 10px;">操作提示</p>-->
+                    <!--<div flex="90" class="detail-content" ng-class="{'formError': vm.notice}">-->
+                        <!--<md-input-container md-no-float class="md-block margintop0 oper-marR-wrap">-->
+                            <!--<input type="text" class="app-input padding0 input-wid-280" ng-blur="vm.notice = true" han="32" ng-model="vm.create.notice" name="notice" required>-->
+                            <!--<span class="placeholder" style="margin-top: 10px;" ng-hide="(vm.formError || vm.notice) && (form.notice.$error.required || form.notice.$error.han)">建议引导用户到店出示会员卡，由店员完成核销操作</span>-->
+
+                        <!--</md-input-container>-->
+                    <!--</div>-->
+                    <!--<div ng-messages="form.notice.$error">-->
+                        <!--<p class="app-tips-err" ng-message="required">操作提示不能为空且长度不超过16个汉字</p>-->
+                        <!--<p class="app-tips-err" ng-message="han">操作提示不能为空且长度不超过16个汉字</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div layout="row" layout-align="start start" >
+                    <p class="text-left" style="margin-top: 22px;">操作提示</p>
+                    <div flex class="detail-content input-left-280" ng-class="{'formError': vm.notice}">
+                        <md-input-container md-no-float class="md-block upper card-marR-wrap">
+                            <input type="text" class="app-input padding0 input-wid-280" ng-blur="vm.notice = true" han="32" ng-model="vm.create.notice" name="notice" required>
+                            <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="(vm.formError || vm.notice) && (form.notice.$error.required || form.notice.$error.han)">建议引导用户到店出示会员卡，由店员完成核销操作</span>
+                        </md-input-container>
+                        <div ng-messages="form.notice.$error">
+                            <p class="app-tips-err" ng-message="required">操作提示不能为空且长度不超过16个汉字</p>
+                            <p class="app-tips-err" ng-message="han">操作提示不能为空且长度不超过16个汉字</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div layout="row" layout-align="start start">
+                    <p class="text-right width70" style="margin-top: 22px;">会员卡标题</p>
+                    <div flex class="detail-content" ng-class="{'formError': vm.title}">
+                        <md-input-container md-no-float class="md-block upper card-marR-wrap">
+                            <input type="text" my-reg="intCaseChinese"  ng-blur="vm.title = true" ng-pattern="" class="app-input padding0 input-wid-280" name="card_title" han="18" ng-model="vm.create.title" required ng-disabled="vm.create.sync_weixin == '1' && $root.isEdit">
+                            <span class="placeholder" style="margin-top: 10px;width: 100%;"  ng-hide="(vm.formError == true ||vm.title == true) && (form.card_title.$error.required || form.card_title.$error.han || form.card_title.$error.pattern)">建议填写商家名、会员卡服务内容</span>
+                        </md-input-container>
+                        <div ng-messages="form.card_title.$error">
+                            <p class="app-tips-err" ng-message="required">会员卡名称不能为空且长度不超过9个汉字或18个英文字母</p>
+                            <p class="app-tips-err" ng-message="han">会员卡名称不能为空且长度不超过9个汉字或18个英文字母</p>
+                            <p class="app-tips-err" ng-message="pattern" ng-bind="$root.err.intCaseChinese"></p>
+                        </div>
+                    </div>
+                </div>-->
+
+
+            </div>
+            <md-divider style="margin-top: 20px"></md-divider>
+            <div layout="row" style="margin-top: 15px;">
+                <md-button class="md-raised my-style" ng-hide="vm.submiting" ng-click="vm.back()" style="margin-left: 0;">上一步</md-button>
+                <md-button class="btn-app md-raised my-shadow" ng-hide="vm.submiting" ng-disabled="form.$invalid" ng-click="vm.preview(form.$invalid)">提交</md-button>
+                <md-button class="btn-app md-raised my-shadow" ng-show="vm.submiting" ng-disabled='true'>提交审核中</md-button>
+            </div>
+
+        </div>
+    </form>
+</md-content>

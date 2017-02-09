@@ -1,0 +1,197 @@
+<section>
+    <style> div[ng-messages] p{display: none; } .form-error div[ng-messages] p{display: block; }
+    .add-photo-btn {display: inline-block; width: 330px; height: 80px; position: relative; border: 1px dashed #ddd; cursor: pointer; outline: none; } 
+    .add-photo-btn:before, .add-photo-btn:after{position: absolute; top: 34px; left: 150px; content: ''; width: 30px; height: 8px; background-color: #ddd; } 
+    .add-photo-btn:after {top: 34px; left: 150px; transform: rotate(90deg); } 
+    .images-wrapper {width: 350px; outline: 1px solid #ddd; padding: 10px; } 
+    .upload-directive, .upload-directive-wrapper{width: 100%;display: block;}
+    .text-image-item{ margin-bottom: 30px; outline: 1px dashed #ddd; padding-bottom: 34px;position: relative;}
+    .text-image-item textarea{height: 100px; resize: none;}
+    .text-image-item .del{display: block;bottom: 0;background: rgba(216, 210, 220, 0.8)}
+    md-input-container .app-tips-err{display: none}
+    md-input-container.md-input-invalid .app-tips-err{display: block}
+        md-radio-button{outline: 0}
+    .app-content{width:69.5%;margin-left:380px;}
+    
+    @media screen and (max-width:1023px) {
+.suspension-wrap{left: 80px;}
+.app-content{width:681px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.suspension-wrap{left: 85px;}
+.app-content{width:71.5%; margin-left: 255px;}
+
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.suspension-wrap{left: 85px;}
+.app-content{width:74%; margin-left: 255px;}
+
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (width:1366px){
+.app-content{width:64%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70.5%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+    </style>
+    <!--悬浮框-->
+    <section class="suspension-outer" ng-include=" 'tpl/coupons/mobile_view.html' " onload="vm.initPos()"></section>
+    <!--<div class="suspension-wrap friend" ng-style="{background: vm.create.color.cvalue}" style="background: #c0c0c0">
+        <div class="suspension-header-f"></div>
+        <div class="suspension-inner-f">
+            <div class="logo" ng-if="vm.user.s300LogoUrl"><img ng-src="{{vm.user.s300LogoUrl}}" alt=""></div>
+            <div class="top">
+                &lt;!&ndash;商户名称&ndash;&gt;
+                <p class="mth-name">{{vm.user.brandName}}</p>
+                &lt;!&ndash;券名&ndash;&gt;
+                <p class="card-name">{{vm.coupon.baseInfo.title}}</p>
+                <p class="useBtn" ng-style="{background: vm.create.color.cvalue}" style="background: #c0c0c0">立即使用</p>
+                <div class="item clearfix" ng-if="vm.validity.begin || vm.validity.end" style="border-bottom:1px dashed #e7e7e7;padding-bottom:13px;">
+                    <div class="title" style="padding-left:10px;">有效期：</div><div class="content">{{vm.validity.begin + ' 至 ' + vm.validity.end}}</div>
+                </div>
+            </div>
+            <div class="middle" >
+                <div class="item" style="border-bottom:1px solid #e7e7e7;">
+                    <div class="title" >可用门店</div><div class="more"> > </div>
+                </div>
+                <div class="item" >
+                    <div class="title" >公众号</div><div class="more"> > </div>
+                </div>
+
+            </div>
+        </div>
+        &lt;!&ndash;<div class="suspension-bottom-f clearfix">
+            <div class="middle">自定义入口（选填）</div><div class="more"> > </div>
+        </div>&ndash;&gt;
+    </div>-->
+    <form name="form" novalidate >
+        <div layout="column" class="member-detail card-create" ng-class="{'formError' : vm.formError}" layout-padding>
+            <h4>使用设置</h4>
+            <md-divider></md-divider>
+
+            <div layout="row" layout-align="start center">
+                <p class="text-right" style="position: relative;top: 15px;">领券限制<span>(选填)</span></p>
+                <div flex="40" class="detail-content">
+                    <div md-no-float  class="md-block input-wid-140">
+                        <input type="number" class="app-input padding0 input-wid-140" ng-model="vm.coupon.baseInfo.getLimit" name="getLimit" max="10000000" min="1">                       
+                    </div>
+                     <span class="placeholder" style="margin-top: 10px;width: 100%;">每个用户领券上限，如不填，则无限制</span>
+                    <div ng-messages="form.getLimit.$error">
+                        <p class="app-tips-err" ng-message-exp="['max', 'min']">用户领券上限为1到10000000张</p>
+                    </div>
+                </div>
+                <p style="position: relative;left: -170px;top: 5px;">张</p>
+            </div>
+            <div layout="row" layout-align="start center">
+                <p class="text-right" style="margin-top:0px;">操作提示</p>
+                <div flex class="detail-content input-left-280" ng-class="{'formError' : vm.notice}">
+                    <md-input-container md-no-float class="md-block upper input-wid-280">
+                        <input type="text" class="app-input padding0" ng-blur="vm.notice = true" name="notice" han="32" ng-model="vm.coupon.baseInfo.notice" required>
+                        <span class="placeholder" style="margin-top: 10px;" ng-hide="(vm.formError || vm.notice) && (form.notice.$error.required || form.notice.$error.han)">建议引导用户到店出示卡券，由店员完成核销操作</span>
+                    </md-input-container>
+                    <div ng-messages="form.notice.$error">
+                        <p  class="app-tips-err"  ng-message-exp="['required','han']">操作提示不能为空且长度不超过16个汉字</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" ng-if="$root.powers && $root.powers.indexOf('coupons.edit_f.poi') > -1">
+                <p class="text-right">适用门店</p>
+                <div flex="90" class="detail-content">
+                    <md-radio-group ng-model="vm.create.poiRadio">
+                        <md-radio-button value="allPoi" ng-disabled="User.poiCount == 0">所有门店通用 <span ng-if="User.poiCount == 0">(目前暂无可用门店)</span></md-radio-button>
+                        <md-radio-button value="myPoi" ng-click="selectPoi()">指定门店</md-radio-button>
+                        <table class="table table-full table-hover table-full-small color666" ng-show="vm.create.poiRadio == 'myPoi' && poiLists.length" style="margin-top:40px;">
+                            <thead>
+                                <tr>
+                                    <td width="80%">门店名称</td>
+                                    <td width="20%">操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in poiLists">
+                                    <td ng-bind="item.storeName"></td>
+                                    <td><a ng-click="remove($index)">删除</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a ng-show="vm.create.poiRadio == 'myPoi' && poiLists.length" ng-click="selectPoi()">添加适用门店</a>
+                    </md-radio-group>
+                </div>
+            </div>
+            <div layout="row">
+                <p class="text-right">核销后返券设置<br><span>(选填)</span></p>
+                <div flex="90" class="detail-content">
+                    <p class="app-tips">当消费者通过核销卡券或买单后，将额外赠送此处设置的优惠券，吸引其下次消费。设置的券库存消耗完后，将不再赠送</p>
+                    <md-checkbox ng-model="vm.create.consume">用户核销后赠送一张</md-checkbox>
+                    <md-radio-group ng-model="vm.create.consume_share" ng-show="vm.create.consume">
+                        <md-radio-button value="self">赠送相同的优惠券</md-radio-button>
+                        <md-radio-button value="list" ng-click="vm.getFriendsCard()">赠送其他的优惠券</md-radio-button>
+                    </md-radio-group>
+                    <p class="app-tips-err pl-36" ng-show="vm.create.consume_err">请设置消费者通过核销卡券或买单后，将额外赠送的优惠券</p>
+                    <p class="app-tips-err pl-36" ng-show="vm.create.consume_list_no">请选择要赠送的优惠券</p>
+                    <section ng-show="vm.ngTable.data && vm.create.consume && vm.create.consume_share == 'list' && !vm.noData">
+                        <table ng-table="vm.ngTable" class="table table-full table-hover table-full-small table-border color666" style="margin-top:40px;">
+                            <thead class="table-header">
+                                <tr>
+                                    <td width="5%"></td>
+                                    <td width="10%">卡券类型</td>
+                                    <td width="25%">卡券名称</td>
+                                    <td width="15%">卡券有效期</td>
+                                    <td width="8%">库存</td>
+                                    <td width="10%">卡券状态</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in $data" ng-click="vm.selectCard(item, $index)">
+                                    <td>
+                                        <div class="md-radio-button" ng-class="{'md-checked': vm.create.checkedCard == $index}" >
+                                            <div class="md-off"></div>
+                                            <div class="md-on"></div>
+                                        </div>
+                                    </td>
+                                    <td>{{ item.cardType | cardType}}</td>
+                                    <td>{{ item.baseInfo.title }}</td>
+                                    <td>{{ item.baseInfo.endTimestamp }}</td>
+                                    <td>{{ item.baseInfo.quantity }}</td>
+                                    <td>{{ item.baseInfo.status | baseInfoStatus}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <p class="app-tips-err pl-36" ng-show="vm.noData">没有其他可用的朋友的券</p>
+                </div>
+            </div>
+
+            <md-divider></md-divider>
+            <div layout="row" style="margin: 3px 0 0 0px" layout-align="start">
+                <md-button class="md-raised md-button my-button" style="margin: 0 20px 0 0 !important;" onClick="window.history.go(-1)" ng-hide="vm.submiting"> 上一步
+                </md-button>            
+                <md-button class="btn-app md-raised md-button my-button" ng-click="vm.addCoupon(form.$invalid)" ng-hide="vm.submiting"> 提交审核
+                </md-button>                
+                <md-button class="md-raised" disabled ng-show="vm.submiting"> 提交审核中...</md-button>
+            </div>
+
+        </div>
+
+    </form>
+</section>

@@ -1,0 +1,8 @@
+<div class="cardAuthenUpload">
+	<span class="cardDefaultImg" ng-hide="pic.picUrl"></span>
+	<img ng-src="{{pic.picUrl}}" alt="" ng-show="pic.picUrl" style="width: 240px; height: 151px;">
+	<label id="uploadLabel" class="upload-directive" style="position: absolute; left: 290px;">
+		<span>{{loadword}}</span>
+		<input id="fileUpload" name="name" type="file" ng-required="required">
+	</label>
+</div>

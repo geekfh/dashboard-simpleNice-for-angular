@@ -1,0 +1,45 @@
+<style>
+	.md-char-counter{margin-right: 5px !important;}
+</style>
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:500px;">
+    <span class="absolute closepoi" ng-click="close()">+</span>
+    <div style="padding: 30px 40px 40px;">
+
+        <h4 class="contentTitle selectpoi">添加分组</h4>
+        <md-divider></md-divider>
+        <form name="form" class="{{formError}}">
+            <div layout="row" layout-align="start center" style="margin-top:20px;">
+                <p class="width60" style="margin-bottom:0; height: 35px; line-height: 35px;">分组名称</p>
+                <div layout="column" style="margin-left: 15px;">
+                    <md-input-container md-no-float style="margin: 0;padding: 0;">
+                        <input type="text" class="app-input paddingL0" style="min-width: 300px; width: 337px;" name="groupName" required ng-model="model.groupName" placeholder="请输入分组名称" han="24">
+                    </md-input-container>
+                    <div ng-messages="form.groupName.$error">
+                        <p class="app-tips-err" ng-message="required">分组名不能为空，12个汉字或24个英文字符内</p>
+                        <p class="app-tips-err" ng-message="han">分组名不能为空，12个汉字或24个英文字符内</p>
+                    </div>
+                </div>
+            </div>
+            <div layout="row" layout-align="start center" style="margin-top:30px;margin-bottom: 30px;">
+                <p class="width60" style="text-align: right;margin-top: -95px;">分组描述(选填)</p>
+                <div layout="column" style="margin-left: 15px;">
+                    <md-input-container md-no-float style="padding: 0; margin: 0 0 0 5px;">
+                        <textarea class="app-input" ng-model="model.remark" style="min-width: 300px; width: 337px;" name="description" placeholder="请输入分组描述" han="40">
+                            
+                        </textarea>
+                    </md-input-container>
+                    <div ng-messages="form.description.$error">
+                        <p class="app-tips-err" ng-message="han">描述不能为空，20个汉字或40个英文字符内</p>
+                    </div>
+                </div>
+            </div>
+        </form>  
+        <md-divider></md-divider>
+        <div layout="row" class="field-btn" style="margin-top: 30px;">
+            <md-button ng-click="close()" class="md-raised md-button my-button" style="margin-right: 20px !important;">取消</md-button>
+            <md-button ng-click="confirm(form.$invalid)" class="btn-app md-raised my-button">
+                确认
+            </md-button>
+        </div>
+    </div>
+</md-dialog>

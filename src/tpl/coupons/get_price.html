@@ -1,0 +1,50 @@
+<style>
+    .succ,#dialog {width: 464px; background-color: #f9f9f9; padding: 20px 30px; color: #666; }
+    #dialog .title {font-size: 24px; font-weight: normal; }
+    #dialog .field-btn {margin-top: 20px; }
+    .pl-40{padding-left: 40px}
+    input {margin-left: 30px}
+    .succ{height:280px;padding: 88px 0 72px;text-align: center; transition: all 0.4s}
+    .succ img{width: 64px;}
+</style>
+<section ng-if="vm.success" class="succ">
+    <img src="http://7xogq3.com2.z0.glb.qiniucdn.com/friendCard__1471488792048.png" alt="">
+    <h3>添加成功</h3>
+</section>
+<section aria-label="选择优惠券类型" ng-cloak id="dialog" style="padding: 0;" layout="column" ng-if="!vm.success">
+    <span class="absolute closepoi" ng-click="vm.cancel()">+</span>
+    <div style="padding: 40px;">
+        <h4 class="contentTitle selectpoi" style="margin: 10px 0;">库存设置</h4>
+            <md-divider></md-divider>  
+        
+        <section ng-show="vm.step != 3" style="margin-top: 20px;">
+            <p>库存单价 <span class="pl-40">{{vm.coin.price}}</span> 券点/张</p>
+            <div layout="row" layout-align="start center" style="height: 32px;">增加库存
+                <md-input-container flex="70" md-no-float class="md-block">
+                    <input type="number" style="width: 88%" class="app-input" placeholder="" min="0" max="100000" name="count" ng-model="vm.count" ng-readonly="vm.step != 1" aria-label="增加库存" ng-pattern="/^\d{0,6}$/">
+                </md-input-container>张
+            </div>
+            <p style="margin: 20px 0 10px 0;">所需券点 <span class="pl-40">{{(vm.coin.price * vm.count*10 || 0).toFixed(0)/10 || 0}}</span> 券点</p>
+            <p ng-show="vm.step != 1">券点余额 <span class="pl-40">{{vm.total || 0}}</span> 券点，优先使用免费券点</p>
+            <p class="app-tips-err" ng-show="vm.err">请输入要添加的库存数量，数量为 1-100000之间的整数</p>
+            <p class="app-tips-err" ng-show="vm.notEnough">券点不足，请充值券点</p>
+        </section>
+        <section ng-show="vm.step == 3" style="margin-top:20px;" >
+            <p>卡券名称 <span class="pl-40">{{vm.cardTitle}}</span></p>
+            <p>库存单价 <span class="pl-40">{{vm.coin.price}}</span>券点/张</p>
+            <p>增加库存 <span class="pl-40">{{vm.count}}</span>张</p>
+            <p>支出券点 <span class="pl-40">免费券点{{vm.coin.free_coin|| 0}}，付费券点{{vm.coin.pay_coin|| 0}}</span></p>
+
+            <p class="app-tips" ng-hide="vm.timeout">请在 <span ng-hide="vm.time">30</span> <span ng-show="vm.time">{{vm.time}}</span> 秒 内确认添加库存</p>
+        </section>
+        <p class="app-tips-err" ng-show="vm.timeout">确认时间超时，请重试</p>
+        <md-divider ></md-divider>
+        <div layout="row" class="field-btn" style="margin-top: 30px;">
+            <md-button ng-click="vm.cancel()" class="md-raised md-button my-button" style="margin:0 5px !important;">取消</md-button>
+            <md-button ng-click="vm.next()" class="btn-app md-raised my-button" ng-show="vm.step == 1" style="margin:0 5px !important;">下一步</md-button>
+            <md-button ng-click="vm.next2()" class="btn-app md-raised my-button" ng-show="vm.step == 2" style="margin:0 5px !important;">确认</md-button>
+            <md-button ng-click="vm.submit()" class="btn-app md-raised my-button" ng-show="vm.step == 3" style="margin:0 5px !important;">确认添加</md-button>
+            <md-button ng-click="vm.next2()" class="btn-app md-raised my-button" ng-show="vm.step == 4" style="margin:0 5px !important;">重试</md-button>
+        </div>
+    </div>    
+</section>

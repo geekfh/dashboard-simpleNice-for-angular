@@ -1,0 +1,17 @@
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:480px;" ng-init="count='5'">
+	<span class="absolute closepoi" ng-click="confirm()">+</span>
+	<div style="padding: 40px;">
+
+		<h4 class="contentTitle selectpoi">提示</h4>
+		<md-divider></md-divider>
+		<p style="margin-top: 30px;color:#999;">恭喜成功升级为集团商户</p>
+		<p style="color:#999;">您可以在系统中操作自助门店进件和员工管理等功能。</p>
+		<p style="margin-top: 30px;margin-bottom: 26px; color:#999;">谢谢</p>
+		<md-divider></md-divider>
+		<div layout="row" class="field-btn" style="margin-top: 30px;">
+			<md-button ng-click="confirm()" class="btn-app md-raised my-button">
+				我知道了({{countNum}})
+			</md-button>
+		</div>
+	</div>
+</md-dialog>

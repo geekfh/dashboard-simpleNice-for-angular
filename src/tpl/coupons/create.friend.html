@@ -1,0 +1,458 @@
+<section>
+    <style> div[ng-messages] p{display: none; } .form-error div[ng-messages] p{display: block; }
+    .demo-img{    margin-right: -20px;background: url(data:image/png;base64,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) no-repeat left bottom;height: 123px;}
+    .add-photo-btn {display: inline-block; width: 330px; height: 80px; position: relative; border: 1px dashed #ddd; cursor: pointer; outline: none; } 
+    .add-photo-btn:before, .add-photo-btn:after{position: absolute; top: 34px; left: 150px; content: ''; width: 30px; height: 8px; background-color: #ddd; } 
+    .add-photo-btn:after {top: 34px; left: 150px; transform: rotate(90deg); } 
+    .images-wrapper {width: 350px; outline: 1px solid #ddd; padding: 10px; } 
+    .upload-directive, .upload-directive-wrapper{width: 100%;display: block;}
+    .text-image-item{ margin-bottom: 30px; outline: 1px dashed #ddd; padding-bottom: 34px;position: relative;}
+    .text-image-item textarea{height: 100px; resize: none;}
+    .text-image-item .del{display: block;bottom: 0;background: #fff; margin: 20px 7px 20px 5px; box-shadow: 2px 2px 2px #bfbfbf;}
+    md-input-container .app-tips-err{display: none}
+    md-input-container.md-input-invalid .app-tips-err{display: block}
+        md-radio-button{outline: 0}
+    .app-content{width:69.5%;margin-left:380px;}
+    .member-detail {  padding-left: 0;  padding-right: 0;  padding-top: 10px;  }
+    md-checkbox.checkbox-time{margin-right:10px;}
+    md-checkbox.checkbox-time .md-label{margin-left:28px;}
+    .time-input{padding-left:36px!important;}
+    textarea + .md-char-counter{margin-right: 0px;}
+    .marR + .md-char-counter {margin-right: 0px;}
+    textarea[placeholder="请输入图片的描述"] + .md-char-counter{margin: -31px 0px 20px 0;}
+    
+    @media screen and (max-width:1023px) {
+.suspension-wrap{left: 80px;}
+.app-content{width:681px;margin-left: 255px;}
+}
+@media screen and (width:1024px){
+.suspension-wrap{left: 80px;}
+.app-content{width:71.5%; margin-left: 255px;}
+
+}
+@media screen and (min-width:1025px) and (max-width:1279px){
+.suspension-wrap{left: 85px;}
+.app-content{width:74%; margin-left: 255px;}
+
+}
+@media screen and (width:1280px){
+.app-content{width:66%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (min-width:1281px) and (max-width:1365px){
+.app-content{width:67.5%;}
+.suspension-wrap{left: 100px;}
+}
+@media screen and (width:1366px){
+.app-content{width:64%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (min-width:1367px) and (max-width:1439px){
+.app-content{width:64%;margin-left: 370px;}
+.suspension-wrap{left: 290px;}
+}
+@media screen and (width:1440px){
+.app-content{width:64.5%;}
+}
+@media screen and (min-width:1441px) and (max-width:1919px){
+.app-content{width:70.5%;}
+}
+@media screen and (min-width:1920px) {
+	
+}
+    </style>
+    <!--悬浮框-->
+    <section class="suspension-outer" ng-include=" 'tpl/coupons/mobile_view.html' " onload="vm.initPos()"></section>
+    <!--<div class="suspension-wrap friend" ng-style="{background: vm.create.color.cvalue}" style="background: #c0c0c0">
+        <div class="suspension-header-f"></div>
+        <div class="suspension-inner-f">
+            <div class="logo" ng-if="vm.user.s300LogoUrl"><img ng-src="{{vm.user.s300LogoUrl}}" alt=""></div>
+            <div class="top">
+                &lt;!&ndash;商户名称&ndash;&gt;
+                <p class="mth-name">{{vm.user.brandName}}</p>
+                &lt;!&ndash;券名&ndash;&gt;
+                <p class="card-name">{{vm.create.title}}</p>
+                <p class="useBtn" ng-style="{background: vm.create.color.cvalue}" style="background: #c0c0c0">立即使用</p>
+                <div class="item clearfix" style="border-bottom:1px dashed #e7e7e7;padding-bottom:13px;">
+                    <div class="title" style="padding-left:10px;">有效期：</div><div class="content">{{vm.validity.begin + ' 至 ' + vm.validity.end}}</div>
+                </div>
+            </div>
+            <div class="middle" >
+                <div class="item" style="border-bottom:1px solid #e7e7e7;">
+                    <div class="title" >可用门店</div><div class="more"> > </div>
+                </div>
+                <div class="item" >
+                    <div class="title" >公众号</div><div class="more"> > </div>
+                </div>
+
+            </div>
+        </div>
+        &lt;!&ndash;<div class="suspension-bottom-f clearfix">
+            <div class="middle">自定义入口（选填）</div><div class="more"> > </div>
+        </div>&ndash;&gt;
+    </div>-->
+    <form name="form" novalidate >
+        <div layout="column" class="member-detail card-create" layout-padding style="padding-left: 0;" ng-class="{'formError': vm.formError}">
+            <h4 style="margin-bottom: 15px !important; font-weight:400;color: #2b2b2b;" ng-bind="vm.title"></h4>
+            <md-divider></md-divider>
+
+            <div class="border-left" margin="[30, 0, 20, 0]">
+                <span class="span-text float-left">基本信息</span>
+            </div>
+            <!--朋友的券 兑换 GIFT-->
+
+            <section  ng-if="vm.coupon.cardType =='GIFT'" style="width: 650px">
+                <div layout="row" layout-align="start center" style="margin-top: -10px;">
+                    <p  class="text-right" style="margin-top:-3px;">兑换内容</p>
+                    <div flex class="detail-content" ng-class="{'formError': vm.giftName}">
+                        <md-input-container md-no-float class="md-block upper input-left-140" >
+                            <input type="text" class="app-input padding0 input-wid-140" ng-blur="vm.giftName = true" required han="12" name="gift_name" ng-model="vm.coupon.giftName" >
+                            <span class="placeholder" style="margin-top: 10px;" ng-hide="(vm.giftName || vm.formError) && (form.gift_name.$error.required || form.gift_name.$error.han )">{{vm.coupon.cardType | cardTips}}</span>
+                        </md-input-container>
+                        <div ng-messages="form.gift_name.$error">
+                            <p class="app-tips-err" ng-message-exp="['required','han']">{{vm.coupon.cardType | cardType}}券标题不能为空且长度不超过6个汉字或12个英文字母</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div layout="row" layout-align="start center" style="margin-top: -25px;">
+                    <p  class="text-right">数量 <br> <span>(选填)</span></p>
+                    <div flex class="detail-content" >
+                        <md-input-container md-no-float class="md-block upper">
+                            <input type="number" class="app-input padding0 input-wid-140" min="0" max="99" ng-pattern="/^\d{0,2}$/" name="gift_num" ng-model="vm.coupon.giftNum">
+                            <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="form.gift_num.$error.min || form.gift_num.$error.max || form.gift_num.$error.pattern">兑换券兑换商品数目，请输入数字，如：1, 2</span>
+                        </md-input-container>
+                        <div ng-messages="form.gift_num.$error">
+                            <p class="app-tips-err" ng-message-exp="['min', 'max', 'pattern']">兑换商品数量须为 0-99之间的整数</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div layout="row" layout-wrap layout-align="start center" style="margin-top: -20px;">
+                    <p  class="text-right" >单位 <br> <span>(选填)</span></p>
+                    <div flex class="detail-content" >
+                        <md-input-container md-no-float class="md-block upper input-left-140">
+                            <input type="text" class="app-input padding0 input-wid-140" name="gift_unit" han="4" ng-model="vm.coupon.giftUnit">
+                            <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="form.gift_unit.$error.han">兑换券兑换商品的中文计量单位，如：份，次</span>
+                        </md-input-container>
+                        <div ng-messages="form.gift_unit.$error">
+                            <p class="app-tips-err" ng-message-exp="['han']">兑换券兑换商品的数量单位 长度不超过2个汉字</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--朋友的券 代金券-->
+            <section ng-if="vm.coupon.cardType == 'CASH'">
+                <div layout="row"  layout-align="start center" style="position: relative;">
+                    <p class="text-right" style="margin-top:-3px;">代金券金额</p>
+                    <div  class="detail-content" ng-class="{'formError': vm.reduce_cost}">
+                        <md-input-container md-no-float class="md-block">
+                            <input type="number" required name="reduce_cost" ng-blur="vm.reduce_cost = true" class="padding0 input-wid-140" min="1" max="99999" ng-model="vm.create.reduce_cost">
+                            <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="(vm.formError || vm.reduce_cost) && (form.reduce_cost.$error.required || form.reduce_cost.$error.max || form.reduce_cost.$error.min) ">请输入消费时，抵扣的金额</span>
+                        </md-input-container>
+                        <div ng-messages="form.reduce_cost.$error"><p class="app-tips-err" ng-message-exp="['required', 'max', 'min']">请输入消费时可抵扣的金额,且抵扣金额不小于1元不能大于100000</p></div>
+                    </div>
+                    <p class="margin-left-wid1">元</p>
+                </div>
+            </section>
+
+            <div layout="row" layout-align="start center" style="margin-top: 10px; display: inline-block;">
+                <p class="text-right" style="margin: 0; display: inline-block;">卡券颜色</p>
+                <div flex class="detail-content" style="margin: 0; display: inline-block;">
+                    <input type="hidden" name="color" ng-required="!$root.isEdit" ng-model="vm.create.color.cname">
+                    <my-color ng-model="vm.create.color.cname" color="vm.create.color" name="color"></my-color>                   
+                </div>
+                 <div ng-messages="form.color.$error" ng-if="!$root.isEdit" style="margin: 0; display: block;margin-left: 103px;margin-top: 15px;"> 
+                        <p class="app-tips-err" ng-message="required">请选择卡券颜色</p>
+                   </div>
+            </div>
+
+            <div layout="row" layout-align="start center" style="margin-top: 10px;"> 
+                <p class="text-right" style="margin-bottom: 30px;">有效期</p>
+                <div flex class="detail-content" layout="column" style="margin-left: 20px;">
+
+                    <div layout="row" style="margin-left: -20px;" ><!--ng-if="!vm.coupon.cardId && !vm.coupon.id"-->
+                        <md-datepicker ng-model="vm.create.begin" md-min-date="vm.today" name="beginTimestamp" required md-max-date="vm.maxDate" ng-change="vm.checkTime()" md-placeholder="选择开始日期" style="margin-right: 10px;" md-date-filter="yyyy-MM-dd"></md-datepicker>
+                        <span style="line-height: 35px;">至</span>
+                        <md-datepicker name="endTimestamp" required ng-model="vm.create.end" md-min-date="vm.today" md-max-date="vm.maxDate" ng-change="vm.checkTime()" md-placeholder="选择截至日期" style="margin-left: 10px;"></md-datepicker>
+                    </div>
+
+
+
+                   <!-- <md-radio-group ng-model="vm.coupon.baseInfo.dateInfoType" name="time_limit" style="margin-left: -16px">
+                        <div layout="row">
+                            <md-radio-button value="DATE_TYPE_FIX_TIME_RANGE" style="margin-bottom:10px;" flex="5" ng-disabled="$root.isEdit && vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM'"></md-radio-button>
+                            &lt;!&ndash; <div style="margin-left: 2px;" flex="95">&ndash;&gt;
+                            <span style="margin-top:1px;" >固定日期</span>
+                            <md-datepicker ng-model="vm.create.begin" md-min-date="vm.today" name="beginTimestamp" md-max-date="vm.maxDate" ng-change="vm.checkTime()"
+                                           ng-disabled="vm.need_disabled || (vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM')"
+                                           ng-if="!$root.isEdit"   md-placeholder="选择开始日期" style="margin-right: 10px; margin-left: 8px;width:150px;height:35px;margin-top:-7px;"></md-datepicker>
+
+                            <md-datepicker ng-model="vm.create.begin" md-min-date="vm.today" name="endTimestamp"
+                                           ng-disabled="vm.need_disabled || (vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM')"
+                                           md-max-date="vm.maxDate" ng-if="$root.isEdit"  ng-change="vm.checkTime()"
+                                           md-placeholder="选择开始日期"   style="margin-right: 10px; margin-left: 8px;width:150px;height:35px;margin-top:-7px;"></md-datepicker>
+                            <span style="line-height: 36px;;margin-top:-7px;">至</span>
+                            <md-datepicker name="endTimestamp"  ng-model="vm.create.end" md-min-date="vm.endMinDate" ng-change="vm.checkTime()"
+                                           md-placeholder="选择截至日期"   style="margin-left: 10px;width:150px;height:35px;;margin-top:-7px;" ng-disabled="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TERM'"></md-datepicker>&lt;!&ndash;md-max-date="vm.endMaxDate"&ndash;&gt;
+                            &lt;!&ndash;</div>&ndash;&gt;
+                        </div>
+                        <div layout="row">
+                            <md-radio-button value="DATE_TYPE_FIX_TERM" style="margin-top:20px;" flex="5" ng-disabled="$root.isEdit && vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'"></md-radio-button>
+                            &lt;!&ndash;<div flex="95">&ndash;&gt;
+                            <span style="margin-top:21px;margin-right:6px;" >领取后，</span>
+                            <md-select my-select placeholder="" ng-model="vm.coupon.baseInfo.fixedBeginTerm" ng-disabled="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'" aria-label="time"  class="inline">
+                                <md-option  value="0" class="mdOption inline" ng-class="{'active' : 0 == vm.coupon.baseInfo.fixedBeginTerm}" >
+                                    当天
+                                </md-option>
+                                <md-option ng-repeat="day in vm.dayArray "  value="{{day}}" class="mdOption" ng-class="{'active' : day == vm.coupon.baseInfo.fixedBeginTerm}">
+                                    {{day}}天
+                                </md-option>
+                            </md-select>
+                            <span style="margin-top:21px;margin-right:10px;">生效，有效天数</span>
+                            <md-select my-select placeholder="" ng-model="vm.coupon.baseInfo.fixedTerm" ng-disabled="vm.coupon.baseInfo.dateInfoType == 'DATE_TYPE_FIX_TIME_RANGE'" aria-label="time"  class="inline">
+                                <md-option ng-repeat="day  in vm.dayArray "  value="{{day}}" class="mdOption inline" ng-class="{'active' : day == vm.coupon.baseInfo.fixedTerm}">
+                                    {{day}}天
+                                </md-option>
+                            </md-select>
+                            &lt;!&ndash;</div>&ndash;&gt;
+                        </div>
+                    </md-radio-group>-->
+
+                    <p class="app-tips" style="margin-top: 8px; margin-left: -23px;">共享优惠券有效期最长可设置90天</p>
+                    <div layout="row" style="margin-left:-24px;">
+                        <div ng-if="(!vm.create.begin || !vm.create.end) && vm.formError ">
+                            <p class="app-tips-err" >请选择卡券有效时间</p>
+                        </div>
+
+                        <!--<div ng-messages="form.beginTimestamp.$error">
+                            <p class="app-tips-err" ng-message="required">请选择卡券有效期开始时间</p>
+                        </div>
+                        <div style="width: 66px"></div>
+                        <div ng-messages="form.endTimestamp.$error" >
+                            <p class="app-tips-err" ng-message="required">请选择卡券有效期结束时间</p>
+                        </div>-->
+                        <div  ng-if="vm.show_time_tip">
+                            <p class="app-tips-err" >有效期结束时间不能超过90天</p>
+                        </div>
+                        <div ng-if="vm.create.begin && form.beginTimestamp.$invalid || vm.create.end && form.endTimestamp.$invalid" >
+                            <p class="app-tips-err">请输入正确的时间格式</p>
+                        </div>
+                       <!-- <div style="width: 66px"></div>
+                        <div ng-if="vm.create.end && form.endTimestamp.$invalid" >
+                            <p class="app-tips-err" >请输入正确的结束时间格式</p>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <div layout="row"  style="margin-top: 10px;">
+                <p class="text-right">可用时段<br><span>(可选)</span></p>
+                <div flex="90" class="detail-content" layout="column" style="margin-left: 14px;">
+                    <md-radio-group ng-model="vm.create.time" name="time_limit" style="margin-left: -16px">
+                        <md-radio-button value="all">全部时间段</md-radio-button>
+                        <md-radio-button value="some">部分时间段</md-radio-button>
+                       <!-- <div ng-if="vm.create.time == 'some'" style="margin-left: 33px">
+                            <md-checkbox  ng-repeat="day in vm.create.time_limit" ng-model="day.check">周{{day.n}}</md-checkbox>
+                        </div>-->
+
+                        <div ng-if="vm.create.time == 'some'" style="margin-left: 33px">
+                            <span style="margin-right:10px;margin-left:-4px;" class="color666">日期</span>
+                            <md-checkbox class="checkbox-time" ng-repeat="day in vm.create.time_limit" ng-model="day.check">周{{day.n}}</md-checkbox>
+                            <!--显示添加时段-->
+                            <div ng-if="!vm.create.show_time_limit_stamp">
+                                <div margin="[4,0,0,-3]"><a class="app-color td-under" ng-click="vm.create.show_time_limit_stamp = !vm.create.show_time_limit_stamp">添加时间段</a></div>
+                            </div>
+                            <div ng-if="vm.create.show_time_limit_stamp" margin="[4,0,0,0]">
+                                <span style="margin-right:10px;margin-left:-4px;" class="color666">时间</span>
+                                <input class="time-input" type="text" ng-model="vm.create.time_limit_begin"> 至 <input class="time-input" type="text" ng-model="vm.create.time_limit_end" style="margin-left:10px;">
+                                <p margin="[10,0,0,38]" class="app-tips-err" ng-show="vm.create.time_limit_error1">请输入正确的时间格式</p>
+                                <p margin="[10,0,0,38]" class="app-tips-err" ng-show="vm.create.time_limit_error2">结束时间应不超过开始时间</p>
+                                <p margin="[10,0,0,38]" class="app-tips-err" ng-show="vm.create.time_limit_notall">必须同时填写开始时间与结束时间</p>
+                                <p  margin="[10,0,0,38]" class="placeholder" ng-hide="vm.create.time_limit_error1 || vm.create.time_limit_error2 || vm.create.time_limit_notall">请使用24小时制输入时间，格式如 11:00 至 14:30</p>
+                                <div margin="[20,0,0,38]"><a class="app-color td-under" ng-click="delTimeLimit()">删除时间段</a></div>
+
+                            </div>
+                            <div margin="[10,0,0,0]"><p class="app-tips-err" ng-show="vm.create.time_limit_noday">请选择日期</p></div>
+                        </div>
+                    </md-radio-group>
+                </div>
+            </div>
+
+           
+            <div class="border-left" margin="[40, 0, 30, 0]">
+                <span class="span-text float-left">优惠详情</span>
+            </div>
+
+            
+            <section ng-if="vm.create.type == 'CASH_F1'">
+                <!--无门槛-->
+                <div layout="row" layout-align="start">
+                    <div class="text-right">使用须知</div>
+                    <div flex class="detail-content">
+                        <div layout="column">
+                            无门槛代金券，须满足以下条件，勾选后将在手机券面展示：
+                            <md-checkbox style="margin-top:18px;" ng-model="vm.create.adv1">无最低消费要求：任意消费金额均可使用代金券或兑换券</md-checkbox>
+                            <md-checkbox style="margin-top:2px;" ng-model="vm.create.adv2">全场通用：可用于场内全部品类，品牌，类型的商品/服务</md-checkbox>
+                            <md-checkbox style="margin-top:2px;" ng-model="vm.create.adv3">可与其他优惠共享</md-checkbox>
+                            <p class="app-tips-err" ng-show="!vm.create.adv1 || !vm.create.adv2 || !vm.create.adv3">无门槛代金券，须满足以上三个条件</p>
+                            <div md-no-float class="md-block textarea-bottom textarea-heig-180 textarea-wid-548" style="margin-left:-2px;margin-right:0;">
+                                <textarea class="app-textarea textarea-heig-180 textarea-wid-548" placeholder="请补充填写更多关于本优惠券的使用须知，但不要与上面勾选的内容重复或者矛盾(选填)" name="description" han="600" ng-model="vm.coupon.baseInfo.description"></textarea>
+                            </div>
+                            <div ng-messages="form.description.$error">
+                                <p class="app-tips-err" ng-message="han">优惠说明不能超过300个汉字或600个字母</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section ng-if="vm.create.type == 'CASH_F2'">
+                <!--有门槛-->
+                <div layout="row" layout-align="start">
+                    <p class="text-right" style="margin-top: 6px;">使用条件</p>
+                    <div flex class="detail-content">
+                        <div layout="column">
+                            <div>
+                                <md-checkbox ng-model="vm.create.need_money" ng-true-value="'m'">最低消费满</md-checkbox>
+                                <md-input-container style="width: 146px;margin:0">
+                                    <input type="number" class="input-wid-140" aria-label="金额" min="0" max="99999" name="least_cost"  ng-model="vm.create.least_cost" ng-required="vm.create.need_money" ng-disabled="!vm.create.need_money"></md-input-container>元可用
+                            </div>
+                            <div ng-messages="form.least_cost.$error"><p class="app-tips-err pl-36" ng-message-exp="['required', 'max', 'min']">最低消费金额不能为空,且不小于1元不能大于100000</p></div>
+
+                            <div layout="column">
+                                <md-checkbox ng-model="vm.create.can_use">适用范围 (至少填写一项)</md-checkbox>
+                                <div class="pl-36"> 适用商品
+                                    <md-input-container style="width: 280px;margin:0" md-no-float><input class="input-wid-280" type="text" name="canuse" aria-label="适用商品" han="30" ng-model="vm.coupon.advancedInfo.useConditionTmp.accept_category" placeholder="填写本券适用的商品、类目或服务" ng-disabled="!vm.create.can_use"></md-input-container>
+                                    <div ng-messages="form.canuse.$error"><p class="app-tips-err" ng-message-exp="['han']">适用商品、类目或服务描述不能超过30个字符</p></div>
+                                </div>
+
+                                <div class="pl-36">不适用商品
+                                    <md-input-container style="width: 280px;margin:0"  md-no-float><input class="input-wid-280" type="text" aria-label="不适用商品" han="30" ng-model="vm.coupon.advancedInfo.useConditionTmp.reject_category" placeholder="填写不适用本券的商品、类目或服务" name="nocanuse" ng-disabled="!vm.create.can_use"></md-input-container>
+                                    <div ng-messages="form.nocanuse.$error"><p class="app-tips-err" ng-message-exp="[ 'han']">不适用商品、类目或服务描述不能超过30个字符</p></div>
+                                </div>
+
+                                <p class="app-tips-err pl-36" ng-show="vm.create.cash_canuse_err">使用条件必须指定至少满减，指定商品之中的一项</p>
+                            </div>
+                            <md-checkbox ng-model="vm.coupon.advancedInfo.useConditionTmp.can_use_with_other_discount">可与其他优惠共享</md-checkbox>
+                            <p class="app-tips-err pl-36" ng-show="!vm.create.need_money && !vm.coupon.advancedInfo.useConditionTmp.can_use_with_other_discount && !vm.create.can_use">使用条件必须指定至少满减，指定商品，与其他优惠券共享之中的一项</p>
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" layout-align="start">
+                    <div class="text-right" style="margin-top: 5px;">使用须知<br><span>(选填)</span></div>
+                    <div flex class="detail-content">
+                        <div md-no-float class="md-block textarea-bottom textarea-heig-180 textarea-wid-548" style="margin-right:0">
+                            <textarea class="app-textarea textarea-heig-180 textarea-wid-548" placeholder="请补充填写更多关于本优惠券的使用须知，但不要与上面勾选的内容重复或者矛盾(选填)" name="description" ng-disabled="vm.coupon.baseInfo.cardId && vm.coupon.baseInfo.id" ng-model="vm.coupon.baseInfo.description" han="600"></textarea>
+                        </div>
+                        <div ng-messages="form.description.$error">
+                            <p class="app-tips-err" ng-message="han">使用须知不能超过300个汉字或600个字母</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section ng-if="vm.coupon.cardType == 'GIFT'">
+                <div layout="row" layout-align="start">
+                    <!--兑换券-->
+                    <p class="text-right" style="margin-top: 8px;">使用条件</p>
+                    <div flex class="detail-content" layout="column">
+                            <div layout="row" layout-align="start center">
+                                <md-checkbox ng-model="vm.create.need_money_goods">消费</md-checkbox>
+                                <md-select ng-model="vm.create.money_goods"  ng-change="vm.changeMoneyGoods()" style="width: 140px; margin: 0 0 19px 20px;" aria-label="money_goods" ng-disabled="!vm.create.need_money_goods">
+                                    <md-option value="m" class="mdOption" ng-class="{'active':vm.create.money_goods == 'm'}">金额</md-option>
+                                    <md-option value="g" class="mdOption" ng-class="{'active':vm.create.money_goods == 'g'}">指定商品</md-option>
+                                </md-select>&nbsp;
+                                <div ng-if="vm.create.money_goods == 'm'" style="margin: 0 0 19px 15px">满&nbsp;
+                                    <md-input-container><input class="input-wid-140" min="0" max="100000" ng-model="vm.create.least_cost" aria-label="least" ng-disabled="!vm.create.need_money_goods"></md-input-container>元
+                                </div>
+                                <div ng-if="vm.create.money_goods == 'g'" flex="50">
+                                    <md-input-container md-no-float class="md-block input-wid-280" style="margin-top:-5px;">
+                                        <input type="text" ng-model="vm.coupon.advancedInfo.useConditionTmp.object_use_for" aria-label="object_use_for" name="object_use_for" han="30" ng-disabled="!vm.create.need_money_goods">
+                                    </md-input-container>
+                                </div>
+                                <span style="margin: 0 0 22px 15px;">可用</span>
+                            </div>
+                        <p class="app-tips-err pl-36" ng-show="vm.create.gift_err">使用条件必须指定至少满减，指定商品之中的一项</p>
+                        <div ng-messages="form.object_use_for.$error">
+                            <p class="app-tips-err" ng-message="han">指定商品名称不能超过15个汉字或30个字符</p>
+                        </div>
+                        <md-checkbox ng-model="vm.coupon.advancedInfo.useConditionTmp.can_use_with_other_discount">可与其他优惠共享</md-checkbox>
+                        <p class="app-tips-err pl-36" ng-show="!vm.create.need_money_goods && !vm.coupon.advancedInfo.useConditionTmp.can_use_with_other_discount">使用条件必须指定至少满减，指定商品，与其他优惠券共享之中的一项</p>
+                    </div>
+                </div>
+                <div layout="row" layout-align="start start">
+                    <p class="text-right" style="margin-top: 5px;">使用须知<br><span>(选填)</span></p>
+                    <div flex="100" class="detail-content">
+                        <div md-no-float class="md-block textarea-bottom textarea-heig-180 textarea-wid-548" style="margin-right:0">
+                            <textarea class="app-textarea textarea-heig-180 textarea-wid-548 marR" placeholder="请补充填写更多关于本优惠券的使用须知，但不要与上面勾选的内容重复或者矛盾(选填)" name="description" ng-model="vm.coupon.baseInfo.description" han="600"></textarea>
+                        </div>
+                        <div ng-messages="form.description.$error">
+                            <p class="app-tips-err" ng-message="required">使用须知不能超过300个汉字或600个字母</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div layout="row" style="margin-top: 20px;">
+                <p class="text-right">封面图片</p>
+                <div layout="row">
+                    <div flex="70"  class="detail-content">
+                        <p>图片建议尺寸: 850像素*350像素，大小不超过2M <span class="app-tips">(图片须为 .jpg 格式)</span>。</p>
+                        <myupload flex="30" class="p5" size="2m" type="0" ng-model="icon_file" pic="pic" name="icon_file">上传照片</myupload>
+                        <div ng-messages="form.icon_file.$error">
+                            <p class="app-tips-err" ng-message="required">请上传封面图片</p>
+                        </div>
+                    </div>
+                    <div flex="5"></div>
+                    <div flex="25" style="min-height:160px;color:#666" class="demo-img" >建议图片进行适当设计，图上辅之以<br>营销文案，来吸引消费者。</div>
+                </div>
+
+            </div>
+            <div layout="row" layout-align="start center" style="margin-top: -20px;">
+                <p class="text-right" style="margin-top:-15px;">封面简介</p>
+                <div flex="70" class="detail-content" ng-class="{'formError' : vm.abstract}">
+                    <md-input-container md-no-float class="md-block upper input-left-280">
+                        <input type="text" class="app-input padding0 input-wid-280" name="abstract" ng-blur="vm.abstract = true" ng-model="vm.coupon.advancedInfo.abstractJsonTmp.abstract" han="24" required/>
+                        <span class="placeholder" style="margin-top: 10px;width: 100%;" ng-hide="(vm.formError || vm.abstract) && (form.abstract.$error.required || form.abstract.$error.han)">请输入封面图片的简介内容</span>
+                    </md-input-container>
+                    <div ng-messages="form.abstract.$error">
+                        <p class="app-tips-err" ng-message-exp="['required', 'han']">封面简介不能超过12个汉字或24个字母</p>
+                    </div>
+                </div>
+            </div>
+
+            <div layout="row" style="margin: 10px 0 30px 0;">
+                <p class="text-right">图文介绍</p>
+                <div flex class="detail-content">
+                    <p>图片建议尺寸: 900像素*500像素，大小不超过2M。至少上传1组图文，最多输入5000字符。</p>
+                    <div class="images-wrapper" style="margin-top:30px;">
+                        <div class="text-image-item" ng-repeat="item in vm.photos" >
+                            <myupload class="p5" ng-model="item.file" type="0" name="item{{$index}}" pic="item.pic" size="2m" style="top: 5px;">上传照片</myupload>
+                            
+                                <p class="app-tips-err" ng-show="form.item{{$index}}.$error.required && vm.formError">请上传图片</p>
+                            
+                            <div md-no-float class="md-block upper-textarea-bottom b37" style="margin-left:6px;margin-right:6px;">
+                                <textarea class="app-input" placeholder="请输入图片的描述" name="{{item.index}}" ng-model="item.text" han="5000" style="margin-bottom: 30px; height: 108px !important; overflow: auto;"></textarea>
+
+                                <p class="app-tips-err">图文描述不能为空且不超过5000个字符</p>
+                            </div>
+                            <p class="app-tips-err cancel-btn del" ng-click="vm.delImgText(item, $index)" role="button" style="width: 96%;">删除</p>
+                        </div>
+                        <div class="add-photo-btn" ng-click="vm.addPhotos()" ng-hide="vm.maxImg"></div>
+                    </div>
+                    <p class="app-tips-err" ng-show="vm.create.text_image_isnone">请上传至少上传1组图文描述</p>
+                </div>
+            </div>
+
+            <md-divider></md-divider>
+            <div layout="row" style="margin: 3px 0 0 -40px" layout-align="start">
+                <md-button class="md-raised md-button my-button" style="margin: 0 20px 0 42px !important;" ng-click="vm.addCoupon(form.$invalid, 1)" ng-hide="vm.submiting"> 下一步
+                </md-button>
+            </div>
+
+        </div>
+
+    </form>
+</section>
+

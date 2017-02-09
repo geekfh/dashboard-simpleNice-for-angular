@@ -1,0 +1,50 @@
+<div class="table-top auto-date-wrap" margin="[15, 0, 0, 0]" layout="row" ng-if="status == 'search'">
+    <div layout="row" layout-align="start end">
+
+        <div layout="row">
+            <p class="text-p">{{itemName}}</p>
+            <div flex class="detail-content auto-date-content" margin="[10, 0, 0, 0]">
+                <md-datepicker ng-style="firstStyle" class="marginleft0" ng-model="date.begin" md-max-date="date.maxDate" md-min-date="date.minDate" md-placeholder="选择开始日期">
+                
+                </md-datepicker>
+                <md-select my-select ng-model="date.startTime" class="selectTime" ng-if="ifSearchTime == 'true'">
+                    <md-option ng-repeat="item in selectTimeList_01 "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == date.beginTime}">
+                        {{item.name}}
+                    </md-option>
+                </md-select>
+                <span style="line-height: 35px;">至</span>
+                <md-datepicker ng-style="secondStyle" ng-model="date.end" md-max-date="date.maxDate" md-min-date="date.minDate" md-placeholder="选择截至日期">
+                
+                </md-datepicker>
+                <md-select my-select ng-model="date.endTime" class="selectTime" ng-if="ifSearchTime == 'true'">
+                    <md-option ng-repeat="item in selectTimeList_02 "  value="{{item.value}}" class="mdOption" ng-class="{'active' : item.value == date.endTime}">
+                        {{item.name}}
+                    </md-option>
+                </md-select>
+            </div>
+        </div>
+    </div>
+
+    <div layout="row" layout-align="start center" margin="[6, 0, 0, 10]" class="auto-date-list">
+        <a class="md-raised md-button my-style my-button" ng-class="{'active': date.dayIndex == 0}" ng-click="changeDay(0)" style="border-radius: 0 !important;border-top-left-radius:2px !important;border-bottom-left-radius:2px !important;">今天</a>
+        <a class="md-raised md-button my-style my-button" ng-class="{'active': date.dayIndex == 1}" ng-click="changeDay(1)" style="border-radius: 0px !important">昨天</a>
+        <a class="md-raised md-button my-style my-button" ng-class="{'active': date.dayIndex == 7}" ng-click="changeDay(7)" style="border-radius: 0px !important">最近7天</a>
+        <a class="md-raised md-button my-style my-button" ng-class="{'active': date.dayIndex == 30}" ng-click="changeDay(30)" style="border-radius: 0 !important;border-top-right-radius:2px !important;border-bottom-right-radius:2px !important;">最近30天</a>
+    </div>
+
+</div>
+<div layout="row" ng-if="status == 'normal'">
+    <md-datepicker ng-if="!isCard" ng-style="firstStyle" name="begin" required ng-disabled="isDisabled" class="marginleft0" ng-model="date.begin" md-max-date="date.beginMaxDate" md-min-date="date.beginMinDate" md-placeholder="选择开始日期">
+                    
+    </md-datepicker>
+    <md-datepicker ng-if="isCard" ng-style="firstStyle" name="begin"  ng-disabled="isDisabled1" class="marginleft0" ng-model="date.begin" md-max-date="date.beginMaxDate" md-min-date="date.beginMinDate" md-placeholder="选择开始日期">
+
+    </md-datepicker>
+    <span style="line-height: 35px;">至</span>
+    <md-datepicker ng-if="!isCard" ng-style="secondStyle" name="end" required  ng-model="date.end" md-max-date="date.endMaxDate" md-min-date="date.endMinDate" md-placeholder="选择截至日期">
+
+    </md-datepicker>
+    <md-datepicker ng-if="isCard" ng-style="secondStyle" name="end" ng-disabled="isDisabled2"  ng-model="date.end" md-max-date="date.endMaxDate" md-min-date="date.endMinDate" md-placeholder="选择截至日期">
+
+    </md-datepicker>
+</div>

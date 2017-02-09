@@ -1,0 +1,160 @@
+<style>
+    #customFieldDialog {
+        width: 730px;
+    }
+
+    #customFieldDialog .title {
+        line-height: 48px;
+        margin: 0;
+        font-size: 16px;
+        text-indent: 20px;
+        background-color: #dfe6eb;
+    }
+
+    #customFieldDialog .field-content {
+        padding: 0 60px;
+    }
+
+    #customFieldDialog .field-item {
+        width: 240px;
+        margin: 30px 0;
+
+        border: 1px solid #dfe6eb;
+    }
+    #customFieldDialog .field-item .uls {
+        height: 340px;
+        padding-left: 40px;
+        overflow-y: scroll;
+    }
+    #customFieldDialog .field-item .uls p {
+        padding-left: 20px;
+        margin: 10px 0 0 -20px;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsSAAALEgHS3X78AAAAwklEQVQoz6WSsQrDIBRFT7QYMoijo1N+IP//DRmzZHJ0FIegIHapdGmLoWd973Afjzu11hovaq2EEIgxknMGYJ5njDFYa5FS9lWmLqaU8N5TSuETSimcc2it32JKifM8GWFdV7TWiFor3vshCcB7T60VEUL4et4nSimEEBAxxmGpE2Pk0b8HsG3bT2HfdwByzojbcS+m4zjadV23pGVZEMaY22nGGIS1FqXUsKSUwlqLkFLinBsWnXNIKf+sXB/eKfkTecdxXLUszjsAAAAASUVORK5CYII=") no-repeat left center;
+        color: #000;
+        cursor: pointer;
+    }
+    #customFieldDialog .field-item p.close{
+        background: url("static/images/t_open.png") no-repeat left center;
+    }
+    #customFieldDialog .item-title {
+        font-size: 14px;
+        line-height: 38px;
+        width: 100%;
+        margin: 0;
+        text-indent: 20px;
+        background-color: #dfe6eb;
+    }
+    #customFieldDialog .field-item li{
+        line-height: 30px;
+        color: #555;
+        cursor: pointer;
+        outline: none;
+    }
+    #customFieldDialog .field-item li.active{
+        color: #a7a7a7;
+    }
+    #customFieldDialog .field-btn {
+        background: #dfe6eb;
+    }
+
+    #customFieldDialog .field-del {
+        float: right;
+        height: 30px;
+        width: 20px;
+        outline: none;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAAXNSR0IArs4c6QAAAS5JREFUKBWdkjFOw0AQRb3rxpagpENJAR2isuTKDZA63IEzcAzOwB1IHUHjypKrKB0UCXQpQbIb2/y38UYWKI2/NJ7ZP/s9s7tjggHyPD+NouhR1NwYc0mq67p3uUVd109Zln3DAbN3QVCW5a3iZ9nUc3/8RuuHJEle4Z2wFy39msQRdOJniA3txXG8EuErlYonsjMZ2Mm2soSFsKmq6tr2ZzqIdKa7pmlutAHBjhhOMT8EUzRWl3C/X7vvpG3b8zRN1wgwYjhl6cJjbnQ+burEM/KuCgK4oiiuwjB8U+hbh/6xfMcA4cdAeKhGJaxvlafizA68rdXnxRPyW2vtl2+PFol1D5/kBvsWo59j9AC4y+nHaKZWGKtjIOemhg2uot/ph7x/2wt4LkLu35D/ArWxmMvRUF46AAAAAElFTkSuQmCC") no-repeat center;
+    }
+    #customFieldDialog .field-input {
+        position: absolute;
+        top: 49px;
+        left: 50px;
+        width: 300px;
+        box-sizing: border-box;
+        padding: 10px 20px 10px;
+        border: 1px solid #dfe6eb;
+        background: #fff;
+        box-shadow: 2px 2px 3px #eee;
+        transition: all 0.2s;
+    }
+    #customFieldDialog .field-input:after {
+        content: ' ';
+        position: absolute;
+        top: -8px;
+        left: 120px;
+        width: 13px;
+        height: 13px;
+        border: 1px solid #dfe6eb;
+        border-width: 2px 2px 0 0;
+        background: #fff;
+        transform: rotate(-45deg);
+    }
+    #customFieldDialog .field-input input {
+        height: 36px;
+        width: 100%;
+        line-height: 36px;
+        text-indent: 1em;
+        border: 1px solid #dfe6eb;
+        outline: 0;
+    }
+    #customFieldDialog .field-input p{
+        margin: -5px 0 0;
+    }
+    #customFieldDialog .uls ul {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .active {
+    	color: #555 !important;
+    background-color: #E5E5E5 !important;
+</style>
+
+
+<md-dialog aria-label="设置选填" ng-cloak id="customFieldDialog" layout="column">
+
+    <h2 class="title">设置选填</h2>
+    <div layout="row" class="field-content">
+        <div flex class="field-item">
+            <div class="item-title">全部信息</div>
+            <div class="uls">
+                <div ng-repeat="item in dialog.fields">
+                    <p class="field-title">{{item.title}}</p>
+                    <ul>
+                       <li ng-repeat="it in item.sub"
+                           ng-class="{active: it.dis}"
+                       ng-click="dialog.add(it)">{{it.k}}</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div flex="20"></div>
+        <div flex class="field-item">
+            <div class="item-title" style="position: relative;">选填信息({{dialog.selected.length + dialog.customFields.length}}/13)
+                <a href="javascript:;" style="margin-left: 27px" ng-hide="dialog.selected.length + dialog.customFields.length >= 13" ng-click="dialog.showInput()">手动添加</a>
+                <div layout="column" layout-align="center center" ng-show="dialog.inputShow">
+                    <div class="field-input">
+                        <p>请输入自定义信息的名称</p>
+                        <input type="text" ng-model="customValue"  maxlength="7" placeholder="最多7个字符">
+                        <div layout="row">
+                            <md-button class="md-raised" ng-click="dialog.hideInput()">取消</md-button>
+                            <md-button class="btn-app md-raised" ng-click="dialog.addCustom(customValue); customValue = ''">确定</md-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="uls">
+                <ul>
+                    <li ng-repeat="it in dialog.selected  | orderBy : 'i' track by it.k">{{ it.k}} <i class="field-del" ng-click="dialog.del(it)"></i></li>
+                </ul>
+                <ul>
+                    <li ng-repeat="it in dialog.customFields track by $index">{{it}}<i class="field-del" ng-click="dialog.del2(it, $index)"></i></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div layout="row" layout-align="center" class="field-btn">
+        <md-button ng-click="dialog.hide([dialog.selected, dialog.customFields])" class="btn-app md-raised">
+            确认
+        </md-button>
+    </div>
+</md-dialog>

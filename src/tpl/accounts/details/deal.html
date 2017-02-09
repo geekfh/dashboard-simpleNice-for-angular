@@ -1,0 +1,139 @@
+<md-dialog aria-label="选择门店" ng-cloak id="typeDialog" layout="column" style="width:480px;">
+    <span class="absolute closepoi" ng-click="close()">+</span>
+    <div style="padding: 40px;">
+
+        <h4 class="contentTitle selectpoi">交易详情</h4>
+        <md-divider></md-divider>
+
+        <div class="field-btn clearfix dealDetailItem" style="margin-top: 10px; height: 85px;">
+            <span style="font-weight: 500;font-size:15px;">{{data.mchtName}}</span>
+            <p style="margin-top: -5px;">门店编号：{{data.mchtNo}}</p>
+        </div>
+       
+        <div class="field-btn clearfix dealDetailItem" >
+            <span class="fl">实收金额</span>
+            <span class="fr">{{data.txAmt | currency : '￥'}}</span>
+        </div>
+
+        <div class="field-btn" style="border-bottom: 1px solid #e5e5e5;">
+            <p class="clearfix" style="margin-top: 8px;">
+                <span class="fl">手续费</span>
+                <span class="fr">{{data.feeAmt ? -data.feeAmt:0 | currency : '￥'}}</span>
+            </p>
+            <p class="clearfix" style="margin-left: 28px;">
+                <span class="fl">原手续费</span>
+                <span class="fr">{{data.origFeeAmt ? -data.origFeeAmt:0 | currency : '￥'}}</span>
+            </p>
+            <p class="clearfix" style="margin-left: 28px;">
+                <span class="fl">手续费减免</span>
+                <span class="fr">{{data.freeFeeAmt | currency : '￥'}}</span>
+            </p>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">结算金额</span>
+            <span class="fr">{{data.settleAmt | currency : '￥'}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">交易时间</span>
+            <span class="fr">{{data.txTime}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">收银员</span>
+            <span class="fr">{{data.userName}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">SN号</span>
+            <span class="fr">{{data.snNo}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">流水号</span>
+            <span class="fr">{{data.transNo}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">第三方订单</span>
+            <span class="fr">{{data.outOrderNo}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">收款方式</span>
+            <span class="fr">{{data.paymentMethod}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">卡类型</span>
+            <span class="fr">{{data.cardType || '--'}}</span>
+        </div>
+
+        <!--<div class="field-btn clearfix dealDetailItem">
+            <span class="fl">结算日期</span>
+            <span class="fr">{{data.settleDate}}</span>
+        </div>-->
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">结算周期</span>
+            <span class="fr">{{data.settleCycle}}</span>
+        </div>
+
+        <!--<div class="field-btn clearfix dealDetailItem">
+            <span class="fl">结算状态</span>
+            <span class="fr">{{data.settleStatus}}</span>
+        </div>
+
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">结算账户</span>
+            <span class="fr">{{data.settleCardNo}}</span>
+        </div>-->
+       
+        <!--<div class="field-btn clearfix dealDetailItem">
+            <span class="fl">手续费减免</span>
+            <span class="fr">{{data.freeFeeAmt | currency : '￥'}}</span>
+        </div>-->
+
+        <!--<div class="field-btn clearfix dealDetailItem">
+            <span class="fl">结算类型</span>
+            <span class="fr">{{data.chaCodeName}}</span>
+        </div>
+       
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">消费卡号</span>
+            <span class="fr">{{data.acNo || '&#45;&#45;'}}</span>
+        </div>
+        <div class="field-btn clearfix dealDetailItem">
+            <span class="fl">参考号</span>
+            <span class="fr">{{data.vocheNo}}</span>
+        </div>-->
+    </div>
+</md-dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

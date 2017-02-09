@@ -1,0 +1,13 @@
+<div layout-padding>
+    <div layout="column" layout-align="center">
+        <p class="text-center" ng-bind="$root.delText || '确认删除'"></p>
+    </div>
+    <div layout="row" layout-align="center">
+        <md-button class=" md-raised" ng-click="dialog.abort()">
+            取消
+        </md-button>
+        <md-button class="btn-app md-raised" ng-click="dialog.hide()">
+            确认
+        </md-button>
+    </div>
+</div>

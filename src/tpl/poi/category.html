@@ -1,0 +1,18 @@
+<div layout="column">
+    <div layout="row" style="width: 40%" layout-align="start center">
+        <md-select my-select flex aria-label="一级" ng-model="$ctrl.primaryIndex" ng-change="$ctrl.changePrimary()" placeholder="一级类目">
+            <md-option ng-repeat="item in $ctrl.primaryList" value="{{item.index}}" class="mdOption" ng-class="{'active' : item.index == $ctrl.primaryIndex}">{{item.name}}</md-option>
+        </md-select>
+        
+        <md-select my-select flex aria-label="二级" ng-model="$ctrl.sub" ng-if="$ctrl.isPoi" ng-disabled="$ctrl.primaryIndex <= -1" placeholder="二级类目" ng-change="$ctrl.changeSub()" >
+            <md-option ng-repeat="item in $ctrl.subList" value="{{item.name}}" class="mdOption" ng-class="{'active' : item.name == $ctrl.sub}">{{item.name}}</md-option>
+        </md-select>
+
+        <md-select my-select flex aria-label="二级" ng-model="$ctrl.sub" ng-if="!$ctrl.isPoi" ng-disabled="$ctrl.primaryIndex <= -1" placeholder="二级类目" ng-change="$ctrl.changeSub()" >
+            <md-option ng-repeat="item in $ctrl.subList" value="{{item.category_name}}" class="mdOption" ng-class="{'active' : item.category_name == $ctrl.sub}">{{item.category_name}}</md-option>
+        </md-select>
+
+        <a class="text-decoration" ng-if="$root.needShow" ng-click="$ctrl.confirm()">完成</a>
+    </div>
+    <p class="app-tips" ng-hide="$root.needShow">商户按照类目列表选择自己所属类目。</p>
+</div>
