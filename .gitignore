@@ -1,0 +1,10 @@
+.idea
+build
+node_modules
+bower_components
+page
+dist
+.vscode
+start.bat
+open.html
+.project
