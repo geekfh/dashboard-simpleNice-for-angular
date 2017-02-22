@@ -78,7 +78,7 @@ app.service('app.common.service', function($http, baseUrl, User, userInfo, $q,$r
         if(!ws.isEmptyObj($rootScope.User)){
             deferred.resolve($rootScope.User);
         }else{
-            $http.get(baseUrl + 'sys/initMchtInfo').then(function(res){
+            $http.get(baseUrl + 'sys/initMchtInfo.json').then(function(res){
                 ws.successback(res.data, function () {
                     self.wsUser = res.data;
                     $rootScope.User = res.data;
@@ -164,7 +164,7 @@ app.service('app.common.service', function($http, baseUrl, User, userInfo, $q,$r
         if($rootScope.powers && $rootScope.powers.length){
             deferred.resolve($rootScope.powers);
         }else{
-            $http.get(baseUrl + 'sys/wigets').then(function(res){
+            $http.get(baseUrl + 'sys/wigets.json').then(function(res){
                 ws.successback(res.data, function () {
                     $rootScope.powers = res.data.object;
                     deferred.resolve(res.data.object);

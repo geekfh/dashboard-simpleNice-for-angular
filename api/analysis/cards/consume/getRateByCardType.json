@@ -1,0 +1,13 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "list": [
+      {
+        "cardName": "此折扣劵可享8折",
+        "rate": "0%",
+        "sn": "1"
+      }
+    ]
+  }
+}

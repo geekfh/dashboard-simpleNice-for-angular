@@ -1,0 +1,13 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "list": [
+      {
+        "rate": "0%",
+        "channelName": "机具派发",
+        "sn": "1"
+      }
+    ]
+  }
+}

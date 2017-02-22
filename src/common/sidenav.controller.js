@@ -34,7 +34,7 @@ angular.module('sidebar',['ngMaterial'])
         }
 
     }
-    userInfo.get('sys/menus').then(function(res){
+    userInfo.get('sys/menus.json').then(function(res){
         vm.sections = res.object;
     })
     

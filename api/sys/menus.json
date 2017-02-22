@@ -1,0 +1,162 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": [
+    {
+      "name": "经营分析",
+      "className": "analysis",
+      "type": "toggle",
+      "href": null,
+      "children": [
+        {
+          "name": "经营概况",
+          "type": "link",
+          "href": "analysis.overview"
+        }
+      ]
+    },
+    {
+      "name": "账务查询",
+      "className": "accounts",
+      "type": "toggle",
+      "href": null,
+      "children": [
+        {
+          "name": "结算记录",
+          "type": "link",
+          "href": "accounts.balance.list"
+        },
+        {
+          "name": "对账明细",
+          "type": "link",
+          "href": "accounts.details.list"
+        },
+        {
+          "name": "交易流水",
+          "type": "link",
+          "href": "accounts.flow.list"
+        }
+      ]
+    },
+    {
+      "name": "店铺管理",
+      "className": "poi",
+      "type": "toggle",
+      "href": null,
+      "children": [
+        {
+          "name": "门店管理",
+          "type": "link",
+          "href": "poi.list"
+        },
+        {
+          "name": "员工管理",
+          "type": "link",
+          "href": "staff.list"
+        }
+      ]
+    },
+    {
+      "name": "优惠券",
+      "className": "coupons",
+      "type": "toggle",
+      "href": null,
+      "children": [
+        {
+          "name": "优惠券管理",
+          "type": "link",
+          "href": "coupons.list"
+        },
+        {
+          "name": "优惠券数据",
+          "type": "link",
+          "href": "coupons.report"
+        },
+        {
+          "name": "优惠券记录",
+          "type": "link",
+          "href": "coupons.record"
+        },
+        {
+          "name": "优惠券派发",
+          "type": "link",
+          "href": "coupons.send"
+        }
+      ]
+    },
+    {
+      "name": "会员",
+      "className": "clubcard",
+      "type": "toggle",
+      "href": null,
+      "children": [
+        {
+          "name": "会员卡管理",
+          "type": "link",
+          "href": "clubcard.card.preview"
+        },
+        {
+          "name": "会员管理",
+          "type": "link",
+          "href": "clubcard.member.list"
+        },
+        {
+          "name": "会员卡数据",
+          "type": "link",
+          "href": "clubcard.report"
+        },
+        {
+          "name": "储值记录",
+          "type": "link",
+          "href": "clubcard.storedvalue"
+        }
+      ]
+    },
+    {
+      "name": "营销中心",
+      "className": "marketing",
+      "type": "toggle",
+      "href": null,
+      "children": [
+        {
+          "name": "自动派券",
+          "type": "link",
+          "href": "marketing.autoCoupon.rule"
+        },
+        {
+          "name": "营销活动",
+          "type": "link",
+          "href": "marketing.activity.rule"
+        }
+      ]
+    },
+    {
+      "name": "系统设置",
+      "className": "setting",
+      "type": "toggle",
+      "href": null,
+      "children": [
+        {
+          "name": "微信公众号",
+          "type": "link",
+          "href": "settings.wxchat"
+        },
+        {
+          "name": "商户信息",
+          "type": "link",
+          "href": "settings.merchantInfo"
+        },
+        {
+          "name": "支付管理",
+          "type": "link",
+          "href": "settings.payMgr"
+        },
+        {
+          "name": "打印设置",
+          "type": "link",
+          "href": "settings.printSet"
+        }
+      ]
+    }
+  ]
+}

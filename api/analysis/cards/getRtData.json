@@ -1,0 +1,20 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": [
+    {
+      "date": "20170222",
+      "newMemberCount": "0",
+      "memberUsedCount": "0",
+      "cardReceiveCount": "0",
+      "cardConsumeCount": "0"
+    },
+    {
+      "date": "20170221",
+      "newMemberCount": "0",
+      "memberUsedCount": "0",
+      "cardReceiveCount": "0",
+      "cardConsumeCount": "0"
+    }
+  ]
+}

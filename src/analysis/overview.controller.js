@@ -30,7 +30,7 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
         if(!$scope.queryParams.visibleRange){
             $scope.queryParams.visibleRange = '0';
         }
-        userInfo.get('analysis/trade/getHisData', $scope.queryParams, true).then(function(res){
+        userInfo.get('analysis/trade/getHisData.json', $scope.queryParams, true).then(function(res){
            /* var res = {
                 "code": "0",
                 "message": "",
@@ -68,7 +68,7 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
         if(!$scope.memberParams.startDate){
             $scope.memberParams.startDate = sevenDay;
         }
-        userInfo.get('analysis/cards/getMembersData', $scope.memberParams, true).then(function(res){
+        userInfo.get('analysis/cards/getMembersData.json', $scope.memberParams, true).then(function(res){
             $scope.memberObj = res.object;
             $scope.memberObj.dateItem = initDateItem(res.object.date);
             $timeout(changeMemberType, 10);
@@ -97,7 +97,7 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
         if(!$scope.couponParams.startDate){
             $scope.couponParams.startDate = sevenDay;
         }
-        userInfo.get('analysis/cards/getCardsData', $scope.couponParams, true).then(function(res){
+        userInfo.get('analysis/cards/getCardsData.json', $scope.couponParams, true).then(function(res){
             /*var res = {
                 "code": "0",
                 "message": "",
@@ -187,7 +187,7 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
     }
 
     //查询实时（当天）交易数据
-    userInfo.get('analysis/trade/getRtData').then(function(res){
+    userInfo.get('analysis/trade/getRtData.json').then(function(res){
         /*res = {
             "code": "0",
             "message": "",
@@ -203,25 +203,25 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
     })
 
     //查询实时（昨日）交易数据
-    userInfo.get('analysis/trade/getYesterdayData').then(function(res){
+    userInfo.get('analysis/trade/getYesterdayData.json').then(function(res){
         $scope.yesTotalAmt = res.object.totalAmt;
         $scope.yesTotalCount = res.object.totalCount;
 
     })
 
     //优惠券核销率排行榜
-    userInfo.get('analysis/cards/consume/getRateByCardType').then(function (res) {
+    userInfo.get('analysis/cards/consume/getRateByCardType.json').then(function (res) {
         $scope.couponVerification = res.object.list;
     })
 
     //优惠券渠道核销率排行榜
-    userInfo.get('analysis/cards/consume/getRateByChannel').then(function (res) {
+    userInfo.get('analysis/cards/consume/getRateByChannel.json').then(function (res) {
         $scope.channelRate = res.object.list;
     })
 
 
     //查询卡券实时数据
-    userInfo.get('analysis/cards/getRtData').then(function(res){
+    userInfo.get('analysis/cards/getRtData.json').then(function(res){
         $scope.RTData = res.object;
 
     })

@@ -25,11 +25,11 @@ gulp.task('cache', function() {
 
 gulp.task('copy_lib', () => {
     gulp.src([
-        'node_modules/angular/angular.min.js',
-        'node_modules/angular/angular.min.js.map',
-        'node_modules/angular-ui-router/release/angular-ui-router.min.js',
-        'node_modules/angular-material/angular-material.min.js',
-        'node_modules/angular-cookies/angular-cookies.min.js'
+        'bower_components/angular/angular.min.js',
+        'bower_components/angular/angular.min.js.map',
+        'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+        'bower_components/angular-material/angular-material.min.js',
+        'bower_components/angular-cookies/angular-cookies.min.js'
     ])
     .pipe(gulp.dest('build/static/script'))
 
@@ -45,7 +45,7 @@ gulp.task('watch', () => {
 gulp.task('build', () => {
     var assets = $.useref.assets();
 
-    var jsfilter = $.filter(['**/*.js', '!node_modules'], {
+    var jsfilter = $.filter(['**/*.js', '!node_modules', '!bower_components'], {
         restore: true
     });
     var cssfilter = $.filter('**/*.css', {
