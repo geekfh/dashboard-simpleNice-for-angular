@@ -20,7 +20,7 @@ app.controller('card.preview.controller', function ($state, $rootScope, tplUrl, 
     
     vm.count = 1;
     vm.getMemberCards = function(){
-        userInfo.get('memberCards', {}, '', true).then(function (res) {
+        userInfo.get('memberCards.json', {}, '', true).then(function (res) {
         res = ws.changeRes(res);
         vm.start = true;
         if(res.object.list && res.object.list.length){
@@ -143,7 +143,7 @@ app.controller('card.preview.controller', function ($state, $rootScope, tplUrl, 
 
     }
     vm.createCard = function(){
-      userInfo.get('mcht/countAllChildMcht').then(function(res){
+      userInfo.get('mcht/countAllChildMcht.json').then(function(res){
           if(res.object.mchtCount > 0) $state.go('clubcard.card.create1')
           else return ws.alert({msg: '请先创建门店'});
       })

@@ -1,7 +1,7 @@
 app.service('clubcard.card.service', ['$http', 'poi.list.service','baseUrl', function($http, poiListService, baseUrl){
 
     this.getMembercard = function(){
-        return $http.get(baseUrl + 'memberCards').then(function(res){
+        return $http.get(baseUrl + 'memberCards.json').then(function(res){
            return res.data;
         });
     };
@@ -9,7 +9,7 @@ app.service('clubcard.card.service', ['$http', 'poi.list.service','baseUrl', fun
     this.addCard = function(card) {
         console.log(card);
 
-        return $http.post(baseUrl + 'memberCards', card).then(function(res){
+        return $http.post(baseUrl + 'memberCards.json', card).then(function(res){
             return res.data;
         })
     };

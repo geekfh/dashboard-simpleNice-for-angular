@@ -57,7 +57,7 @@
     if(!$rootScope.isEdit){
         //添加
         //判断是否已经创建会员卡
-        userInfo.get('memberCards').then(function(res){
+        userInfo.get('memberCards.json').then(function(res){
             if(res.object && res.object.list && res.object.list[0].card){
                 $state.go('clubcard.card.preview');
             }
