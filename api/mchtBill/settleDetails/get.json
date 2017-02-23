@@ -1,0 +1,25 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "errList": [],
+    "repairInfo": {},
+    "settleDtl": [
+      {
+        "errAmt": "0.0",
+        "errOkAmt": "0.0",
+        "origFeeAmt": "128.38",
+        "feeAmt": "128.38",
+        "freeAmt": "0.0",
+        "mchtNo": "015110197174600",
+        "repairAmt": "0.0",
+        "settleAmt": "19621.62",
+        "settleDate": "20170215",
+        "txAmt": "19750.0",
+        "unrepairAmt": "0.0",
+        "uperrAmt": "0.0",
+        "mchtName": "北京博付通信息科技有限公司"
+      }
+    ]
+  }
+}

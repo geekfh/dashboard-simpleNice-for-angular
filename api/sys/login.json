@@ -1,0 +1,40 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "widgetPerms": [
+      "accounts.balance.list_store.list",
+      "accounts.details.list_store.list",
+      "accounts.flow.list_store.list",
+      "staff.list_store.list",
+      "coupons.report_store.list",
+      "coupons.check_store.list",
+      "coupons.provide_store.list",
+      "clubcard.member.list_import.member",
+      "settings.merchantInfo_store.list",
+      "coupons.list_my.coin",
+      "coupons.list_add.button",
+      "coupons.list_add.href",
+      "coupons.list_modify",
+      "coupons.list_del",
+      "clubcard.card.preview_modify",
+      "clubcard.card.preview_head",
+      "coupons.detail_modify",
+      "clubcard.card.preview_add.href",
+      "settings.merchantInfo_brand.logo",
+      "settings.merchantInfo_brand.name",
+      "settings.payMgr_store.list",
+      "settings.merchantInfo_brand.logo.update",
+      "settings.merchantInfo_brand.name.update",
+      "coupons.create_edit.poi",
+      "coupons.create_f.poi",
+      "coupons.edit_f.poi",
+      "card.create_edit.poi",
+      "analysis.his_trade.list_store",
+      "coupons.create_edit.poi.search",
+      "card.create_edit.poi.search",
+      "clubcard.member.list_import.member.balance.charge",
+      "clubcard.storedvalue_poi.search"
+    ]
+  }
+}

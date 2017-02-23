@@ -1,0 +1,90 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "settleAmt": "25800.28",
+    "waitingSettleAmt": "0.0",
+    "pageData": {
+      "list": [
+        {
+          "settleDate": "20161026",
+          "settleState": "已结算",
+          "settleAmt": "1203.34",
+          "mchtName": "北京博付通信息科技有限公司",
+          "acNo": "621485******3864",
+          "mchtNo": "015110197174600",
+          "paymentMethodName": "刷卡",
+          "chaCode": "1",
+          "settleMcht": "015110197174600",
+          "mchtTraceNo": "61026N000004244"
+        },
+        {
+          "settleDate": "20161021",
+          "settleState": "已结算",
+          "settleAmt": "1192.20",
+          "mchtName": "北京博付通信息科技有限公司",
+          "acNo": "621485******3864",
+          "mchtNo": "015110197174600",
+          "paymentMethodName": "刷卡",
+          "chaCode": "1",
+          "settleMcht": "015110197174600",
+          "mchtTraceNo": "61021N000004991"
+        },
+        {
+          "settleDate": "20161020",
+          "settleState": "已结算",
+          "settleAmt": "14896.50",
+          "mchtName": "北京博付通信息科技有限公司",
+          "acNo": "621485******3864",
+          "mchtNo": "015110197174600",
+          "paymentMethodName": "刷卡",
+          "chaCode": "1",
+          "settleMcht": "015110197174600",
+          "mchtTraceNo": "61020088R382136"
+        },
+        {
+          "settleDate": "20161011",
+          "settleState": "已结算",
+          "settleAmt": "496.75",
+          "mchtName": "北京博付通信息科技有限公司",
+          "acNo": "621485******3864",
+          "mchtNo": "015110197174600",
+          "paymentMethodName": "刷卡",
+          "chaCode": "1",
+          "settleMcht": "015110197174600",
+          "mchtTraceNo": "61011N000004066"
+        },
+        {
+          "settleDate": "20161010",
+          "settleState": "已结算",
+          "settleAmt": "96.33",
+          "mchtName": "北京博付通信息科技有限公司",
+          "acNo": "621485******3864",
+          "mchtNo": "015110197174600",
+          "paymentMethodName": "刷卡",
+          "chaCode": "1",
+          "settleMcht": "015110197174600",
+          "mchtTraceNo": "61010088R510506"
+        },
+        {
+          "settleDate": "20161010",
+          "settleState": "已结算",
+          "settleAmt": "7915.16",
+          "mchtName": "北京博付通信息科技有限公司",
+          "acNo": "621485******3864",
+          "mchtNo": "015110197174600",
+          "paymentMethodName": "刷卡",
+          "chaCode": "1",
+          "settleMcht": "015110197174600",
+          "mchtTraceNo": "61010088R517189"
+        }
+      ],
+      "page": 1,
+      "rows": 10,
+      "totalRows": 6,
+      "totalPage": 1,
+      "hasNextPage": false,
+      "hasPreviousPage": true
+    }
+  }
+}
