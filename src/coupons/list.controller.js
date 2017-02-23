@@ -4,7 +4,7 @@ app.controller('coupons.list.controller',
     var vm = this;
 
     //判断是否授权，显示券点
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
 
         if(res.code == 0 && !ws.isEmptyObj(res.object)){
             vm.user = res.object;
@@ -23,7 +23,7 @@ app.controller('coupons.list.controller',
             userInfo.getUser().then(function(res){
                 if(res.object.role == 'BrandAdmin' || res.object.role == 'StoreAdmin'){
                     //用户的权限信息
-                    userInfo.get('merchant/authority').then(function (res) {
+                    userInfo.get('merchant/authority.json').then(function (res) {
                         User = res.object;
                     });
                 }
@@ -34,7 +34,7 @@ app.controller('coupons.list.controller',
 
     function isShowCoinBtn(){
         if($rootScope.powers && $rootScope.powers.indexOf('coupons.list_my.coin') >= 0) {
-            userInfo.get('coin').then(function (res) {
+            userInfo.get('coin/show.json').then(function (res) {
                 vm.totalCoin = res.total_coin;
             })
         }
@@ -43,21 +43,21 @@ app.controller('coupons.list.controller',
     vm.ngTable = new NgTableParams(
         {page: 1, count: 10},
         {
-            getData: function($defer, params) {
-
+            getData: function(params) {
                 queryParams.page = params.page();
                 queryParams.rows = params.count();
-                Service.getCards(queryParams).then(function(res){
+
+                return Service.getCards(queryParams).then(function(res){
                     res = ws.changeRes(res);
                     params.total(res.object.totalRows);
                     if(res.code == 0){
                         //vm.couponCount = res.object.couponCount;
                         if(res.object.list.length){
                             vm.noData = false;
-                            $defer.resolve(res.object.list);
+                            return res.object.list;
                         }else{
                             vm.noData = res.msg || '您还未创建任何卡券，请新增卡券';
-                            $defer.resolve([]);
+                            return [];
                         }
                     }else{
                         vm.noData = res.msg || '您还未创建任何卡券，请新增卡券';
@@ -122,7 +122,7 @@ app.controller('coupons.list.controller',
                 })
             }
         });
-    }
+    };
 
     function deleteCard(cardId, payoutStatus){
         Service.delCard(cardId, vm.user.authorizerAppid, payoutStatus).then(function(res){
@@ -183,7 +183,7 @@ app.controller('coupons.list.controller',
 
     vm.createCoupons = function(){
         if (vm.user && vm.user.weixinType == '1' && vm.user.authStatus == '1') {
-            userInfo.get('merchant/authority').then(function (res) {
+            userInfo.get('merchant/authority.json').then(function (res) {
                 if (res.object.openCard != 1)
                     ws.alert({msg: '您授权公众号未开通卡卷权限，请开通卡卷权限后进行重新授权',time:5000});
                 else createCoupons();

@@ -230,7 +230,7 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
     $scope.changeStoreType = function(type){
         if(type == '3'){
             //请求接口获取门店所有分组
-            userInfo.get('/mchtGroup/listAll').then(function(res){
+            userInfo.get('/mchtGroup/listAll.json').then(function(res){
                 $scope.groupList = res.object;
                 if($scope.groupList.length < 1)
                     $scope.groupList.unshift({"groupId": "", "groupName": "暂无分组"});
@@ -258,7 +258,7 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
         if(text == null){
             deferred.resolve([]);
         }else{
-            userInfo.get('mcht/listByName', {mchtName: text,mchtStatus:3}, true).then(function(res){
+            userInfo.get('mcht/listByName.json', {mchtName: text,mchtStatus:3}, true).then(function(res){
                 if(res.object.length == '1'){//用户没点击选择框时，从这里赋值用户输入的mchtNo
                     $scope.queryParams.mchtNo = res.object[0].mchtNo;
                 }else if(!res.object.length){//搜索不到门店时，清空mchtNo
@@ -318,8 +318,8 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
     //品牌登录-帧听商户ID发生变化时，搜索收银员列表
     $scope.$watch('queryParams.mchtNo', function(current){
         if(current){
-            userInfo.get('mchtUser/listByMchtNo', {mchtNo: current},true).then(function (res) {
-                console.log('listByMchtNo');
+            userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: current},true).then(function (res) {
+                console.log('listByMchtNo.json');
                 $scope.cashierList = res.object.list;
                 if($scope.cashierList.length > 0){
                     $scope.cashierList.unshift({userId:0, userName:"所有收银员"});
@@ -354,8 +354,8 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
         if($rootScope.powers.indexOf('analysis.his_trade.list_store') < 0){
             if($rootScope.userInfo){
                 mchtNo = $rootScope.userInfo.mchtNo;
-                userInfo.get('mchtUser/listByMchtNo', {mchtNo: mchtNo},true).then(function (res) {
-                    console.log('listByMchtNo');
+                userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: mchtNo},true).then(function (res) {
+                    console.log('listByMchtNo.json');
                     $scope.cashierList = res.object.list;
                     if($scope.cashierList.length > 0){
                         $scope.cashierList.unshift({userId:0, userName:"所有收银员"});
@@ -368,8 +368,8 @@ app.controller('overviewController', function($scope, userInfo, $stateParams, $q
             }else{
                 userInfo.getUser().then(function(res){
                     mchtNo = res.object.mchtNo;
-                    userInfo.get('mchtUser/listByMchtNo', {mchtNo: mchtNo},true).then(function (res) {
-                        console.log('listByMchtNo');
+                    userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: mchtNo},true).then(function (res) {
+                        console.log('listByMchtNo.json');
                         $scope.cashierList = res.object.list;
                         if($scope.cashierList.length > 0){
                             $scope.cashierList.unshift({userId:0, userName:"所有收银员"});

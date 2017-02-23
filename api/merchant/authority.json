@@ -1,0 +1,12 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "coinType": "1",
+    "weixinType": "1",
+    "normalStoreCount": "1",
+    "openStore": "1",
+    "openCard": "1",
+    "merchantNo": "015110197174600"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "list": [
+      {
+        "userId": 882408322,
+        "userName": "楚坤",
+        "mchtName": "北京博付通信息科技有限公司",
+        "loginAccount": "18611546787",
+        "primary": "2",
+        "userPhone": "18611546787",
+        "status": "0",
+        "brandSuffix": "ccyy8780"
+      }
+    ],
+    "page": 1,
+    "rows": 10,
+    "totalRows": 1,
+    "totalPage": 1,
+    "hasNextPage": false,
+    "hasPreviousPage": true
+  }
+}

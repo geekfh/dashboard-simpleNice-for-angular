@@ -345,7 +345,7 @@ app.directive('preColor', ['app.common.service', function(Service){
                     //formData.append('type', type);
                     //微信无关的图片 type=1
                     //formData.append('type', 1);
-                    userInfo.post('merchant/info', formData, '',true).then(function(res){
+                    userInfo.post('mcht/info.json', formData, '',true).then(function(res){
                         if(isPic) {
                             showImg(res.object);
                             ws.alert({msg: '修改成功'});
@@ -1178,7 +1178,7 @@ app.directive('myColor', function(userInfo, $rootScope){
                 }
             } 
             else{
-                userInfo.get('colors').then(function(res){
+                userInfo.get('colors.json').then(function(res){
                     $rootScope.colors = res.object;
                     scope.colors = res.object;
                     if(scope.color.cvalue){

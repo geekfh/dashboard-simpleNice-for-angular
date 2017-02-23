@@ -1,0 +1,37 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "totalCnt": "1.0",
+    "totalAmt": "14000.00",
+    "pageData": {
+      "list": [
+        {
+          "txAmt": "14000.00",
+          "txTime": "2017-02-14 15:15:20",
+          "date": "20170214",
+          "acNo": "622176******7587",
+          "paymentMethodName": "刷卡",
+          "id": "20170214000045521689",
+          "tradeStatusName": "成功",
+          "cycle": "1",
+          "cycleName": "T+1",
+          "mchtName": "北京博付通信息科技有限公司",
+          "snNo": "018300022182",
+          "transNo": "833028749176033429",
+          "mchtNo": "015110197174600",
+          "cardType": "2",
+          "cardTypeName": "贷记卡",
+          "tradeTypeName": "消费",
+          "userName": "楚坤"
+        }
+      ],
+      "page": 1,
+      "rows": 10,
+      "totalRows": 1,
+      "totalPage": 1,
+      "hasNextPage": false,
+      "hasPreviousPage": true
+    }
+  }
+}

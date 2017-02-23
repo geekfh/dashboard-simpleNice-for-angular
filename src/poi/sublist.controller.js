@@ -18,7 +18,7 @@ angular.module('poi.sublist', ['poi.list']).controller('poi.sublist.controller',
     }
 
     //获取门店的品牌商户信息
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         $scope.user = res.object;
         if($scope.user.authStatus != '1'){
             //return ws.noAjaxDialog("该品牌没有授权微信公众号，请先授权!",function(){});

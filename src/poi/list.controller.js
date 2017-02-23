@@ -7,9 +7,10 @@ angular.module('poi.list', []).controller('poi.list.controller', function(NgTabl
     $scope.user = {};
     //登录的商户门店
     var mchtName = '', mchtNo;
-    userInfo.get('merchant/info').then(function(res){
+
+    userInfo.get('mcht/info.json').then(function(res){
         $scope.user = res.object;
-    })
+    });
 
     //门店选择项
     $scope.groupOrNames = [{id: 1, text: '指定门店'}, {id: 2, text: '指定分组'}];
@@ -28,7 +29,7 @@ angular.module('poi.list', []).controller('poi.list.controller', function(NgTabl
     $scope.getGroup = getGroup;
     //获取所有分组信息
     function getGroup(){
-        userInfo.get('mchtGroup/listAll').then(function(res){
+        userInfo.get('mchtGroup/listAll.json').then(function(res){
             $scope.groups = res.object;
             if(!res.object.length){
                 $scope.groups.unshift({groupId: '', groupName: '暂无分组'})
@@ -44,7 +45,7 @@ angular.module('poi.list', []).controller('poi.list.controller', function(NgTabl
         if(text == null){
             deferred.resolve([]); 
         }else{
-            userInfo.get('mcht/listByName', {mchtName: text, mchtStatus: 1}, true).then(function(res){
+            userInfo.get('mcht/listByName.json', {mchtName: text, mchtStatus: 1}, true).then(function(res){
                 deferred.resolve(res.object);
             })
         } 
@@ -79,24 +80,25 @@ angular.module('poi.list', []).controller('poi.list.controller', function(NgTabl
                 $scope.ngTable = new NgTableParams(
                     {page: 1, count: 10},
                     {
-                        getData: function($defer, params) {
-
+                        getData: function(params) {
                             $scope.queryParams.page = params.page();
                             $scope.queryParams.rows = params.count();
-                            console.log($scope.queryParams);
-                            userInfo.get('mcht/listPage', $scope.queryParams, true).then(function(res){
+
+                            return userInfo.get('mcht/listPage.json', $scope.queryParams, true).then(function(res){
                                 isSearching = false;
-                                if(!res.object) return $scope.noData = res.msg || '暂无数据', params.total(0), $defer.resolve([]);
+                                if(!res.object) {
+                                    params.total(0);
+                                    return $scope.noData = res.msg || '暂无数据';
+                                }
                                 params.total(res.object.totalRows);
 
                                 if(res.object.list.length){
                                     $scope.noData = false;
-                                    $defer.resolve(res.object.list);
+                                    return res.object.list;
                                 }else{
                                     $scope.noData = res.msg || '暂无数据';
-                                    $defer.resolve([]);
+                                    return [];
                                 }
-
                             })
                         }
                     }
@@ -113,25 +115,27 @@ angular.module('poi.list', []).controller('poi.list.controller', function(NgTabl
                 $scope.ngTable2 = new NgTableParams(
                     {page: 1, count: 10},
                     {
-                        getData: function($defer, params) {
+                        getData: function(params) {
 
                             $scope.queryParams.page = params.page();
                             $scope.queryParams.rows = params.count();
 
-                            userInfo.get('mcht/group/listPage', $scope.queryParams, true).then(function(res){
+                            return userInfo.get('mcht/group/listPage.json', $scope.queryParams, true).then(function(res){
                                 isSearching = false;
-                                if(!res.object) return $scope.noData = res.msg || '暂无数据', params.total(0), $defer.resolve([]);
+                                if(!res.object) {
+                                    params.total(0);
+                                    return $scope.noData = res.msg || '暂无数据';
+                                }
                                 params.total(res.object.totalRows);
                                 if(res.object.list.length){
                                     $scope.noData2 = false;
-                                    $defer.resolve(res.object.list);
                                     compare(res.object.list);
                                     $rootScope.checkAll = false;
+                                    return res.object.list;
                                 }else{
                                     $scope.noData2 = res.msg || '暂无数据';
-                                    $defer.resolve([]);
+                                    return [];
                                 }
-
                             })
                         }
                     }

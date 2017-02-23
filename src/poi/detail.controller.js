@@ -1,6 +1,7 @@
 app.controller('poi.detail.controller', function(NgTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout, baseUrl, $http,$alert){
     var vm = this, photoUlrLength;
-    userInfo.get('poi/' + $state.params.id).then(function(res){
+
+    userInfo.get('poi/details.json').then(function(res){
         
         vm.poi = res.object;
         //console.log(JSON.parse(vm.poi.categories))
@@ -10,7 +11,7 @@ app.controller('poi.detail.controller', function(NgTableParams, $mdDialog, tplUr
         vm.modify = false;
         vm.canEdit = false;
         photoUlrLength = vm.poi.photoUrlList.length;
-    })
+    });
 
  vm.stateGoBack = function(){
         window.history.back();

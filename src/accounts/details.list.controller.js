@@ -113,7 +113,7 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
     $scope.changeStoreType = function(type){
         if(type == "3"){
             //获取所有分组
-            userInfo.get('/mchtGroup/listAll').then(function(res){
+            userInfo.get('/mchtGroup/listAll.json').then(function(res){
                 $scope.groupList = res.object;
             });
         } else if (type == "2") {
@@ -124,8 +124,8 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
     //品牌登录-帧听商户ID发生变化时，搜索收银员列表
     $scope.$watch('queryParams.mchtNo', function(current){
         if(current){
-            userInfo.get('mchtUser/listByMchtNo', {mchtNo: current},true).then(function (res) {
-                console.log('listByMchtNo');
+            userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: current},true).then(function (res) {
+                console.log('listByMchtNo.json');
                 $scope.cashierList = res.object.list;
                 if($scope.cashierList.length > 0){
                     $scope.cashierList.unshift({userId:0, userName:"所有收银员"});
@@ -156,7 +156,7 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
         if(query == null){
             deferred.resolve([]);
         }else{
-            userInfo.get('mcht/listByName', {mchtName: query,mchtStatus:3}, true).then(function(res){
+            userInfo.get('mcht/listByName.json', {mchtName: query,mchtStatus:3}, true).then(function(res){
                 deferred.resolve(res.object);
                 if(res.object &&　res.object.length == 1){
                     $scope.queryParams.mchtNo = res.object[0].mchtNo;
@@ -268,10 +268,12 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
             $scope.ngTable = new NgTableParams(
                 {page: 1, count: 10, name: 'table'},
                 {
-                    getData: function($defer, params) {
+                    getData: function(params) {
                         $scope.queryParams.page = params.page();
                         $scope.queryParams.rows = params.count();
-                        userInfo.get('mchtBill/algoDetails/listPage', $scope.queryParams, true).then(function (res) {
+
+                        // return $defer
+                        return userInfo.get('mchtBill/algoDetails/listPage.json', $scope.queryParams, true).then(function (res) {
                             $scope.showSearching = false;
                             $scope.isSearched = true;
 
@@ -285,20 +287,21 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
 
                             if (res.object && res.object.pageData && res.object.pageData.list.length > 0) {
                                 $scope.noData1 = false;
-                                $defer.resolve(res.object.pageData.list);
+                                return res.object.pageData.list;
                             } else {
                                 $scope.noData1 = true;
                                 $scope.noDataInfo =  '暂无数据';
-                                $defer.resolve([]);
+                                return [];
                             }
                         })
                     }
                 }
             )
         }
-    };
+    }
+
     function getSummaryInfo(params){
-        userInfo.get('mchtBill/algoDetails/getSummaryInfo', params, true).then(function(res){
+        return userInfo.get('mchtBill/algoDetails/getSummaryInfo.json', params, true).then(function(res){
             if(res.object){
                 $scope.totalAmt = res.object.txAmt ? res.object.txAmt : 0;  //交易本金
                 $scope.totalSettleAmt = res.object.settleAmt ? res.object.settleAmt : 0;  //结算金额
@@ -310,14 +313,9 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
             }
         });
     }
-    /*userInfo.getUser().then(function(res){
-         $scope.selectedStore = res.object.mchtName;
-         merchantName = res.object.mchtName;
-         merchantNo = res.object.mchtNo;
-         $scope.ifAutoShow = true;
-         $scope.search(res.object.mchtNo);
-    });*/
+
     $scope.search(true);
+
     //交易详情
     $scope.dealDetail = function(item){
         $scope.$emit('show.detail', 'tpl/accounts/details/deal.html', item);
@@ -420,7 +418,7 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
 
     //获取结算账户
     $scope.getAccountList = function(data){
-        userInfo.get('mcht/accountInfo/getAccountList', data, true).then(function(res){
+        userInfo.get('mcht/accountInfo/getAccountList.json', data, true).then(function(res){
             $scope.settleCardNoList = res.object;
             $scope.settleCardNoList.unshift({
                 name : "所有结算账户",
@@ -441,10 +439,11 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
             $scope.ngTable2 = new NgTableParams(
                 {page: 1, count: 10, name:'table2'},
                 {
-                    getData: function($defer, params) {
+                    getData: function(params) {
                         $scope.queryParams2.page = params.page();
                         $scope.queryParams2.rows = params.count();
-                        userInfo.get('mchtBill/algoDetails/listPage', $scope.queryParams2, true).then(function (res) {
+
+                        return userInfo.get('mchtBill/algoDetails/searchListPage.json', $scope.queryParams2, true).then(function (res) {
                             $scope.showSearchingAct = false;
                             $scope.isSearchedAct = true;
 
@@ -458,11 +457,11 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
 
                             if (res.object && res.object.pageData && res.object.pageData.list.length > 0) {
                                 $scope.noData2 = false;
-                                $defer.resolve(res.object.pageData.list);
+                                return res.object.pageData.list;
                             } else {
                                 $scope.noData2 = true;
                                 $scope.noDataInfo =  '暂无数据';
-                                $defer.resolve([]);
+                                return [];
                             }
                         })
                     }

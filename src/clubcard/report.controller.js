@@ -15,7 +15,7 @@ app.controller('clubcard.report.controller', function (NgTableParams, userInfo, 
         vm.ngTable.page(1);
         vm.ngTable.reload();
     }
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         if(res.code == 0 && !ws.isEmptyObj(res.object)){
             userInfo.get('memberCards').then(function (res) {

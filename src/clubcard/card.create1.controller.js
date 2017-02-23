@@ -25,7 +25,7 @@
     }
 
     vm.create.dateType = vm.create.date_info.type || 'DATE_TYPE_FIX_TIME_RANGE';//若第一次创建则默认设置该值
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         //处理info接口获取不到商户name,logo及类目的情况
         if(vm.user.weixinType == 1 && vm.user.authStatus == 1 && vm.user.authorizerAppid){

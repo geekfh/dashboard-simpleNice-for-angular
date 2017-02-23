@@ -1,0 +1,17 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "totalPage": 1,
+    "page": 1,
+    "totalRows": 1,
+    "rows": 10,
+    "list": [
+      {
+        "address": "三间房乡西柳村中街（三间房动漫集中办公区1856号）",
+        "storeName": "北京博付通信息科技有限公司",
+        "merchantNo": "015110197174600"
+      }
+    ]
+  }
+}

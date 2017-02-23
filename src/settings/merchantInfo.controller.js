@@ -38,7 +38,7 @@ app.controller("merchantInfoController",function($scope, $timeout, $mdDialog, tp
         userInfo.getWigets().then(function(res){
             $rootScope.powers = res;
             if($rootScope.powers.indexOf('settings.merchantInfo_brand.logo.update') >　-1){
-                userInfo.get('merchant/info').then(function(res) {
+                userInfo.get('mcht/info.json').then(function(res) {
                     $scope.wxchatData = res.object;
                     if($scope.wxchatData.weixinType == 1 && $scope.wxchatData.authStatus == 1 ){
                         $scope.canEdit = false;
@@ -50,7 +50,7 @@ app.controller("merchantInfoController",function($scope, $timeout, $mdDialog, tp
             }
         })
     }else if($rootScope.powers.indexOf('settings.merchantInfo_brand.logo.update') >　-1){
-        userInfo.get('merchant/info').then(function(res) {
+        userInfo.get('mcht/info.json').then(function(res) {
             $scope.wxchatData = res.object;
             if($scope.wxchatData.weixinType == 1 && $scope.wxchatData.authStatus == 1 ){
                 $scope.canEdit = false;
@@ -91,7 +91,7 @@ app.controller("merchantInfoController",function($scope, $timeout, $mdDialog, tp
         var formData = new FormData();
         formData.append('brandName', $scope.basicInfo.brandMchtName);
 
-        userInfo.post('merchant/info', formData, '',true).then(function(res){
+        userInfo.post('mcht/info.json', formData, '',true).then(function(res){
             if(res.code == '0')
                 ws.alert({msg:'修改成功'});
         })
@@ -159,7 +159,7 @@ app.controller("merchantInfoController",function($scope, $timeout, $mdDialog, tp
 
     //查询分组
     $scope.showGroup = function(){
-        userInfo.get('/mchtGroup/listAll').then(function(res){
+        userInfo.get('/mchtGroup/listAll.json').then(function(res){
             $scope.groupList = res.object;
             if($scope.groupList.length > 0)
                 $scope.groupList.unshift({"groupId": "", "groupName": "所有分组"});
@@ -178,7 +178,7 @@ app.controller("merchantInfoController",function($scope, $timeout, $mdDialog, tp
         if(query == null){
             deferred.resolve([]);
         }else{
-            userInfo.get('mcht/listByName', {mchtName: query,mchtStatus:3}, true).then(function(res){
+            userInfo.get('mcht/listByName.json', {mchtName: query,mchtStatus:3}, true).then(function(res){
                 deferred.resolve(res.object);
                 if(res.object &&　res.object.length == 1){
                     $scope.queryParams.mchtNo = res.object[0].mchtNo;

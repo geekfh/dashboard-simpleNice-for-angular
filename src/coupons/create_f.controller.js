@@ -9,7 +9,7 @@ app.controller('coupons.create_f.controller', ['coupons.create.service', '$rootS
     //获取logo和商户名
     vm.user = {};
     vm.pic = {};
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         //处理info接口获取不到商户name,logo及类目的情况
         if(vm.user.weixinType == 1 && vm.user.authStatus == 1 && vm.user.authorizerAppid){

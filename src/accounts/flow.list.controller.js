@@ -82,7 +82,7 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
 
         if(type == '3'){
             //请求接口获取门店所有分组
-            userInfo.get('/mchtGroup/listAll').then(function(res){
+            userInfo.get('/mchtGroup/listAll.json').then(function(res){
                 $scope.groupList = res.object;
                 if($scope.groupList.length < 1)
                     $scope.groupList.unshift({"groupId": "", "groupName": "暂无分组"});
@@ -95,8 +95,8 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
     //品牌登录-帧听商户ID发生变化时，搜索收银员列表
     $scope.$watch('queryParams1.mchtNo', function(current){
         if(current){
-            userInfo.get('mchtUser/listByMchtNo', {mchtNo: current},true).then(function (res) {
-                console.log('listByMchtNo');
+            userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: current},true).then(function (res) {
+                console.log('listByMchtNo.json');
                 $scope.cashierList = res.object.list;
                 if($scope.cashierList.length > 0){
                     $scope.cashierList.unshift({userId:0, userName:"所有收银员"});
@@ -122,7 +122,7 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
         if(query == null){
             deferred.resolve([]);
         }else{
-            userInfo.get('mcht/listByName', {mchtName: query,mchtStatus:3}, true).then(function(res){/**/
+            userInfo.get('mcht/listByName.json', {mchtName: query,mchtStatus:3}, true).then(function(res){/**/
                 deferred.resolve(res.object);
                 if(res.object &&　res.object.length == 1){
                     $scope.queryParams1.mchtNo = res.object[0].mchtNo;
@@ -278,11 +278,11 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
             $scope.ngTable1 = new NgTableParams(
                 {page: 1, count: 10, name: 'table1'},
                 {
-                    getData: function($defer, params) {
+                    getData: function(params) {
                         $scope.queryParams1.page = params.page();
                         $scope.queryParams1.rows = params.count();
-                        console.log($scope.queryParams1)
-                        userInfo.get('mchtBill/tredeWater/listPage', $scope.queryParams1, true).then(function (res) {
+
+                        return userInfo.get('mchtBill/tradeWater/listPage.json', $scope.queryParams1, true).then(function (res) {
                             $scope.isSearched = true;
                             $scope.showSearching = false;
 
@@ -301,13 +301,13 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
 
                             if (res.object && res.object.pageData && res.object.pageData.list.length > 0) {
                                 $scope.noData1 = false;
-                                $defer.resolve(res.object.pageData.list);
+                                return res.object.pageData.list;
                             } else {
                                 $scope.noData1 = true;
                                 $scope.noDataInfo1 =  '暂无数据';
-                                $defer.resolve([]);
                                 $scope.totalCnt1 = 0;
                                 $scope.totalAmt1 = 0;
+                                return [];
                             }
                         })
                     }
@@ -325,10 +325,11 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
             $scope.ngTable2 = new NgTableParams(
                 {page: 1, count: 10, name: 'table2'},
                 {
-                    getData: function($defer, params) {
+                    getData: function(params) {
                         $scope.queryParams2.page = params.page();
                         $scope.queryParams2.rows = params.count();
-                        userInfo.get('mchtBill/tredeWater/acListPage', $scope.queryParams2, true).then(function (res) {
+
+                        return userInfo.get('mchtBill/tradeWater/acListPage.json', $scope.queryParams2, true).then(function (res) {
                             $scope.isSearchedAct = true;
                             $scope.showSearchingAct = false;
                             if (res.object){
@@ -345,13 +346,13 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
                             }
                             if (res.object && res.object.pageData && res.object.pageData.list.length > 0) {
                                 $scope.noData2 = false;
-                                $defer.resolve(res.object.pageData.list);
+                                return res.object.pageData.list;
                             } else {
                                 $scope.noData2 = true;
                                 $scope.noDataInfo2 = '暂无数据';
-                                $defer.resolve([]);
                                 $scope.totalCnt2 = 0;
                                 $scope.totalAmt2 = 0;
+                                return [];
                             }
                         })
                     }
@@ -376,7 +377,7 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
     function getExcel(noData, queryParams, downloading, downloadTip){
         if(noData) return ws.alert({msg: '暂无数据可供下载'});
         var times = 0,fileArr = [];
-        userInfo.get('mchtBill/tredeWater/download',queryParams, true).then(function(res){
+        userInfo.get('mchtBill/tradeWater/download',queryParams, true).then(function(res){
             downloading == 1 ? $scope.downloading1 = true : $scope.downloading2 = true;
             downloadTip == 1 ? $scope.downloadTip1 = "正在下载..." : $scope.downloadTip2 = "正在下载...";
             var timeInterval = setInterval(function(){
@@ -420,8 +421,8 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
 
                     if($rootScope.userInfo){
                          mchtNo = $rootScope.userInfo.mchtNo;
-                        userInfo.get('mchtUser/listByMchtNo', {mchtNo: mchtNo},true).then(function (res) {
-                            console.log('listByMchtNo');
+                        userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: mchtNo},true).then(function (res) {
+                            console.log('listByMchtNo.json');
                             $scope.cashierList = res.object.list;
                             if($scope.cashierList.length > 0){
                                 $scope.cashierList.unshift({userId:0, userName:"所有收银员"});
@@ -434,8 +435,8 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
                     }else{
                         userInfo.getUser().then(function(res){
                              mchtNo = res.object.mchtNo;
-                            userInfo.get('mchtUser/listByMchtNo', {mchtNo: mchtNo},true).then(function (res) {
-                                console.log('listByMchtNo');
+                            userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: mchtNo},true).then(function (res) {
+                                console.log('listByMchtNo.json');
                                 $scope.cashierList = res.object.list;
                                 if($scope.cashierList.length > 0){
                                     $scope.cashierList.unshift({userId:0, userName:"所有收银员"});
@@ -453,8 +454,8 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
         }else if($rootScope.powers.indexOf('accounts.flow.list_store.list') < 0){
             if($rootScope.userInfo){
                 mchtNo = $rootScope.userInfo.mchtNo;
-                userInfo.get('mchtUser/listByMchtNo', {mchtNo: mchtNo},true).then(function (res) {
-                    console.log('listByMchtNo');
+                userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: mchtNo},true).then(function (res) {
+                    console.log('listByMchtNo.json');
                     $scope.cashierList = res.object.list;
                     if($scope.cashierList.length > 0){
                         $scope.cashierList.unshift({userId:0, userName:"所有收银员"});
@@ -467,8 +468,8 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
             }else{
                 userInfo.getUser().then(function(res){
                     mchtNo = res.object.mchtNo;
-                    userInfo.get('mchtUser/listByMchtNo', {mchtNo: mchtNo},true).then(function (res) {
-                        console.log('listByMchtNo');
+                    userInfo.get('mchtUser/listByMchtNo.json', {mchtNo: mchtNo},true).then(function (res) {
+                        console.log('listByMchtNo.json');
                         $scope.cashierList = res.object.list;
                         if($scope.cashierList.length > 0){
                             $scope.cashierList.unshift({userId:0, userName:"所有收银员"});

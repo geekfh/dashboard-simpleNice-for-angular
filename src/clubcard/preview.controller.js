@@ -1,7 +1,7 @@
 app.controller('card.preview.controller', function ($state, $rootScope, tplUrl, $scope, userInfo, ws, $sce ,$mdDialog) {
     var vm = this;
     
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.User = res.object;
         var primaryCategoryId, secondaryCategoryId;  
         primaryCategoryId = vm.User.primaryCategoryId;

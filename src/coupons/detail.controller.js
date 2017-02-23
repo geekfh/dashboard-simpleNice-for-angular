@@ -4,7 +4,7 @@ app.controller('coupons.detail.controller', function(NgTableParams, $state, $sco
     vm.isDetail = true;
 
     
-    userInfo.get('cards/' + $state.params.cid, {}).then(function(res){
+    userInfo.get('cards/details.json').then(function(res){
         vm.preview = res.object.card;
         vm.preview.poi = res.object.poi;
         vm.validity = {};

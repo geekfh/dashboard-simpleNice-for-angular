@@ -1,0 +1,31 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "totalPage": 1,
+    "totalRows": 1,
+    "page": 1,
+    "list": [
+      {
+        "cardId": "pR2IwwXm-b5qRMhR80gtZSuLsC_0",
+        "cardType": "DISCOUNT",
+        "baseInfo": {
+          "cardId": "pR2IwwXm-b5qRMhR80gtZSuLsC_0",
+          "logoUrl": "http://mmbiz.qpic.cn/mmbiz/8jpjiboYjCWuzWPTF80NgLpsJmE4DDgRqOlHwUb1snR3QV59FaBiatiabqf7YvV2ibe9HyFxxuTw1lyYKWhhNpS4QQ/0?wx_fmt=jpeg",
+          "brandName": "北京博付通科技",
+          "title": "此折扣劵可享8折",
+          "subTitle": "null",
+          "color": "#63b359",
+          "quantity": 997,
+          "dateInfoType": "DATE_TYPE_FIX_TIME_RANGE",
+          "beginTimestamp": "2016-08-30",
+          "endTimestamp": "2016-09-30",
+          "fixedTerm": 30,
+          "fixedBeginTerm": 0,
+          "status": "CARD_STATUS_EXPIRED",
+          "type": "1"
+        }
+      }
+    ]
+  }
+}

@@ -51,7 +51,7 @@ app.controller('detailController', function (NgTableParams, $scope, userInfo, $d
 
 	if($stateParams.id){
 		//查看员工信息接口
-		userInfo.get('mchtUser/get/' + $stateParams.id).then(function(res){
+		userInfo.get('mchtUser/details.json').then(function(res){
 			$scope.queryParams.userId = res.object.userId;
 			$scope.queryParams.userName = res.object.userName;
 			$scope.loginPrefix =  res.object.loginAccount.split('@')[0];
@@ -154,7 +154,7 @@ app.controller('detailController', function (NgTableParams, $scope, userInfo, $d
 		if(text == null){
 			deferred.resolve([]);
 		}else{
-			userInfo.get('mcht/listByName', {mchtName: text, mchtStatus: 2}, true).then(function(res){
+			userInfo.get('mcht/listByName.json', {mchtName: text, mchtStatus: 2}, true).then(function(res){
 				deferred.resolve(res.object);
 			})
 		}

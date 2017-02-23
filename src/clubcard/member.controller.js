@@ -5,7 +5,7 @@ app.controller('clubcard.member.controller', function (NgTableParams, $state, $d
     vm.start = true;
     //会员卡数据
     vm.memberCard = {};
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         if(res.code == 0 && !ws.isEmptyObj(res.object)){
             userInfo.get('memberCards').then(function (res) {

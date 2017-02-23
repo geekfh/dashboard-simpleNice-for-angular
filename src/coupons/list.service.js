@@ -4,7 +4,7 @@ app.service('coupons.list.service', ['$http', '$timeout', 'baseUrl', 'User','$md
 
     this.getCards = function(params){
 
-        return $http.get(baseUrl + 'cards/', {params: params}).then(function(res){
+        return $http.get(baseUrl + 'cards/searchList.json').then(function(res){
             if(res.data.code == -502){
                 return window.location.href = 'index.html#/login';
             }

@@ -2,7 +2,7 @@ app.service('app.common.service', function($http, baseUrl, User, userInfo, $q,$r
     var _this = this;
     
     this.getColor = function(){
-        return $http.get(baseUrl + 'colors').then(function(res){
+        return $http.get(baseUrl + 'colors.json').then(function(res){
             return res.data.object;
         });
     };
@@ -10,7 +10,7 @@ app.service('app.common.service', function($http, baseUrl, User, userInfo, $q,$r
     this.getCategory = function(){
         var deferred = $q.defer();
         if(_this.categorys.length) deferred.resolve(_this.categorys);
-        else $http.get(baseUrl + 'merchant/category').then(function(res){
+        else $http.get(baseUrl + 'merchant/category.json').then(function(res){
             res.data = ws.changeRes(res.data);
             _this.categorys = res.data.object.category || [];
             deferred.resolve(res.data.object.category);
@@ -33,7 +33,7 @@ app.service('app.common.service', function($http, baseUrl, User, userInfo, $q,$r
 
         var card_able_arr = str_card.split('、');
         var primaryCategoryId, secondaryCategoryId, name;
-        userInfo.get('merchant/info').then(function(res){
+        userInfo.get('mcht/info.json').then(function(res){
             primaryCategoryId = res.object.primaryCategoryId;
             secondaryCategoryId = res.object.secondaryCategoryId;  
 
@@ -64,7 +64,7 @@ app.service('app.common.service', function($http, baseUrl, User, userInfo, $q,$r
     };
 
     this.checkAuthority = function () {
-        return $http.get(baseUrl + 'merchant/authority').then(function(res){
+        return $http.get(baseUrl + 'merchant/authority.json').then(function(res){
             return res.data;
         })
     };
@@ -97,7 +97,7 @@ app.service('app.common.service', function($http, baseUrl, User, userInfo, $q,$r
     this.getCategory = function(){
         var deferred = $q.defer();
         if(self.categorys.length) deferred.resolve(self.categorys);
-        else $http.get(baseUrl + 'merchant/category').then(function(res){
+        else $http.get(baseUrl + 'merchant/category.json').then(function(res){
             res.data = ws.changeRes(res.data);
             self.categorys = res.data.object.category || [];
             deferred.resolve(res.data.object.category);
@@ -150,7 +150,7 @@ app.service('app.common.service', function($http, baseUrl, User, userInfo, $q,$r
         if(!ws.isEmptyObj(self.user)){
             deferred.resolve(self.user);
         }else{
-            $http.get(baseUrl + 'merchant/info').then(function(res){
+            $http.get(baseUrl + 'mcht/info.json').then(function(res){
                 ws.successback(res.data, function () {
                     self.user = res.data;
                     deferred.resolve(res.data);

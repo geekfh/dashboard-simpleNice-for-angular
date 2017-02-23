@@ -1,7 +1,7 @@
 app.controller('wxchatController', ['app.common.service','$scope','userInfo','$state','$rootScope','$mdDialog','tplUrl',
     function (Service,$scope, userInfo, $state, $rootScope,$mdDialog,tplUrl) {
     $scope.category = {};
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
     	$scope.wxchatData = res.object;
         if($scope.wxchatData.authStatus == 1 && $scope.wxchatData.businessInfo && $scope.wxchatData.businessInfo.open_card == 0)
             return ws.alert({msg:'您授权公众号未开通卡卷权限，请开通卡卷权限后进行重新授权',time:5000});
@@ -60,7 +60,7 @@ app.controller('wxchatController', ['app.common.service','$scope','userInfo','$s
     $scope.finish = function(){
         if(!$scope.categories.length) return ws.alert({msg: '请选择类目'});
 
-        userInfo.post('merchant/category', {primary_category_id: $rootScope.primary_category_id, secondary_category_id: $rootScope.secondary_category_id}).then(function(res){ 
+        userInfo.post('merchant/category.json', {primary_category_id: $rootScope.primary_category_id, secondary_category_id: $rootScope.secondary_category_id}).then(function(res){
             $scope.category = {primary: $rootScope.primary_category_id, secondary: $rootScope.secondary_category_id};
             $scope.editCate = false;
             ws.alert({msg: '修改成功'});

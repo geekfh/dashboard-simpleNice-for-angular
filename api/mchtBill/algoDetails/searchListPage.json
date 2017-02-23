@@ -1,0 +1,41 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "pageData": {
+      "list": [
+        {
+          "txAmt": "14000",
+          "txTime": "2017-02-14 15:15:20",
+          "txDate": "20170214",
+          "txCode": "00",
+          "chaCode": "1",
+          "paymentMethodName": "刷卡",
+          "settleCycle": "T+1",
+          "settleMode": "0",
+          "origFeeAmt": "91",
+          "feeAmt": "91",
+          "freeFeeAmt": "0",
+          "settleAmt": "13909",
+          "mchtServeFee": "0",
+          "snNo": "018300022182",
+          "transNo": "833028749176033429",
+          "mchtNo": "015110197174600",
+          "mchtName": "北京博付通信息科技有限公司",
+          "userName": "楚坤",
+          "userId": "882408322",
+          "cardType": "贷记卡",
+          "settleType": "刷卡",
+          "settleStatus": "",
+          "settleCardNo": ""
+        }
+      ],
+      "page": 1,
+      "rows": 10,
+      "totalRows": 3,
+      "totalPage": 1,
+      "hasNextPage": false,
+      "hasPreviousPage": true
+    }
+  }
+}

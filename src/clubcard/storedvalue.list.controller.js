@@ -84,7 +84,7 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
         if(type == '3'){
             //请求接口获取门店所有分组
             if(!$scope.groupList){
-                userInfo.get('/mchtGroup/listAll').then(function(res){
+                userInfo.get('/mchtGroup/listAll.json').then(function(res){
                     $scope.groupList = res.object;
                     if($scope.groupList.length < 1)
                         $scope.groupList.unshift({"groupId": "", "groupName": "暂无分组"});
@@ -100,7 +100,7 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
         if(type == '3'){
             //请求接口获取门店所有分组
             if(!$scope.groupList){
-                userInfo.get('/mchtGroup/listAll').then(function(res){
+                userInfo.get('/mchtGroup/listAll.json').then(function(res){
                     $scope.groupList = res.object;
                     if($scope.groupList.length < 1)
                         $scope.groupList.unshift({"groupId": "", "groupName": "暂无分组"});
@@ -116,7 +116,7 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
         if(query == null){
             deferred.resolve([]);
         }else{
-            userInfo.get('mcht/listByName', {mchtName: query,mchtStatus:3}, true).then(function(res){/**/
+            userInfo.get('mcht/listByName.json', {mchtName: query,mchtStatus:3}, true).then(function(res){/**/
                 deferred.resolve(res.object);
                 if(res.object &&　res.object.length == 1){
                     $scope.queryParams1.mchtNo = res.object[0].mchtNo;
@@ -147,7 +147,7 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
         if(query == null){
             deferred.resolve([]);
         }else{
-            userInfo.get('mcht/listByName', {mchtName: query,mchtStatus:3}, true).then(function(res){/**/
+            userInfo.get('mcht/listByName.json', {mchtName: query,mchtStatus:3}, true).then(function(res){/**/
                 deferred.resolve(res.object);
                 if(res.object &&　res.object.length == 1){
                     $scope.queryParams2.mchtNo = res.object[0].mchtNo;

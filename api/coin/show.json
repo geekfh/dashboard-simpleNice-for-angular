@@ -1,0 +1,14 @@
+{
+  "reward": null,
+  "order_id": null,
+  "price": null,
+  "free_coin": "100",
+  "pay_coin": "0",
+  "total_coin": "100",
+  "card_id": null,
+  "quantity": null,
+  "qrcode_url": null,
+  "result": null,
+  "code": 0.0,
+  "message": "ok"
+}

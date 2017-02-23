@@ -8,7 +8,7 @@ app.controller('autoCoupon.rule.controller',['$scope', 'coupons.list.service', '
     vm.queryParams = {}; //type: 3-新会员营销，4-濒临流失会员营销，5-消费次数奖励营销
 
     //首先判断是否授权微信公众账号，若授权则页面不显示新会员营销,默认显示濒临流失会员营销
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         if(vm.user.authStatus && vm.user.authStatus == '1'){
 

@@ -6,7 +6,7 @@ app.controller('coupons.edit_f.controller', ['coupons.create.service', '$rootSco
     vm.validity = {};
     //获取logo和商户名
     vm.user = {};
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
     });
     if(ws.isEmptyObj(userInfo.data)){

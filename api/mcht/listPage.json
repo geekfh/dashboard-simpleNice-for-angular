@@ -1,0 +1,25 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "list": [
+      {
+        "mchtId": 2655656,
+        "mchtNo": "015110197174600",
+        "mchtStatus": "0",
+        "mchtName": "北京博付通信息科技有限公司",
+        "groupName": "",
+        "businessStatus": "1",
+        "wxSyncStatus": "1",
+        "t0Flag": true,
+        "s0Flag": true
+      }
+    ],
+    "page": 1,
+    "rows": 10,
+    "totalRows": 1,
+    "totalPage": 1,
+    "hasNextPage": false,
+    "hasPreviousPage": true
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "id": 6884.0,
+    "merchantId": null,
+    "brandName": "北京博付通科技",
+    "s300LogoUrl": "http://7xodq9.com2.z0.glb.qiniucdn.com/logo1472543804979.jpg",
+    "wechatLogoUrl": "http://mmbiz.qpic.cn/mmbiz/8jpjiboYjCWuzWPTF80NgLpsJmE4DDgRqOlHwUb1snR3QV59FaBiatiabqf7YvV2ibe9HyFxxuTw1lyYKWhhNpS4QQ/0?wx_fmt=jpeg",
+    "primaryCategoryId": 11.0,
+    "secondaryCategoryId": 1101.0,
+    "s300ProtocolUrl": null,
+    "wechatProtocolUrl": null,
+    "s300AgreementUrl": null,
+    "wechatAgreementId": null,
+    "s300OpertorMediaUrl": null,
+    "wechatOpertorMediaId": null,
+    "createTime": "20160727-18:33:55",
+    "endTime": null,
+    "status": "APPROVED",
+    "updateTime": "20160830-15:56:44",
+    "pmpMobile": "18611546787",
+    "pmpMerchantNo": "015110197174600",
+    "pmpMerchantId": null,
+    "userId": null,
+    "primaryCategoryName": null,
+    "secondaryCategoryName": null,
+    "authorizerAppid": "wxb30ffb8748bacd67",
+    "weixinType": "1",
+    "authStatus": "1",
+    "reasonCode": null,
+    "nickName": "博付通科技",
+    "serviceTypeInfo": 1.0,
+    "verifyTypeInfo": 0.0,
+    "userName": "gh_c588139b7268",
+    "alias": "beijingbofutong",
+    "qrcodeUrl": "http://mmbiz.qpic.cn/mmbiz/8jpjiboYjCWv52raro493vgsXJkP1cQ0Pf6UlPx9qyEb98IYwLc5r4WccibHBVUxrbA71wsGQLZxyj4KRuejXuwQ/0",
+    "reason": null,
+    "coinType": "1",
+    "canFriendCard": null,
+    "canMemberCard": null,
+    "picUrl": null,
+    "description": null,
+    "editFlag": "0",
+    "businessInfo": {
+      "open_pay": 0.0,
+      "open_card": 1.0,
+      "open_scan": 0.0,
+      "open_store": 1.0,
+      "open_shake": 0.0
+    },
+    "funcInfo": [
+      {
+        "funcscope_category": {
+          "id": 7
+        }
+      },
+      {
+        "funcscope_category": {
+          "id": 2
+        }
+      },
+      {
+        "funcscope_category": {
+          "id": 8
+        },
+        "confirm_info": {
+          "need_confirm": 1,
+          "can_confirm": 1,
+          "already_confirm": 0
+        }
+      },
+      {
+        "funcscope_category": {
+          "id": 13
+        }
+      }
+    ]
+  }
+}

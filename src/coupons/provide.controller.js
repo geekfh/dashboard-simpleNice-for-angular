@@ -64,7 +64,7 @@ app.controller('coupons.provide.controller', function (userInfo, NgTableParams, 
                 getProviders();
             }else{
                 vm.pois = [];
-                userInfo.get('poi/store/list', params, true).then(function(res){/*cards/store/list*/
+                userInfo.get('poi/store/list.json', params, true).then(function(res){/*cards/store/list*/
                     vm.pois = res.object.list;
                     //vm.pois.unshift({'pmpMerchantNo': '', 'storeName': '全部门店'});
                 });

@@ -14,7 +14,7 @@ app.controller('coupons.create.controller', ['coupons.create.service', '$rootSco
     //获取logo和商户名
     vm.user = {};
     vm.pic = {};
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         //处理info接口获取不到商户name,logo及类目的情况
         if(vm.user.weixinType == 1 && vm.user.authStatus == 1 && vm.user.authorizerAppid){
@@ -31,7 +31,7 @@ app.controller('coupons.create.controller', ['coupons.create.service', '$rootSco
     
     if($rootScope.isEdit){
         isEdit = true;
-        userInfo.get('cards/' + $state.params.cid).then(function(res){
+        userInfo.get('cards/searchList.json').then(function(res){
             data = res.object;
             init();
         });
@@ -169,7 +169,7 @@ app.controller('coupons.create.controller', ['coupons.create.service', '$rootSco
                 vm.coupon.baseInfo.canShare = '1';
             }
         }else{
-            userInfo.get('merchant/info').then(function(res){
+            userInfo.get('mcht/info.json').then(function(res){
                 vm.user = res.object;
                 if(vm.user.weixinType == 1 && vm.user.authStatus == 1){
                     vm.coupon.baseInfo.canGiveFriend = '1';

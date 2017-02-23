@@ -7,7 +7,7 @@ app.controller('coupons.send.controller', ['coupons.list.service','NgTableParams
     vm.queryParams.type = '1';  //默认显示关注微信公众号派券页面 1-微信派券；2-小票派券
     vm.showWechatRule = true;  //未避免页面闪动默认显示规则页面
     //首先判断是否授权微信公众账号，若授权则页面显示关注微信派券，若未授权则页面显示小票派券
-    userInfo.get('merchant/info').then(function(res){
+    userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         if(vm.user.authStatus && vm.user.authStatus == '1'){
             vm.queryParams.type = '1';
@@ -21,7 +21,7 @@ app.controller('coupons.send.controller', ['coupons.list.service','NgTableParams
     });
     //调接口判断是否开启微信和小票派券功能控制页面显示
     function initPage(){
-        userInfo.get('cards/grant/check',{ type:vm.queryParams.type }, true).then(function(res){
+        userInfo.get('cards/grant/check.json',{ type:vm.queryParams.type }, true).then(function(res){
             //微信
             if(vm.queryParams.type == '1'){
                 vm.isOpeningWechat = res.object;

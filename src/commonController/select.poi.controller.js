@@ -7,7 +7,7 @@ app.controller('select.poi.controller', function ($scope, $rootScope, NgTablePar
             getData: function($defer, params) {
                 $scope.queryParams.page = params.page();
                 $scope.queryParams.rows = params.count();
-                var url = 'poi/store/list';
+                var url = 'poi/store/list.json';
                 if(/create_f|edit_f/.test(location.href)) $scope.queryParams.type = 1;
                 userInfo.get(url, $scope.queryParams, true).then(function(res){
                     $scope.start = true;
@@ -46,7 +46,7 @@ app.controller('select.poi.controller', function ($scope, $rootScope, NgTablePar
         //获取门店所有分组
         if(selectedType == 2){
             $scope.queryParams.storeName = '';
-            userInfo.get('mchtGroup/listAll').then(function(res){
+            userInfo.get('mchtGroup/listAll.json').then(function(res){
                 $scope.storeGroupList = res.object;
                 if(!res.object.length){
                     $scope.storeGroupList.unshift({groupId: '', groupName: '暂无分组'})

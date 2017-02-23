@@ -47,7 +47,7 @@ app.controller('coupons.report.controller', ['coupons.report.service', '$state',
         });
         vm.pois = [];
         if($rootScope.powers && $rootScope.powers.indexOf('coupons.report_store.list') >= 0){
-            userInfo.get('poi/store/list',params,true).then(function(res){
+            userInfo.get('poi/store/list.json',params,true).then(function(res){
                 vm.pois = res.object.list;
                 //vm.pois.unshift({'merchantNo': '', 'storeName': '全部门店'});
             }); 
@@ -56,14 +56,14 @@ app.controller('coupons.report.controller', ['coupons.report.service', '$state',
         vm.ngTable = new NgTableParams(
             { page: 1, count: 10 },
             {
-                getData: function ($defer, params) {
+                getData: function (params) {
                     searching = true;
                     vm.queryParams.page = params.page();
                     vm.queryParams.rows = params.count();
                     vm.queryParams.beginDate = $filter('date')($scope.date.begin, 'yyyy-MM-dd');
                     vm.queryParams.endDate = $filter('date')($scope.date.end, 'yyyy-MM-dd');
-                    console.log(vm.queryParams);
-                    Service.getReport(vm.selected, vm.queryParams).then(function (res) {
+
+                    return Service.getReport(vm.selected, vm.queryParams).then(function (res) {
                         params.total(res.object.totalRows);
                         if ( res.code == 0 ) {
                             if ( res.object.list.length ) {
@@ -73,17 +73,15 @@ app.controller('coupons.report.controller', ['coupons.report.service', '$state',
                                     item.statisticDate = item.statisticDate.replace(/(\d{2})(?=\d)/g, '$1-');
                                     item.statisticDate = item.statisticDate.replace(/\-/, '');
                                 })*/
-                                $defer.resolve(res.object.list)
+                                return res.object.list;
                             } else {
                                 vm.noData = '暂无数据';
-                                $defer.resolve([]);
                             }
                         } else {
-                            $defer.resolve([]);
                             vm.noData = res.msg || '暂无数据';
                         }
-
                         searching = false;
+                        return [];
                     })
                 }
             }

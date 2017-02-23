@@ -114,7 +114,7 @@ app.controller('dealMgrController', function ($scope, userInfo, $date, $mdDialog
     $scope.changeStoreType = function(type){
         if(type == 2){
             //请求接口获取门店所有分组
-            userInfo.get('/mchtGroup/listAll').then(function(res){
+            userInfo.get('/mchtGroup/listAll.json').then(function(res){
                 $scope.groupList = res.object;
             });
         }

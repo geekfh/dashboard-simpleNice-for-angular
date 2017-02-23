@@ -53,24 +53,25 @@ app.controller('coupons.record.controller', function (NgTableParams, $date, user
 
     function initCheck(){
         vm.ngTable1 = new NgTableParams({page: 1, count: 10},{
-            getData: function($defer, params) {
+            getData: function(params) {
                 vm.searchIng1 = true;
                 vm.queryParams1.page = params.page();
                 vm.queryParams1.rows = params.count();
-                userInfo.get('cardUsers/consume/list', vm.queryParams1, true).then(function(res){
+
+                return userInfo.get('cardUsers/list.json', vm.queryParams1, true).then(function(res){
                     params.total(res.object.totalRows);
                     vm.searchIng1 = false;
                     if(res.code == 0){
                         if(res.object.list.length){
                             vm.noData1 = false;
-                            $defer.resolve(res.object.list);
+                            return res.object.list;
                         }else{
                             vm.noData1 = res.msg || '暂无数据';
-                            $defer.resolve([]);
                         }
                     }else{
                         vm.noData1 = res.msg || '暂无数据';
                     }
+                    return [];
                 })
             }
         });
@@ -81,7 +82,7 @@ app.controller('coupons.record.controller', function (NgTableParams, $date, user
                 getProviders1();
             }else{
                 vm.pois = [];
-                userInfo.get('poi/store/list', params1, true).then(function(res){
+                userInfo.get('poi/store/list.json', params1, true).then(function(res){
                     vm.pois = res.object.list;
                     //vm.pois.unshift({'pmpMerchantNo': '', 'storeName': '全部门店'});
                 });
@@ -175,7 +176,7 @@ app.controller('coupons.record.controller', function (NgTableParams, $date, user
                 getProviders2();
             }else{
                 vm.pois = [];
-                userInfo.get('poi/store/list', params2, true).then(function(res){/*cards/store/list*/
+                userInfo.get('poi/store/list.json', params2, true).then(function(res){/*cards/store/list*/
                     vm.pois = res.object.list;
                     //vm.pois.unshift({'pmpMerchantNo': '', 'storeName': '全部门店'});
                 });

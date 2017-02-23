@@ -70,7 +70,7 @@ app.controller('balanceController', function (NgTableParams, $scope, userInfo, $
         console.log($scope.queryParams.visibleRange);*/
         //获取门店所有分组
         if(selectedType == 4){
-            userInfo.get('mchtGroup/listAll').then(function(res){
+            userInfo.get('mchtGroup/listAll.json').then(function(res){
                 $scope.storeGroupList = res.object;
                 if(!res.object.length){
                     $scope.storeGroupList.unshift({groupId: '', groupName: '暂无分组'})
@@ -207,7 +207,7 @@ app.controller('balanceController', function (NgTableParams, $scope, userInfo, $
         if(text == null){
             deferred.resolve([]);
         }else{
-            userInfo.get('mcht/listByName', {mchtName: text,mchtStatus:3}, true).then(function(res){
+            userInfo.get('mcht/listByName.json', {mchtName: text,mchtStatus:3}, true).then(function(res){
                 if(res.object.length == '1'){//用户没点击选择框时，从这里赋值用户输入的mchtNo
                     $scope.queryParams.mchtNo = res.object[0].mchtNo;
                 }else if(!res.object.length){//搜索不到门店时，清空mchtNo

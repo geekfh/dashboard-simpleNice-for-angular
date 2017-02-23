@@ -33,7 +33,7 @@ app.controller('staffController', function (NgTableParams, $scope, userInfo, $da
 			 if(text){
 				 searchCon = true;
 			 }
-		     userInfo.get('mcht/listByName', {mchtName: text, mchtStatus: 1}, true).then(function(res){
+		     userInfo.get('mcht/listByName.json', {mchtName: text, mchtStatus: 1}, true).then(function(res){
 				 if(res.object.length == '1'){//用户没点击选择框时，从这里赋值用户输入的mchtNo
 					 $scope.queryParams.mchtId = res.object[0].mchtId;
 					 $scope.queryParams.mchtNo = res.object[0].mchtNo;
@@ -79,31 +79,32 @@ app.controller('staffController', function (NgTableParams, $scope, userInfo, $da
 			$scope.ngTable = new NgTableParams(
 					{page : 1, count : 10},
 					{
-						getData : function($defer, params){
+						getData : function(params){
 							$scope.queryParams.page = params.page();
 							$scope.queryParams.rows = params.count();
-							userInfo.get('mchtUser/listPage', $scope.queryParams, true).then(function(res){
+
+							return userInfo.get('mchtUser/listPage.json', $scope.queryParams, true).then(function(res){
 								$scope.ifSearched = true;
 								if(res.object.list.length){
 									params.total(res.object.totalRows);
 									$scope.noData = false;
-									$defer.resolve(res.object.list);
+									return res.object.list;
 								} else {
-									/*$scope.noData = res.message || '暂无数据';*/
 									$scope.noData = '暂无数据';
-									$defer.resolve([]);
+									return [];
 								}
-
 							})
 						}
 					}
 			);
 		}
-	}
+	};
+
 	//$scope.search();
 	$scope.goAddStaff = function(){
 		$state.go("staff.detail", {searchText:$scope.queryParams.mchtName, mchtNo:$scope.queryParams.mchtNo})
-	}
+	};
+
 	//默认选中登录商户，并自动查询
 	userInfo.getUser().then(function(res){
 		mchtName = res.object.mchtName;
