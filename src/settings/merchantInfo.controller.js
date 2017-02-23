@@ -1,7 +1,7 @@
 /**
  * Created by xuye on 2016/7/15.
  */
-app.controller("merchantInfoController",function($scope, $timeout, $mdDialog, tplUrl, userInfo, ngTableParams, $q, $rootScope, ws, baseUrl,$http){
+app.controller("merchantInfoController",function($scope, $timeout, $mdDialog, tplUrl, userInfo, NgTableParams, $q, $rootScope, ws, baseUrl,$http){
 
     /*
      * 判断用户角色---商户用户角色如下
@@ -232,7 +232,7 @@ app.controller("merchantInfoController",function($scope, $timeout, $mdDialog, tp
             $scope.ngTable.page(1);
             $scope.ngTable.reload();
         }else{
-            $scope.ngTable = new ngTableParams(
+            $scope.ngTable = new NgTableParams(
                 {page: 1, count: 10, name: 'table1'},
                 {
                     getData: function($defer, params) {

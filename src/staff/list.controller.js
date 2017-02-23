@@ -1,4 +1,4 @@
-app.controller('staffController', function (ngTableParams, $scope, userInfo, $date, $mdDialog, tplUrl, $q, $rootScope, $alert, $state) {
+app.controller('staffController', function (NgTableParams, $scope, userInfo, $date, $mdDialog, tplUrl, $q, $rootScope, $alert, $state) {
 	//参数介绍
 	//ifList : 列表页面和详情页的开关
 	//ifModify : 详情页中“增加”和“编辑”开关
@@ -76,7 +76,7 @@ app.controller('staffController', function (ngTableParams, $scope, userInfo, $da
 			$scope.ngTable.page(1);
 			$scope.ngTable.reload();
 		}else {
-			$scope.ngTable = new ngTableParams(
+			$scope.ngTable = new NgTableParams(
 					{page : 1, count : 10},
 					{
 						getData : function($defer, params){

@@ -3,16 +3,19 @@ angular.module('App').config(['$stateProvider', '$urlRouterProvider', 'tplUrl', 
     $urlRouterProvider.when('', '/index');
     $urlRouterProvider.otherwise('/index');
 
+    // 用户登录
     $stateProvider.state('login', {
         url: '/login',
         templateUrl: tplUrl + 'tpl/login/login.html',
         controller: 'loginController'
-    })
+    });
 
+    // APP
     $stateProvider.state('app', {
-            url: '',
-            templateUrl:  tplUrl + 'tpl/common/content.html'
-        })
+        url: '',
+        templateUrl:  tplUrl + 'tpl/common/content.html'
+    })
+        // 默认首页
         .state('app.home', {
             url: '/index',
             templateUrl:  tplUrl + 'tpl/common/index.html',
@@ -21,9 +24,10 @@ angular.module('App').config(['$stateProvider', '$urlRouterProvider', 'tplUrl', 
 
     //经营分析
     $stateProvider.state('analysis', {
-            url: '/analysis',
-            templateUrl: tplUrl + 'tpl/common/content.html'
-        })
+        url: '/analysis',
+        templateUrl: tplUrl + 'tpl/common/content.html'
+    })
+        // 经营概况
         .state('analysis.overview', {
             url: '/overview',
             templateUrl: tplUrl + 'tpl/analysis/overview.html',
@@ -34,27 +38,32 @@ angular.module('App').config(['$stateProvider', '$urlRouterProvider', 'tplUrl', 
 
     //帐务查询
     $stateProvider.state('accounts', {
-            url: '/accounts',
-            from: 'accounts',
-            templateUrl: tplUrl + 'tpl/common/content.html',
-        })
+        url: '/accounts',
+        from: 'accounts',
+        templateUrl: tplUrl + 'tpl/common/content.html'
+    })
         .state('accounts.balance', {
             url: '/balance',
             from: 'accounts',
             template: '<div ui-view></div>'
         })
+
+        // 账务查询/结算记录
         .state('accounts.balance.list', {
             url: '/list',
             templateUrl: tplUrl + 'tpl/accounts/balance/list.html',
             controller: 'balanceController',
             title: '账务查询.结算记录'
         })
+
+        // 账务查询/结算记录/结算详情
         .state('accounts.balance.detail', {
             url: '/detail/:settleDate/:mchtNo/:mchtName/:ifFailed/:chaCode/:settleMcht/:mchtTraceNo',
             templateUrl: tplUrl + 'tpl/accounts/balance/detail.html',
             controller: 'balanceDetailController',
             title: '结算记录,#/accounts/balance/list.结算详情'
         })
+
         .state('accounts.details', {
             url: '/details',
             from: 'accounts',
@@ -88,6 +97,7 @@ angular.module('App').config(['$stateProvider', '$urlRouterProvider', 'tplUrl', 
             controller: 'flowController',
             title: '账务查询.交易流水'
         });
+
     //门店       
     $stateProvider.state('poi', {
             url: '/poi',

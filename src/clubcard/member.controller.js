@@ -1,4 +1,4 @@
-app.controller('clubcard.member.controller', function (ngTableParams, $state, $date, $scope, userInfo, $mdDialog, tplUrl, $sce, baseUrl, $rootScope, $http) {
+app.controller('clubcard.member.controller', function (NgTableParams, $state, $date, $scope, userInfo, $mdDialog, tplUrl, $sce, baseUrl, $rootScope, $http) {
 
     var vm = this, today = new Date(), numTime = 24 * 3600 * 1000;
     vm.queryParams = {};
@@ -20,7 +20,7 @@ app.controller('clubcard.member.controller', function (ngTableParams, $state, $d
                 }
             })
             function init(){
-                vm.ngTable = new ngTableParams(
+                vm.ngTable = new NgTableParams(
                     { page: 1, count: 10 },
                     {
                         getData: function ($defer, params) {

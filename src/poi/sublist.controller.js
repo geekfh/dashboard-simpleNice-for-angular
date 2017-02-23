@@ -1,4 +1,4 @@
-angular.module('poi.sublist', ['poi.list']).controller('poi.sublist.controller', function(ngTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout) {
+angular.module('poi.sublist', ['poi.list']).controller('poi.sublist.controller', function(NgTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout) {
 
     $scope.wxPoiInfo = {};
     $scope.noData = true;

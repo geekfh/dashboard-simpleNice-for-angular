@@ -1,4 +1,4 @@
-app.controller('coupons.report.controller', ['coupons.report.service', '$state', 'ngTableParams', 'userInfo', '$scope', '$filter', '$rootScope', function (Service, $state, ngTableParams, userInfo, $scope, $filter, $rootScope) {
+app.controller('coupons.report.controller', ['coupons.report.service', '$state', 'NgTableParams', 'userInfo', '$scope', '$filter', '$rootScope', function (Service, $state, NgTableParams, userInfo, $scope, $filter, $rootScope) {
 
     var  vm = this, searching = false, today = new Date(), numTime = 24 * 3600 * 1000;
     vm.queryParams = {};
@@ -53,7 +53,7 @@ app.controller('coupons.report.controller', ['coupons.report.service', '$state',
             }); 
         }
          
-        vm.ngTable = new ngTableParams(
+        vm.ngTable = new NgTableParams(
             { page: 1, count: 10 },
             {
                 getData: function ($defer, params) {

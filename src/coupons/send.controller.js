@@ -1,5 +1,5 @@
-app.controller('coupons.send.controller', ['coupons.list.service','ngTableParams','$date','userInfo','$scope','$filter','$rootScope','tplUrl','$mdDialog','$state',
-    function (Service, ngTableParams, $date, userInfo, $scope, $filter, $rootScope, tplUrl, $mdDialog,$state) {
+app.controller('coupons.send.controller', ['coupons.list.service','NgTableParams','$date','userInfo','$scope','$filter','$rootScope','tplUrl','$mdDialog','$state',
+    function (Service, NgTableParams, $date, userInfo, $scope, $filter, $rootScope, tplUrl, $mdDialog,$state) {
 
     var vm = this;
 
@@ -156,7 +156,7 @@ app.controller('coupons.send.controller', ['coupons.list.service','ngTableParams
         }else{
             vm.lastSelectedId = ''
         }
-        vm.ngTable1 = new ngTableParams({page: 1, count: 10},{
+        vm.ngTable1 = new NgTableParams({page: 1, count: 10},{
             getData: function($defer, params) {
                 vm.queryParams.page = params.page();
                 vm.queryParams.rows = params.count();

@@ -1,7 +1,7 @@
 /**
  * Created by xuye on 2016/11/28.
  */
-app.controller('autoCoupon.record.controller',function($scope, $state, userInfo, ngTableParams, $rootScope){
+app.controller('autoCoupon.record.controller',function($scope, $state, userInfo, NgTableParams, $rootScope){
     var vm = this;
     var type = $state.params.type;
     vm.queryParams = {};
@@ -30,7 +30,7 @@ app.controller('autoCoupon.record.controller',function($scope, $state, userInfo,
             vm.ngTable.page(1);
             vm.ngTable.reload();
         }else{
-            vm.ngTable = new ngTableParams({page: 1, count: 10},{
+            vm.ngTable = new NgTableParams({page: 1, count: 10},{
                 getData: function($defer, params) {
                     userInfo.get('cards/sendCenter/sendRecord/' + ruleId, {type : vm.queryParams.type}, true).then(function(res){
                         params.total(res.object.totalRows);

@@ -1,4 +1,4 @@
-app.controller('clubcard.report.controller', function (ngTableParams, userInfo, $filter, $state) {
+app.controller('clubcard.report.controller', function (NgTableParams, userInfo, $filter, $state) {
 
     var vm = this, today = new Date(), numTime = 24 * 3600 * 1000;
     var queryParams = vm.queryParams = {};
@@ -29,7 +29,7 @@ app.controller('clubcard.report.controller', function (ngTableParams, userInfo, 
                 }
             })
             function init(){
-                vm.ngTable = new ngTableParams(
+                vm.ngTable = new NgTableParams(
                     { page: 1, count: 10 },
                     {
                         getData: function ($defer, params) {

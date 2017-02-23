@@ -1,4 +1,4 @@
-app.controller('clubcard.detail.controller', ['NgTableParams', 'clubcard.member.service', '$state', '$date', '$timeout', function (ngTableParams, Service, $state, $date, $timeout) {
+app.controller('clubcard.detail.controller', ['NgTableParams', 'clubcard.member.service', '$state', '$date', '$timeout', function (NgTableParams, Service, $state, $date, $timeout) {
 
     var vm = this;
     entry($state.params.tel)
@@ -36,7 +36,7 @@ app.controller('clubcard.detail.controller', ['NgTableParams', 'clubcard.member.
         var queryParams = {};
 
         //Service.getMemberRecord(membershipNumber, {page:1, rows: 10}).then(function(res){
-            vm.ngTableHistory = new ngTableParams(
+            vm.ngTableHistory = new NgTableParams(
                 { page: 1, count: 10 },
                 { getData: function ($defer, params) {
                     queryParams.page = params.page();

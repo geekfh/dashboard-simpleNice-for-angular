@@ -1,4 +1,4 @@
-app.controller('coupons.detail.controller', function(ngTableParams, $state, $scope, userInfo,$date,$sce, ws){
+app.controller('coupons.detail.controller', function(NgTableParams, $state, $scope, userInfo,$date,$sce, ws){
     var vm = this;
     //用于判断mobile_view.html中如何显示
     vm.isDetail = true;

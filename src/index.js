@@ -2,7 +2,7 @@
 var app = angular.module('App', [
     'ui.router',
     'ngCookies',
-    //'ngTable',
+    'ngTable',
     'ngMaterial',
     'ngMessages',
     'sidebar',
@@ -23,8 +23,8 @@ var app = angular.module('App', [
     //'clubcard.member',
     //'clubcard.report'
 ]);
-app.constant('Special', []);
-app.run(function($rootScope, $mdSidenav, $window, $state, User, $alert, $mdDialog, userInfo, tplUrl, /*ngTableParams, */$parse, $location, ws) {
+
+app.run(function($rootScope, $mdSidenav, $window, $state, User, $alert, $mdDialog, userInfo, tplUrl, NgTableParams, $parse, $location, ws) {
     window.ws = ws;
     //判断浏览器类型
     /*alert(ws.myBrowser());*/

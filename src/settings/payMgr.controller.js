@@ -1,4 +1,4 @@
-app.controller('payMgrController', function (ngTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout, $alert, $mdDialog, User) {
+app.controller('payMgrController', function (NgTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout, $alert, $mdDialog, User) {
 	$scope.queryParams = {};
 	var searchCon = '';//搜索内容
 
@@ -69,7 +69,7 @@ app.controller('payMgrController', function (ngTableParams, $mdDialog, tplUrl, $
 			$scope.ngTable.page(1);
 			$scope.ngTable.reload();
 		}else {
-			$scope.ngTable = new ngTableParams(
+			$scope.ngTable = new NgTableParams(
 					{page : 1, count : 10},
 					{
 						getData : function($defer, params){

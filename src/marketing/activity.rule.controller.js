@@ -1,7 +1,7 @@
 /**
  * Created by xuye on 2016/11/28.
  */
-app.controller('activity.rule.controller', ['ngTableParams', '$scope', 'userInfo', '$alert', 'coupons.list.service', 'ws', '$mdDialog', 'tplUrl', '$state', function(ngTableParams, $scope, userInfo, $alert, Service, ws, $mdDialog, tplUrl, $state){
+app.controller('activity.rule.controller', ['NgTableParams', '$scope', 'userInfo', '$alert', 'coupons.list.service', 'ws', '$mdDialog', 'tplUrl', '$state', function(NgTableParams, $scope, userInfo, $alert, Service, ws, $mdDialog, tplUrl, $state){
 	var initRulePage = function(){
 		$scope.markingParams = {};
 		$scope.markingParams.consumeTimes = {};

@@ -1,7 +1,7 @@
 /**
  * Created by xuye on 2016/7/19.
  */
-app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $date, $mdDialog, tplUrl, $log, $q, ngTableParams, downloadFile,$rootScope,$http,baseUrl) {
+app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $date, $mdDialog, tplUrl, $log, $q, NgTableParams, downloadFile,$rootScope,$http,baseUrl) {
     $scope.date1 = {};
     $scope.date2 = {};
     var today = new Date();
@@ -283,7 +283,7 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
             $scope.ngTable1.page(1);
             $scope.ngTable1.reload();
         }else{
-            $scope.ngTable1 = new ngTableParams(
+            $scope.ngTable1 = new NgTableParams(
                 {page: 1, count: 10, name: 'table1'},
                 {
                     getData: function($defer, params) {
@@ -336,7 +336,7 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
             $scope.ngTable2.page(1);
             $scope.ngTable2.reload();
         }else{
-            $scope.ngTable2 = new ngTableParams(
+            $scope.ngTable2 = new NgTableParams(
                 {page: 1, count: 10, name: 'table2'},
                 {
                     getData: function($defer, params) {

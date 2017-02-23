@@ -1,7 +1,7 @@
-app.controller('select.poi.controller', function ($scope, $rootScope, ngTableParams, $mdDialog, userInfo, $q) {
+app.controller('select.poi.controller', function ($scope, $rootScope, NgTableParams, $mdDialog, userInfo, $q) {
     $scope.queryParams = {};
     var pageData;
-    $scope.ngTable = new ngTableParams(
+    $scope.ngTable = new NgTableParams(
         {page: 1, count: 10},
         {
             getData: function($defer, params) {

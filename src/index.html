@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../bower_components/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="../bower_components/angular-material/layouts/angular-material.layouts.min.css">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../bower_components/ng-table/dist/ng-table.min.css">
+    <link rel="stylesheet" href="../node_modules/ng-table/bundles/ng-table.min.css">
     <!--endbuild-->
     
     <!--build:css static/style/app.css-->
@@ -44,7 +44,7 @@
 <script src="../bower_components/angular-messages/angular-messages.js"></script>
 <script src="../bower_components/angular-animate/angular-animate.js"></script>
 <script src="../bower_components/angular-aria/angular-aria.min.js"></script>
-<script src="../bower_components/ng-table/dist/ng-table.js"></script>
+<script src="../node_modules/ng-table/bundles/ng-table.js"></script>
 <script src="../bower_components/angular-cookies/angular-cookies.min.js"></script>
 <script src="../bower_components/echarts/dist/echarts.js"></script>
 <!--endbuild-->
@@ -144,11 +144,10 @@
 
 <!-- <script src="../build/static/script/templates.js"></script> -->
 <script>
-
     angular.module('App').value('User', {});
+    angular.module('App').constant('Special', []);
     angular.module('App').constant('tplUrl', '');
     angular.module('App').constant('baseUrl', '/simpleNice/api/');
-
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-app.controller('balanceDetailController', function (ngTableParams, $scope, userInfo, $date, $stateParams) {
+app.controller('balanceDetailController', function (NgTableParams, $scope, userInfo, $date, $stateParams) {
     $scope.date = {};
     $scope.queryParams = {};
     $scope.queryParams.settleDate = $stateParams.settleDate;
@@ -55,7 +55,7 @@ app.controller('balanceDetailController', function (ngTableParams, $scope, userI
     //测试参数
 /*    $scope.queryParams.settleDate = '20160629';
     $scope.queryParams.mchtNo = '017440395003425';*/
-    userInfo.get('mchtBill/settleDetails/get', $scope.queryParams, true).then(function(res){
+    userInfo.get('mchtBill/settleDetails/get.json', $scope.queryParams, true).then(function(res){
         //结算详情
         $scope.txAmt = res.object.settleDtl[0].txAmt;
         $scope.feeAmt = res.object.settleDtl[0].feeAmt;
@@ -74,18 +74,18 @@ app.controller('balanceDetailController', function (ngTableParams, $scope, userI
             if($scope.ngTable){
                 $scope.ngTable.reload();
             }else {
-                $scope.ngTable = new ngTableParams(
+                $scope.ngTable = new NgTableParams(
                     {page : 1, count : 10},
                     {
-                        getData : function($defer, params){
+                        getData : function(params){
                             params.settings().counts.length = 0;//将分页显示隐藏
                             if(res.object.errList){
                                 $scope.noData = false;
-                                $defer.resolve(res.object.errList);
+                                return res.object.errList;
                             } else {
                                 /*$scope.noData = res.message || '暂无数据';*/
                                 $scope.noData = '暂无数据';
-                                $defer.resolve([]);
+                                return [];
                             }
                         }
                     }
@@ -99,20 +99,19 @@ app.controller('balanceDetailController', function (ngTableParams, $scope, userI
             if($scope.ngTable_02){
                 $scope.ngTable_02.reload();
             }else {
-                $scope.ngTable_02 = new ngTableParams(
+                $scope.ngTable_02 = new NgTableParams(
                     {page : 1, count : 10},
                     {
-                        getData : function($defer, params){
+                        getData : function(params){
                             params.settings().counts.length = 0;//将分页显示隐藏
                             if(res.object.repairInfo){
                                 $scope.noData = false;
                                 var arrInfo = [];
                                 arrInfo[0] = res.object.repairInfo;
-                                $defer.resolve(arrInfo);
+                                return arrInfo;
                             } else {
-                                /*$scope.noData = res.message || '暂无数据';*/
                                 $scope.noData = '暂无数据';
-                                $defer.resolve([]);
+                                return [];
                             }
                         }
                     }
@@ -120,5 +119,4 @@ app.controller('balanceDetailController', function (ngTableParams, $scope, userI
             }
         }
      })
- 
-})
+});

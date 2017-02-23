@@ -1,13 +1,13 @@
 /**
  * Created by xiebin on 2016/12/02.
  */
-app.controller('activity.record.controller', ['ngTableParams', '$scope', 'userInfo', function(ngTableParams, $scope, userInfo){
+app.controller('activity.record.controller', ['NgTableParams', '$scope', 'userInfo', function(NgTableParams, $scope, userInfo){
 	$scope.queryParams = {};
 	//营销记录
 	if($scope.ngTable){
 		$scope.ngTable.reload();
 	}else {
-		$scope.ngTable = new ngTableParams(
+		$scope.ngTable = new NgTableParams(
 			{page : 1, count : 10},
 			{
 				getData : function($defer, params){

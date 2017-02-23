@@ -1,4 +1,4 @@
-app.controller('poi.detail.controller', function(ngTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout, baseUrl, $http,$alert){
+app.controller('poi.detail.controller', function(NgTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout, baseUrl, $http,$alert){
     var vm = this, photoUlrLength;
     userInfo.get('poi/' + $state.params.id).then(function(res){
         

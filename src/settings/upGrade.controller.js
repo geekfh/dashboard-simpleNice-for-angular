@@ -26,7 +26,7 @@ app.controller('upGradeController', function ($scope, userInfo, $state, $rootSco
 					};
 
 					$scope.logout = function(){
-						userInfo.get('sys/logout').then(function(res){
+						userInfo.get('sys/logout.json').then(function(res){
 							$rootScope.rootMchtName = '';
 							$rootScope.ifLogin = false;
 							$rootScope.powers = [];//退出登录，权限清空

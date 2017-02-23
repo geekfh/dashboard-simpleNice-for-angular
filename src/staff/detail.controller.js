@@ -1,4 +1,4 @@
-app.controller('detailController', function (ngTableParams, $scope, userInfo, $date, $mdDialog, tplUrl, $q, $rootScope, $stateParams, $state) {
+app.controller('detailController', function (NgTableParams, $scope, userInfo, $date, $mdDialog, tplUrl, $q, $rootScope, $stateParams, $state) {
 	//参数介绍
 	//ifList : 列表页面和详情页的开关
 	//ifModify : 详情页中“增加”和“编辑”开关

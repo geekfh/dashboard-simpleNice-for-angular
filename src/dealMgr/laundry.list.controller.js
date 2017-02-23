@@ -1,4 +1,4 @@
-app.controller('dealMgrController', function ($scope, userInfo, $date, $mdDialog, tplUrl, $log, $q, $timeout, ngTableParams) {
+app.controller('dealMgrController', function ($scope, userInfo, $date, $mdDialog, tplUrl, $log, $q, $timeout, NgTableParams) {
     $scope.date = {};
     var today = new Date();
 
@@ -188,7 +188,7 @@ app.controller('dealMgrController', function ($scope, userInfo, $date, $mdDialog
                 if($scope.ngTable1){
                     $scope.ngTable1.reload();
                 }else{
-                    $scope.ngTable1 = new ngTableParams(
+                    $scope.ngTable1 = new NgTableParams(
                         {page: 1, count: 10, name: 'table1'},
                         {
                             getData: function($defer, params) {
@@ -225,7 +225,7 @@ app.controller('dealMgrController', function ($scope, userInfo, $date, $mdDialog
                 if($scope.ngTable1){
                     $scope.ngTable1.reload();
                 }else{
-                    $scope.ngTable1 = new ngTableParams(
+                    $scope.ngTable1 = new NgTableParams(
                         {page: 1, count: 10, name: 'table1'},
                         {
                             getData: function($defer, params) {
@@ -270,7 +270,7 @@ app.controller('dealMgrController', function ($scope, userInfo, $date, $mdDialog
                 if($scope.ngTable2){
                     $scope.ngTable2.reload();
                 }else{
-                    $scope.ngTable2 = new ngTableParams(
+                    $scope.ngTable2 = new NgTableParams(
                         {page: 1, count: 10, name: 'table2'},
                         {
                             getData: function($defer, params) {
@@ -306,7 +306,7 @@ app.controller('dealMgrController', function ($scope, userInfo, $date, $mdDialog
                 if($scope.ngTable2){
                     $scope.ngTable2.reload();
                 }else{
-                    $scope.ngTable2 = new ngTableParams(
+                    $scope.ngTable2 = new NgTableParams(
                         {page: 1, count: 10, name: 'table2'},
                         {
                             getData: function($defer, params) {

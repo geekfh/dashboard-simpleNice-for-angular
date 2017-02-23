@@ -15,7 +15,7 @@ angular.module('App').directive('user', function($rootScope, $state, $location){
             }*/
             $rootScope.$broadcast('getUserInfo');
             $scope.logout = function(){
-                userInfo.get('sys/logout').then(function(res){
+                userInfo.get('sys/logout.json').then(function(res){
                     $rootScope.rootMchtName = '';
                     $rootScope.userLoginName = '';
                     $rootScope.ifLogin = false;

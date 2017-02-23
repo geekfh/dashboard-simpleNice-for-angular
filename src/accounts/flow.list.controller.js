@@ -1,7 +1,7 @@
 /**
  * Created by xuye on 2016/7/19.
  */
-app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, tplUrl, $log, $q, $timeout, ngTableParams, downloadFile,$rootScope) {
+app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, tplUrl, $log, $q, $timeout, NgTableParams, downloadFile,$rootScope) {
     $scope.date = {};
     var today = new Date();
     var merchantName = '',merchantNo = '',numTime = 3600 * 24 * 1000;
@@ -275,7 +275,7 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
             $scope.ngTable1.page(1);
             $scope.ngTable1.reload();
         }else{
-            $scope.ngTable1 = new ngTableParams(
+            $scope.ngTable1 = new NgTableParams(
                 {page: 1, count: 10, name: 'table1'},
                 {
                     getData: function($defer, params) {
@@ -322,7 +322,7 @@ app.controller('flowController', function ($scope, userInfo, $date, $mdDialog, t
             $scope.ngTable2.page(1);
             $scope.ngTable2.reload();
         }else{
-            $scope.ngTable2 = new ngTableParams(
+            $scope.ngTable2 = new NgTableParams(
                 {page: 1, count: 10, name: 'table2'},
                 {
                     getData: function($defer, params) {

@@ -1,4 +1,4 @@
-app.controller('printSetController', function (ngTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout, $alert){
+app.controller('printSetController', function (NgTableParams, $mdDialog, tplUrl, $state, $rootScope, userInfo, $scope, $q, $timeout, $alert){
 	$scope.queryParams = {};
 	function getDetail(){
 		userInfo.get('merchant/printDetail').then(function(res){

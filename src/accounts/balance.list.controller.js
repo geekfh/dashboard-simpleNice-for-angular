@@ -1,4 +1,4 @@
-app.controller('balanceController', function (ngTableParams, $scope, userInfo, $date,$timeout, $q, $log,  $filter, downloadFile) {
+app.controller('balanceController', function (NgTableParams, $scope, userInfo, $date,$timeout, $q, $log,  $filter, downloadFile) {
     $scope.date = {};
     var today = new Date();
     var numTime = 3600 * 24 * 1000;
@@ -129,65 +129,35 @@ app.controller('balanceController', function (ngTableParams, $scope, userInfo, $
         if($scope.ngTable){
             $scope.ngTable.reload();
         }else {
-            $scope.ngTable = new ngTableParams(
+            $scope.ngTable = new NgTableParams(
                 {page : 1, count : 10},
                 {
-                    getData : function($defer, params){
+                    getData : function(params){
                         $scope.queryParams.page = params.page();
                         $scope.queryParams.rows = params.count();
-                        userInfo.get('mchtBill/settleDetails/listPage', $scope.queryParams, true).then(function(res){
+
+                        return userInfo.get('mchtBill/settleDetails/listPage.json', $scope.queryParams, true).then(function(res){
                             $scope.ifSearched = true;
-                            /*var res = {
-                                code : 0,
-                                message : String,
-                                object :
-                                {
-                                    pageData:{
-                                        page:123,
-                                        totalRows:23432,
-                                        totalPage:23432,
-                                        list:
-                                            [{
-                                                settleDate : '2016-24-15',
-                                                settleState : '结算失败',
-                                                settleAmt : 23432,
-                                                mchtName : 'fefewww',
-                                                acNo : '2546451215454',
-                                                mchtNo : '2546451215454'
-                                            },{
-                                                settleDate : '2016-24-15',
-                                                settleState : '已结算',
-                                                settleAmt : 23432,
-                                                mchtName : 'fefewww',
-                                                acNo : '2546451215454',
-                                                mchtNo : '2546451215454'
-                                            }]
-                                    },
-                                    settleAmt:'2934343',
-                                    waitingSettleAmt:'564212'
-                                }
-                            }*/
+
                             if(res.object){
-                                /*console.log(res.object, '数据')*/
                                 params.total(res.object.pageData.totalRows);
+
                                 $scope.noData = false;
                                 $scope.settleAmt = res.object.settleAmt;
                                 $scope.waitingSettleAmt = res.object.waitingSettleAmt;
+
                                 angular.forEach(res.object.pageData.list, function(data, index){
                                     res.object.pageData.list[index].settleDate = data.settleDate.substr(0, 4) + '-' + data.settleDate.substr(4, 2) + '-' + data.settleDate.substr(6, 2);
-                                    if(data.settleState == '结算失败'){
-                                        res.object.pageData.list[index].ifFailed = true;
-                                    }else{
-                                        res.object.pageData.list[index].ifFailed = false;
-                                    }
-                                })
-                                $defer.resolve(res.object.pageData.list);
+                                    res.object.pageData.list[index].ifFailed = (data.settleState == '结算失败');
+                                });
+
+                                return res.object.pageData.list;
                             } else {
                                 /*$scope.noData = res.message || '暂无数据';*/
                                 $scope.settleAmt = '';
                                 $scope.waitingSettleAmt = '';
                                 $scope.noData = '暂无数据';
-                                $defer.resolve([]);
+                                return [];
                             }
                         })
                     }
@@ -226,7 +196,9 @@ app.controller('balanceController', function (ngTableParams, $scope, userInfo, $
         });
         //test
         //downloadFile.download(["./static/file/test.rar"]);
-    }
+    };
+
+    // 默认查询
     $scope.search(true);
 
     function querySearch (text) {

@@ -1,6 +1,6 @@
 app.controller('loginController', function ($scope, userInfo, $date, $mdDialog, tplUrl, $state, $rootScope, $alert) {
 	$scope.submit = function(){
-		userInfo.post('sys/login', {'loginName': $scope.name, 'password': $scope.pwd}).then(function(res){
+		userInfo.post('sys/login.json', {'loginName': $scope.name, 'password': $scope.pwd}).then(function(res){
 			if($rootScope.ifRightBrowser){
 				$alert({
 					msg: '该浏览器与系统不兼容，建议更换谷歌或火狐使用!'

@@ -1,7 +1,7 @@
-app.controller('select.coupon.controller', function ($scope, $rootScope, ngTableParams, $mdDialog, userInfo, $state) {
+app.controller('select.coupon.controller', function ($scope, $rootScope, NgTableParams, $mdDialog, userInfo, $state) {
     $scope.queryParams = {};
     $scope.selectedCoupon = {};
-    $scope.ngTable = new ngTableParams(
+    $scope.ngTable = new NgTableParams(
         {page: 1, count: 5},
         {
             getData: function($defer, params) {

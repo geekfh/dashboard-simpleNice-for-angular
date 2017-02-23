@@ -1,6 +1,6 @@
 app.controller('coupons.list.controller',
-    ['coupons.list.service', 'ngTableParams', '$state', '$mdDialog', '$alert', 'tplUrl', 'app.common.service', 'User', '$interval', '$rootScope', '$scope', 'userInfo',
-        function(Service, ngTableParams, $state, $mdDialog, $alert, tplUrl, commonService, User, $interval, $rootScope, $scope, userInfo){
+    ['coupons.list.service', 'NgTableParams', '$state', '$mdDialog', '$alert', 'tplUrl', 'app.common.service', 'User', '$interval', '$rootScope', '$scope', 'userInfo',
+        function(Service, NgTableParams, $state, $mdDialog, $alert, tplUrl, commonService, User, $interval, $rootScope, $scope, userInfo){
     var vm = this;
 
     //判断是否授权，显示券点
@@ -40,7 +40,7 @@ app.controller('coupons.list.controller',
         }
     }
 
-    vm.ngTable = new ngTableParams(
+    vm.ngTable = new NgTableParams(
         {page: 1, count: 10},
         {
             getData: function($defer, params) {

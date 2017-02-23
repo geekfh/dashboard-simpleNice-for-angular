@@ -1,4 +1,4 @@
-app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog, tplUrl, $log, $q, ngTableParams, downloadFile, $rootScope) {
+app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog, tplUrl, $log, $q, NgTableParams, downloadFile, $rootScope) {
     $scope.date = {};
     var today = new Date();
     var merchantName = '', merchantNo = '',numTime = 3600 * 24 * 1000;
@@ -265,7 +265,7 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
             $scope.ngTable.page(1);
             $scope.ngTable.reload();
         }else{
-            $scope.ngTable = new ngTableParams(
+            $scope.ngTable = new NgTableParams(
                 {page: 1, count: 10, name: 'table'},
                 {
                     getData: function($defer, params) {
@@ -438,7 +438,7 @@ app.controller('detailsController', function ($scope, userInfo, $date, $mdDialog
             $scope.ngTable2.page(1);
             $scope.ngTable2.reload();
         }else{
-            $scope.ngTable2 = new ngTableParams(
+            $scope.ngTable2 = new NgTableParams(
                 {page: 1, count: 10, name:'table2'},
                 {
                     getData: function($defer, params) {

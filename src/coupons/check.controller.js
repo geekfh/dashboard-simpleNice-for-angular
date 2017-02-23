@@ -1,4 +1,4 @@
-app.controller('coupons.check.controller', function (ngTableParams, $date, userInfo, $scope, $filter, $rootScope) {
+app.controller('coupons.check.controller', function (NgTableParams, $date, userInfo, $scope, $filter, $rootScope) {
 
     var vm = this, today = new Date(), numTime = 24 * 3600 * 1000;
     vm.queryParams = {};
@@ -32,7 +32,7 @@ app.controller('coupons.check.controller', function (ngTableParams, $date, userI
     vm.queryParams.beginDate = $filter('date')($scope.date.begin, 'yyyy-MM-dd');
     vm.queryParams.endDate = $filter('date')($scope.date.end, 'yyyy-MM-dd');
     function init(){
-        vm.ngTable = new ngTableParams({page: 1, count: 10},{
+        vm.ngTable = new NgTableParams({page: 1, count: 10},{
             getData: function($defer, params) {
                 vm.searchIng = true;
                 vm.queryParams.page = params.page();
