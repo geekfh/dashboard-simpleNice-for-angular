@@ -76,7 +76,7 @@ app.controller('coupons.send.controller', ['coupons.list.service','NgTableParams
     vm.switchIsOpening = function(isOpening, type){
         //开启
         if(isOpening == '0'){
-            userInfo.get('cards/grant/open', {type:type}, true).then(function(res){
+            userInfo.get('cards/grant/open.json', {type:type}, true).then(function(res){
                 if(type == '1'){
                     if(res.code == '-109'){
                     //if(res.code == '0'){
@@ -126,7 +126,7 @@ app.controller('coupons.send.controller', ['coupons.list.service','NgTableParams
                         $mdDialog.cancel();
                     };
                     scope.submit = function(){
-                        userInfo.get('cards/grant/close', {type:type}, true).then(function(res){
+                        userInfo.get('cards/grant/close.json', {type:type}, true).then(function(res){
                             if(type == '1'){
                                 vm.lastSelectedId = '';
                                 vm.selectedId = '';
@@ -157,25 +157,25 @@ app.controller('coupons.send.controller', ['coupons.list.service','NgTableParams
             vm.lastSelectedId = ''
         }
         vm.ngTable1 = new NgTableParams({page: 1, count: 10},{
-            getData: function($defer, params) {
+            getData: function(params) {
                 vm.queryParams.page = params.page();
                 vm.queryParams.rows = params.count();
                 vm.queryParams.type = '1';
-                userInfo.get('cards/couponList', vm.queryParams, true).then(function(res){
+
+                return userInfo.get('cards/couponList.json', vm.queryParams, true).then(function(res){
                     params.total(res.object.totalRows);
                     if(res.code == 0){
                         if(res.object.list && res.object.list.length){
                             vm.noData1 = false;
-                            $defer.resolve(res.object.list);
                             var int = ws.indexOf(vm.lastSelectedId, res.object.list, 'cardId');
                             if(int === false) vm.lastSelectedId = '';
                         }else{
                             vm.noData1 = true;
-                            $defer.resolve([]);
                         }
                     }else{
                         vm.noData1 = true;
                     }
+                    return res.object.list||[]
                 })
             }
         });

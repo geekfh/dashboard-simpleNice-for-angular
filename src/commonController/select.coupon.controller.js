@@ -4,14 +4,15 @@ app.controller('select.coupon.controller', function ($scope, $rootScope, NgTable
     $scope.ngTable = new NgTableParams(
         {page: 1, count: 5},
         {
-            getData: function($defer, params) {
+            getData: function(params) {
 
                 $scope.queryParams.page = params.page();
                 $scope.queryParams.rows = params.count();
                 $scope.queryParams.type = $rootScope.autoCouponType;
-                var url = 'cards/couponList/';
+                var url = 'cards/couponList.json';
                 //if(/create_f|edit_f/.test(location.href)) $scope.queryParams.type = 1;
-                userInfo.get(url, $scope.queryParams, true).then(function(res){
+
+                return userInfo.get(url, $scope.queryParams, true).then(function(res){
                     $scope.start = true;
                     res = ws.changeRes(res);
                     params.total(res.object.totalRows);
@@ -27,12 +28,9 @@ app.controller('select.coupon.controller', function ($scope, $rootScope, NgTable
 
                         var int = ws.indexOf($scope.selectedCoupon.cardId, res.object.list, 'cardId');
                         if(int === false) $scope.selectedCoupon = {};
-
-                        $defer.resolve(res.object.list);
-                    }else{
-                        $defer.resolve([]);
                     }
 
+                    return res.object.list||[];
                 })
             }
         }
