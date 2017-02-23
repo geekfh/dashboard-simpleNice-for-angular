@@ -1,0 +1,8 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "totalBonus": 0,
+    "totalBalance": 0
+  }
+}

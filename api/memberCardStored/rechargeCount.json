@@ -1,0 +1,9 @@
+{
+  "code": 0,
+  "message": "OK",
+  "object": {
+    "totalAmount": 0,
+    "totalPaid": 0,
+    "totalGift": 0
+  }
+}

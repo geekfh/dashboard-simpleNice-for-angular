@@ -18,7 +18,7 @@ app.controller('clubcard.report.controller', function (NgTableParams, userInfo, 
     userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         if(res.code == 0 && !ws.isEmptyObj(res.object)){
-            userInfo.get('memberCards').then(function (res) {
+            userInfo.get('memberCards.json').then(function (res) {
                 if(res.object.list && res.object.list.length){
                     vm.count = res.object.list.length;
                     init()

@@ -2,13 +2,13 @@ app.service('clubcard.member.service', ['$http', 'baseUrl', function($http, base
 
     this.getMembers = function(params){
 
-        return $http.get(baseUrl +'memberCardUsers', {params: params}).then(function(res){
+        return $http.get(baseUrl +'memberCardUsers.json', {params: params}).then(function(res){
             return res.data;
         })
     };
 
     this.getMember = function(num){
-        return $http.get(baseUrl + 'memberCardUsers/'+num).then(function(res){
+        return $http.get(baseUrl + 'memberCardUsers.json').then(function(res){
             return res.data;
         })
     };

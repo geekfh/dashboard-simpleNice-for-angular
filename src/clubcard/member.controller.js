@@ -8,7 +8,7 @@ app.controller('clubcard.member.controller', function (NgTableParams, $state, $d
     userInfo.get('mcht/info.json').then(function(res){
         vm.user = res.object;
         if(res.code == 0 && !ws.isEmptyObj(res.object)){
-            userInfo.get('memberCards').then(function (res) {
+            userInfo.get('memberCards.json').then(function (res) {
 
                 if(res.object.list && res.object.list.length){
                     vm.count = res.object.list.length;
@@ -23,22 +23,22 @@ app.controller('clubcard.member.controller', function (NgTableParams, $state, $d
                 vm.ngTable = new NgTableParams(
                     { page: 1, count: 10 },
                     {
-                        getData: function ($defer, params) {
+                        getData: function (params) {
                             vm.queryParams.page = params.page();
                             vm.queryParams.rows = params.count();
                             vm.queryParams.lastUseDate = $date.format(vm.querylastUseDate).str;
-                            userInfo.get('memberCardUsers', vm.queryParams, true).then(function (res) {
+
+                            return userInfo.get('memberCardUsers.json', vm.queryParams, true).then(function (res) {
                                 /*vm.totalBalance = res.object.totalBalance;
                                 vm.totalBonous = res.object.totalBonus;*/
                                 if(res.object.list.length){
                                     vm.noData = false;
-                                    $defer.resolve(res.object.list);
                                     params.total(res.object.totalRows);
                                 }else{
                                     vm.noData = res.msg || '暂无数据';
-                                    $defer.resolve([]);
                                 }
 
+                                return res.object.list;
                             });
                         }
                     }
@@ -53,7 +53,7 @@ app.controller('clubcard.member.controller', function (NgTableParams, $state, $d
 
     //获取统计数据
     function getTotalCount(){
-        userInfo.get('memberCardUsers/bbCount', vm.queryParams, true).then(function(res){
+        userInfo.get('memberCardUsers/bbCount.json', vm.queryParams, true).then(function(res){
             vm.totalBalance = res.object.totalBalance;
             vm.totalBonous = res.object.totalBonus;
         })
@@ -61,7 +61,7 @@ app.controller('clubcard.member.controller', function (NgTableParams, $state, $d
     //判断后台是否在处理上传数据
     function isUploading(){
         //会员
-        $http.get(baseUrl + '/memberCardUsers/async/getUserImportResult',{}).then(function(res){
+        $http.get(baseUrl + '/memberCardUsers/async/getUserImportResult.json',{}).then(function(res){
             //超时 -1006   正在导入 -1005
             if(res.data.code == '-1005' || res.data.code == '-1006'){
                 vm.uploadMemOut = true;
@@ -72,7 +72,7 @@ app.controller('clubcard.member.controller', function (NgTableParams, $state, $d
             }
         })
         //储值
-        $http.get(baseUrl + '/memberCardStored/async/getImportResult',{}).then(function(res){
+        $http.get(baseUrl + '/memberCardStored/async/getImportResult.json',{}).then(function(res){
             //超时 -1006   正在导入 -1005
             if(res.data.code == '-1005' || res.data.code == '-1006'){
                 vm.uploadRegOut = true;
@@ -204,7 +204,7 @@ app.controller('clubcard.member.controller', function (NgTableParams, $state, $d
     //导入成功
     $scope.$on('uploadSuccess', function(event,data){
         //调接口查询后台上传过程
-        var url = data == 'recharge' ? '/memberCardStored/async/getImportResult' : data == 'member' ? '/memberCardUsers/async/getUserImportResult' : '';
+        var url = data == 'recharge' ? '/memberCardStored/async/getImportResult.json' : data == 'member' ? '/memberCardUsers/async/getUserImportResult.json' : '';
         var passCode = [-1002, -1005, -1006, 0, -1008];
         $http.get(baseUrl + url , {
             transformRequest: angular.identity,
@@ -232,7 +232,7 @@ app.controller('clubcard.member.controller', function (NgTableParams, $state, $d
             clickOutsideToClose: false,
             templateUrl : tplUrl + 'tpl/common/mdDialogTip.html',
             controller : function(scope){
-                var importUrl = type == 'recharge' ? '/memberCardStored/async/getImportResult' : type == 'member' ? '/memberCardUsers/async/getUserImportResult' : '';
+                var importUrl = type == 'recharge' ? '/memberCardStored/async/getImportResult.json' : type == 'member' ? '/memberCardUsers/async/getUserImportResult.json' : '';
                 judgeCode(type, data);
                 function judgeCode(type, data){
                     //正在进行

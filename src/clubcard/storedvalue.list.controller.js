@@ -286,10 +286,10 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
             $scope.ngTable1 = new NgTableParams(
                 {page: 1, count: 10, name: 'table1'},
                 {
-                    getData: function($defer, params) {
+                    getData: function(params) {
                         $scope.queryParams1.page = params.page();
                         $scope.queryParams1.rows = params.count();
-                        userInfo.get('memberCardStored/recharge', $scope.queryParams1, true).then(function (res) {
+                        userInfo.get('memberCardStored/recharge.json', $scope.queryParams1, true).then(function (res) {
                             $scope.isSearched = true;
                             $scope.showSearching = false;
 
@@ -305,15 +305,15 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
 
                             if(res.object.list && res.object.list.length > 0) {
                                 $scope.noData1 = false;
-                                $defer.resolve(res.object.list);
                             } else {
                                 $scope.noData1 = true;
                                 $scope.noDataInfo1 =  '暂无数据';
-                                $defer.resolve([]);
                                 /*$scope.amount = 0;
                                 $scope.paid = 0;
                                 $scope.gift = 0;*/
                             }
+
+                            return res.object.list;
                         })
                     }
                 }
@@ -322,7 +322,7 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
     }
     //查询统计数据-充值
     function getTotalRecharge(){
-        userInfo.get('memberCardStored/rechargeCount', $scope.queryParams1, true).then(function(res){
+        userInfo.get('memberCardStored/rechargeCount.json', $scope.queryParams1, true).then(function(res){
             $scope.totalRecharge.amount = fen2yuan(res.object.totalAmount);
             $scope.totalRecharge.paid = fen2yuan(res.object.totalPaid);
             $scope.totalRecharge.gift = fen2yuan(res.object.totalGift);
@@ -339,7 +339,7 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
             $scope.ngTable2 = new NgTableParams(
                 {page: 1, count: 10, name: 'table2'},
                 {
-                    getData: function($defer, params) {
+                    getData: function(params) {
                         $scope.queryParams2.page = params.page();
                         $scope.queryParams2.rows = params.count();
                         console.log($scope.queryParams2);
@@ -370,12 +370,11 @@ app.controller('clubcard.storedvalue.controller', function ($scope, userInfo, $d
                             }
                             if (res.object.list && res.object.list.length > 0) {
                                 $scope.noData2 = false;
-                                $defer.resolve(res.object.list);
                             } else {
                                 $scope.noData2 = true;
                                 $scope.noDataInfo2 = '暂无数据';
-                                $defer.resolve([]);
                             }
+                            return res.object.list;
                         })
                     }
                 }
