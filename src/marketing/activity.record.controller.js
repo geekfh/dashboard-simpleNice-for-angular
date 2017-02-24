@@ -10,10 +10,10 @@ app.controller('activity.record.controller', ['NgTableParams', '$scope', 'userIn
 		$scope.ngTable = new NgTableParams(
 			{page : 1, count : 10},
 			{
-				getData : function($defer, params){
+				getData : function(params){
 					$scope.queryParams.page = params.page();
 					 $scope.queryParams.rows = params.count();
-					userInfo.get('marketingActivity/payoutList', $scope.queryParams, true).then(function(res){
+					userInfo.get('marketingActivity/payoutList.json', $scope.queryParams, true).then(function(res){
 						/*var res = {
 							code : 0,
 							message : String,
@@ -50,12 +50,11 @@ app.controller('activity.record.controller', ['NgTableParams', '$scope', 'userIn
 
 						if (res.object && res.object.pageData && res.object.pageData.list && res.object.pageData.list.length > 0) {
 							$scope.noData = false;
-							$defer.resolve(res.object.pageData.list);
 						} else {
 							$scope.noData = true;
 							$scope.noDataInfo =  '暂无数据';
-							$defer.resolve([]);
 						}
+						return res.object.pageData.list||[];
 					})
 				}
 			}

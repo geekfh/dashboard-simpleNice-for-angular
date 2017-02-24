@@ -36,7 +36,7 @@ app.controller('autoCoupon.rule.controller',['$scope', 'coupons.list.service', '
 
     //调接口判断是否有新会员营销规则 有则显示 无则编辑
     vm.initTabPage = function(){
-        userInfo.get('cards/sendCenter/couponRuleList',{type:vm.queryParams.type}, true).then(function(res){
+        userInfo.get('cards/sendCenter/couponRuleList.json',{type:vm.queryParams.type}, true).then(function(res){
             if(res.object.couponRule && res.object.couponRule.length){
                 if(vm.queryParams.type == '3'){
                     vm.showEditNew = false;

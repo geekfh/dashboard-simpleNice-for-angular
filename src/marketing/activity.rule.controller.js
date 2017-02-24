@@ -223,7 +223,7 @@ app.controller('activity.rule.controller', ['NgTableParams', '$scope', 'userInfo
 		}
 
 		//统计商户当月营销活动派券次数
-		userInfo.get('marketingActivity/payoutCount').then(function(res){
+		userInfo.get('marketingActivity/payoutCount.json').then(function(res){
 			$scope.payoutCount = res.object.payoutCount;
 		});
 
@@ -281,7 +281,7 @@ app.controller('activity.rule.controller', ['NgTableParams', '$scope', 'userInfo
 	}
 
 	//基础信息会员等级
-	userInfo.get('memberCards/memberCardLevelList').then(function(res){
+	userInfo.get('memberCards/memberCardLevelList.json').then(function(res){
 		if(res.code == '0'){
 			$scope.noInitPage = false;
 			$scope.levelArr = [];
